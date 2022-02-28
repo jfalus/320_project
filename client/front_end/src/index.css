@@ -10,6 +10,7 @@ body {
   height: 50px;
   padding: 0;
   margin: 0;
+<<<<<<< Updated upstream
   background-color: #205050;
   display: flex;
   flex-direction: row;
@@ -37,6 +38,14 @@ body {
   color: inherit;
   margin-left: 10px;
 
+=======
+<<<<<<< Updated upstream
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+>>>>>>> Stashed changes
 }
 
 .pic {
@@ -46,7 +55,57 @@ body {
   background-color: white;
 }
 
+<<<<<<< Updated upstream
 .sortby {
   margin: 4px;
   background-color: #578a8a;
 }
+=======
+=======
+  background-color: #205050;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.searchbar {
+  width: 50%;
+  height: 45px;
+  margin: 4px;
+}
+
+.search {
+  height: 35px;
+  width: 600px;
+  background-color: #578a8a;
+  border-radius: 10px;
+  overflow: hidden;
+  color: white;
+  border-color: white;
+  border-style: solid;
+  -ms-transform: translateY(-50%);
+  transform: translateX(0%);
+}
+
+.text {
+  color: inherit;
+  margin-left: 10px;
+}
+
+.pic {
+  height: 45px;
+  width: 100px;
+  background-color: white;
+}
+
+.sortby {
+  margin: 4px;
+  background-color: #578a8a;
+  padding: 4px;
+}
+
+.logo {
+  margin: 4px;
+}
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
