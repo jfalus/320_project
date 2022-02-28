@@ -3,7 +3,7 @@
     "express": "^4.17.3"
   },
   "scripts": {
-    "start": "cd /client/front_end/ & react-scripts start",
-    "serverStart": "node ./server/server.js"
+    "start": "cd ./client/front_end & npm start",
+    "server-start": "node ./server/server.js"
   }
 }
