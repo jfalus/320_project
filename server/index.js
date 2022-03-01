@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 app.get('/', (req, res) => {
-  res.sendFile('joenjoe.png', {root: '.'})
+  res.sendFile('./server/joenjoe.png', {root: '.'})
 })
 
 app.get('/hello', (req, res) => {

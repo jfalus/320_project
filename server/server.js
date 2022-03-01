@@ -1,7 +1,9 @@
 const app = require('./index');
 const port = 3000
 const passport = require('passport')
-const LocalStrategy = require('passport-local').LocalStrategy
+const LocalStrategy = require('passport-local').Strategy
+const express = require('express')
+const expressSession = require('express-session')
 
 const session = {
   secret: process.env.SECRET || 'SECRET',
