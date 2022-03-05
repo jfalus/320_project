@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "react-collapsed": "^3.3.0"
   },
   "devDependencies": {
     "jest": "^27.5.1"
