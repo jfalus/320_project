@@ -1,5 +1,5 @@
 const app = require('./index');
-const port = 3000
+const port = 5000
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const express = require('express')
