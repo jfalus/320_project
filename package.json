@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.17.3",
+    "react-collapsed": "^3.3.0"
+  },
+  "scripts": {
+    "server": "nodemon ./server/server.js",
+    "client": "npm start --prefix client/front_end/",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
