@@ -3,22 +3,15 @@ import './App.css';
 import './style.css';
 import ToolBar from './ToolBar';
 import Sidebar from './Sidebar';
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-function App() {
-
-const[sidebar, setSidebar]= useState(false);
-
-const toggleSidebar=()=> {
-  setSidebar((prevState)=> !prevState)
-}
-
+const App=()=>{
   return (
     <div>
-      <ToolBar openSidebar={toggleSidebar}/>
-      <Sidebar sidebar={sidebar}/>
+      <ToolBar/>
+      <Sidebar/>
     </div>
-  );
+  )
 }
 
 export default App;
