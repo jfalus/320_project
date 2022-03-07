@@ -19,4 +19,18 @@ app.get('/api/testAPI', (req, res) => {
   res.json({ 'string': 'hello!' })
 })
 
+// Client is requesting a performance_review from the database
+app.get('/api/performance_review', (req, res) => {
+  const performance_review = req.body;
+
+  pr_id = performance_review.pr_id;
+  // Send a request to the database for the given performance review
+})
+
+// Client is pushing a new performance review into the database
+app.put('/api/performance_review', (req, res) => {
+  const performance_review = req.body;
+
+
+})
 module.exports = app;
