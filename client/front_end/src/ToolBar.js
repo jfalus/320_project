@@ -14,4 +14,4 @@ const ToolBar=({openSidebar})=> {
     )
 }
 
-export default ToolBar
+export default ToolBar 
