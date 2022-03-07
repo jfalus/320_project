@@ -1,28 +1,16 @@
-import logo from "./logo.svg";
-import "./App.css";
-import "./style.css";
-import ToolBar from "./ToolBar";
-import Sidebar from "./Sidebar";
-import Section from "./component/collapsible_list";
-import React, { useEffect, useState } from "react";
+import logo from './logo.svg';
+import './App.css';
+import './style.css';
+import ToolBar from './ToolBar';
+import Sidebar from './Sidebar';
+import React from "react";
 
-function App() {
-  const [sidebar, setSidebar] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebar((prevState) => !prevState);
-  };
+const App=()=>{
   return (
     <div>
-      <ToolBar openSidebar={toggleSidebar} />
-      <Sidebar sidebar={sidebar} />
-      <Section title="Personal time off request">
-        <label>
-          <input type="checkbox" /> Due date: N/A
-        </label>
-        <br />
-      </Section>
+      <ToolBar/>
+      <Sidebar/>
     </div>
-  );
+  )
 }
 export default App;
