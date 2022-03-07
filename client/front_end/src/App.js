@@ -1,3 +1,7 @@
+import logo from './logo.svg';
+import './App.css';
+import './index.css'
+import Navbar from './Navbar.js'
 import logo from "./logo.svg";
 import "./App.css";
 import "./style.css";
@@ -14,6 +18,7 @@ function App() {
   };
   return (
     <div>
+      <Navbar/>
       <ToolBar openSidebar={toggleSidebar} />
       <Sidebar sidebar={sidebar} />
       <Section title="Personal time off request">
