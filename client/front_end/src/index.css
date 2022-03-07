@@ -1,21 +1,15 @@
-.collapsible .content {
-  padding: 6px;
-  background-color: rgb(240, 240, 240);
-  font-size: 14px;
-}
-.collapsible .header {
-  background-color: rgb(200, 200, 200);
-  padding: 6px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 2px solid rgb(220, 220, 220);
-}
-.collapsible .header .title {
-  font-weight: 400;
-}
 .preferences label {
   display: block;
   padding-bottom: 4px;
 }
 
+.Main-section {
+  background-color: #058f8f;
+  margin-left: "2px";
+  width: 100%;
+}
+
+.body {
+  margin: 0;
+  padding: 0;
+}

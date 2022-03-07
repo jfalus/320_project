@@ -1,0 +1,9 @@
+.Sidebar {
+  height: 100px;
+  background-color: #005151 !important;
+  color: whitesmoke;
+}
+
+.SidebarHeader {
+  float: "left";
+}
