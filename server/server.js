@@ -11,11 +11,25 @@ const session = {
   saveUninitialized: false,
 };
 
+//placeholder. Real function will be async
+function findUser(db, email){
+  try {
+    return ["User"];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+function checkCred(email, password){
+  return true;
+}
+
 //strategy for authentication
 const strategy = new LocalStrategy(
   async (email, password, done) => {
-    //add function to find a user
-    const user = await findUser(db, email);
+    //await for user
+    const user = findUser(db, email);
     if (user.length === 0) {
       return done(null, false, { message: 'Wrong email' });
     }
