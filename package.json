@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "express": "^4.17.3",
-    "react-collapsed": "^3.3.0"
+    "react-collapsed": "^3.3.0",
+    "supertest": "^6.2.2"
   },
   "devDependencies": {
     "jest": "^27.5.1"
@@ -9,10 +10,12 @@
   "scripts": {
     "server": "nodemon ./server/server.js",
     "client": "npm start --prefix client/front_end/",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "jest __tests_server__/index.test.js"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
+    "jest": "^27.5.1",
     "nodemon": "^2.0.15"
   }
 }

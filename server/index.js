@@ -1,26 +1,5 @@
 const express = require('express')
 const app = express()
-const Sequelize = require('sequelize');
-require('dotenv').config()
-sequelize = new Sequelize(process.env.DATABASE_URI, {
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false
-        }
-      }
-    }
-);
-
-sequelize
-    .authenticate()
-    .then(() => {
-      console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-      console.error('Unable to connect to the database:', err);
-    });
-
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");

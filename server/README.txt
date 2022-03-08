@@ -12,8 +12,7 @@ ExpressGenerator:
     ExpressGenerator ASAP, if we decide to use it.
 
 Jest Unit Tests:
-  First, run "cd server" in the terminal.
-  Then run "npm test"
+  In the terminal, run "npm test"
     
   After a brief period, it should show something like:
       PASS  __tests__/index.test.js
@@ -22,17 +21,17 @@ Jest Unit Tests:
       Test /hello
         √ It should response the GET method (12 ms)
 
-    Test Suites: 1 passed, 1 total
-    Tests:       2 passed, 2 total
-    Snapshots:   0 total
-    Time:        1.559 s, estimated 7 s
-    Ran all test suites.
+      Test Suites: 1 passed, 1 total
+      Tests:       2 passed, 2 total
+      Snapshots:   0 total
+      Time:        1.559 s, estimated 7 s
+      Ran all test suites.
   
   If this doesn't work, run the following commands, then try "npm test" again":
     npm install express
     npm install --save-dev babel-cli babel-preset-env jest supertest superagent
   
   To create more tests:
-    Go to "__tests__/index.test.js"
+    Go to "__tests_server__/index.test.js"
     Copy-paste new "describe" methods and follow the formatting from the ones that already exist.
     To find more functionality, go to https://jestjs.io/docs/expect.
