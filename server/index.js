@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const {models} = require('./sequelize/sequelizeConstructor');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -17,6 +18,14 @@ app.get('/hello', (req, res) => {
 
 app.get('/api/testAPI', (req, res) => {
   res.json({ 'string': 'hello!' })
+})
+
+app.get('/api/testDB', (req, res) => {
+  console.log(models.employees)
+  const users = models.employees.findAll({
+    attributes: ['employeeId']
+  });
+  res.json(users)
 })
 
 module.exports = app;

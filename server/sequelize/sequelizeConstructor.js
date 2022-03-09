@@ -3,32 +3,25 @@ const { Sequelize } = require('sequelize');
 // Extract database uri from environmental variables
 require('dotenv').config();
 
-if(process.env.ENV === 'DEV'){
-    DATABASE_OPTIONS = {logging: false}
-} else{
-    DATABASE_OPTIONS = {
-        logging: false,
-        dialect: 'postgres',
-        sqlConnectionSsl: true,
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false
-            }
+DATABASE_URL = "postgres://pmykybuouedzak:09807d514a8fd156e0cf3d91850f85de24c1301ffcf5abad52e718ca801225fb@ec2-44-193-188-118.compute-1.amazonaws.com:5432/d5c4r711daleuf"
+
+
+DATABASE_OPTIONS = {
+    logging: false,
+    dialect: 'postgres',
+    sqlConnectionSsl: true,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
         }
     }
-
 }
-
-
-const DATABASE_URI = process.env.DATABASE_URI;
-
-console.log(DATABASE_URI)
-const sequelize = new Sequelize(DATABASE_URI, DATABASE_OPTIONS);
-
+console.log(DATABASE_URL)
+const sequelize = new Sequelize(DATABASE_URL, DATABASE_OPTIONS);
 
 const modelDefiners = [
-    require('./Models/Employees'),
+    require('./Models/Employee'),
     // require('./Models/Pto_request'),
     // require('./Models/Performance_review'),
     // require('./Models/Assigned_training'),
@@ -36,7 +29,9 @@ const modelDefiners = [
 ];
 
 for (const modelDefiner of modelDefiners) {
-    sequelize.define(...modelDefiner);
+    sequelize.define(...modelDefiner, {
+        timestamps: false
+    });
 }
 
 // require('./sequalizeConstraints')(sequelize);

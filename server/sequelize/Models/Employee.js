@@ -9,12 +9,14 @@ const EmployeeSchema = {
     },
     employeeId : {
         type: DataTypes.BIGINT,
+        primaryKey: true,
     },
     email : {
         type: DataTypes.STRING,
     },
     companyId : {
         type: DataTypes.BIGINT,
+        primaryKey: true,
     },
     managerId : {
         type: DataTypes.BIGINT,
@@ -36,4 +38,4 @@ const EmployeeSchema = {
     },
 };
 
-module.exports = ['Employee',EmployeeSchema];
+module.exports = ['employees',EmployeeSchema];
