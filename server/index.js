@@ -20,11 +20,8 @@ app.get('/api/testAPI', (req, res) => {
   res.json({ 'string': 'hello!' })
 })
 
-app.get('/api/testDB', (req, res) => {
-  console.log(models.employees)
-  const users = models.employees.findAll({
-    attributes: ['employeeId']
-  });
+app.get('/api/testDB', async (req, res) => {
+  const users = await models.employees.findAll();
   res.json(users)
 })
 
