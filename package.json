@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
     "react-collapsed": "^3.3.0",
     "supertest": "^6.2.2"
   },
@@ -8,7 +11,7 @@
     "server": "nodemon ./server/server.js",
     "client": "npm start --prefix client/front_end/",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "jest __tests_server__/index.test.js"
+    "test-server": "jest __tests_server__/index.test.js"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",

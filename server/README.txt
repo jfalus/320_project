@@ -12,7 +12,7 @@ ExpressGenerator:
     ExpressGenerator ASAP, if we decide to use it.
 
 Jest Unit Tests:
-  In the terminal, run "npm test"
+  In the terminal, run "npm run test-server"
     
   After a brief period, it should show something like:
       PASS  __tests__/index.test.js
