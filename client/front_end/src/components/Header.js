@@ -1,22 +1,23 @@
-import logo from "./../images/ukglogo.png";
 import React from "react";
 import "./../styles/Header.css";
+import logo from "./../images/ukglogo.png";
 
 const Header = () => {
   return (
-    <div class="navbar">
-      <div class="logo">
-        <img
-          class="pic"
-          src="https://www.ukg.com/themes/custom/canopy_theme/app/files/images/logos/ukg_logo.svg"
-        />
-      </div>
-      <div class="searchbar">
-        <input class="search" type="text" placeholder="search" />
-      </div>
-      <div class="sortby">
-        <p>sort by</p>
-      </div>
+    <div className="header">
+      <nav>
+        <div className="header-left">
+          <div id="header-title">
+            <img src={logo} alt="UKG Logo" />
+          </div>
+        </div>
+        <div className="searchbar">
+          <input className="search" type="text" placeholder="search" />
+        </div>
+        <div className="sortby">
+          <p>sort by</p>
+        </div>
+      </nav>
     </div>
   );
 };

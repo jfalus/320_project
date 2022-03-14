@@ -20,11 +20,15 @@ function App() {
         <Sidebar />
         <div className="Main-section">
           <Section
-            sender="UMass Amherst Libraries"
-            subject="Undergraduate Sustainability Award"
-            content="The Undergraduate Sustainability Award promotes"
+            sender="Hans Barton"
+            subject="Training request"
+            content="This is a request from Hans"
           />
-          <Section sender="John Doe" subject="Test 2" content="dsvdsa" />
+          <Section
+            sender="Jordan Levine"
+            subject="Performance Review Request"
+            content="This is a request from Jordan"
+          />
         </div>
       </div>
     </>

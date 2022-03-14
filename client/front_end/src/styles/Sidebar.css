@@ -19,7 +19,7 @@ body {
 }
 
 .sidebar {
-  position: absolute;
+  /* position: absolute; */
   background-color: #005150;
   color: #fff;
   top: 0;

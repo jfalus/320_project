@@ -1,12 +1,42 @@
-.navbar {
-  width: 100%;
-  height: 50px;
-  padding: 0;
-  margin: 0;
-  background-color: #205050;
+:root {
+  --header-height: 64px;
+}
+
+#header-label {
+  color: var(--font-color);
+  font-size: 20px;
+}
+
+* {
+  vertical-align: middle;
+}
+
+.header {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  height: var(--header-height);
+  width: 100%;
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--background);
+  margin-bottom: 10px;
+  box-shadow: 0px 3px 8px var(--light-shadow);
+}
+
+nav img {
+  height: 40px;
+  margin-bottom: 0px;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  margin: 0px 10px;
 }
 
 .searchbar {
@@ -27,27 +57,18 @@
 }
 
 .text {
-  color: inherit;
+  color: whitesmoke;
   margin-left: 10px;
 }
 
-.pic {
-  margin: 0px;
-  height: 45px;
-  width: 100px;
-  background-color: white;
+::placeholder {
+  color: whitesmoke;
+  opacity: 0.5;
 }
 
 .sortby {
   margin: 4px;
   background-color: #578a8a;
-}
-
-.navbar {
-  background-color: #205050;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
 }
 
 .searchbar {
@@ -74,18 +95,8 @@
   margin-left: 10px;
 }
 
-.pic {
-  height: 45px;
-  width: 100px;
-  background-color: white;
-}
-
 .sortby {
   margin: 4px;
   background-color: #578a8a;
   padding: 4px;
-}
-
-.logo {
-  margin: 4px;
 }
