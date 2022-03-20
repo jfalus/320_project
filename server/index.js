@@ -21,7 +21,7 @@ app.get('/api/testAPI', (req, res) => {
 })
 
 app.get('/api/testDB', async (req, res) => {
-  const users = await models.employees.findAll();
+  const users = await models.pto_request.findAll();
   res.json(users)
 })
 

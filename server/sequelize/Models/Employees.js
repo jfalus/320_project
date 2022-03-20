@@ -28,7 +28,7 @@ const EmployeeSchema = {
         type: DataTypes.STRING,
     },
     startDate : {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
     },
     isManager : {
         type: DataTypes.BOOLEAN,
