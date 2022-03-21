@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
     return (
         <div className= "sidebar">
 
             <li>
-                <button type="button">Create Item</button>
+                <Link to="/create-item"><button type="button">Create Item</button></Link>
             </li>
 
             <li>
@@ -47,7 +48,7 @@ const Sidebar = () => {
             </li>
 
             <div id="settings"> 
-               SETTINGS <a href="google.com"><i class="fa fa-cog fa-3x" aria-hidden="true"></i></a>
+               <Link to="/settings">SETTINGS<i class="fa fa-cog fa-3x" aria-hidden="true"></i></Link>
             </div> 
 
         </div>
