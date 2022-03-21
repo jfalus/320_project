@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-const EmployeeSchema = {
+const schema = {
     firstName : {
         type: DataTypes.STRING,
     },
@@ -38,4 +38,4 @@ const EmployeeSchema = {
     },
 };
 
-module.exports = ['employees',EmployeeSchema];
+module.exports = ['employees',schema];

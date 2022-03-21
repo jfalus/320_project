@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-const PtoRequestSchema = {
+const schema = {
     employeeId : {
         type: DataTypes.BIGINT,
     },
@@ -26,9 +26,9 @@ const PtoRequestSchema = {
     date_created : {
         type: DataTypes.DATE,
     },
-    completion : {
+    progress : {
         type: DataTypes.STRING,
     },
 };
 
-module.exports = ['pto_request',PtoRequestSchema];
+module.exports = ['pto_request',schema];
