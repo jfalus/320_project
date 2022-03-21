@@ -6,7 +6,7 @@ import "./App.css";
 import "./style.css";
 import ToolBar from "./ToolBar";
 import Sidebar from "./Sidebar";
-import Section from "./component/collapsible_list";
+import Section from "./components/collapsible_list";
 import {Route, BrowserRouter as Routes, BrowserRouter, Switch} from "react-router-dom";
 import NewItem from "./NewItem"
 import Home from "./Home"
