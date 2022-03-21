@@ -7,6 +7,9 @@
     "react-collapsed": "^3.3.0",
     "supertest": "^6.2.2"
   },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
   "scripts": {
     "server": "nodemon ./server/server.js",
     "client": "npm start --prefix client/front_end/",

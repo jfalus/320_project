@@ -7,20 +7,26 @@ import "./style.css";
 import ToolBar from "./ToolBar";
 import Sidebar from "./Sidebar";
 import Section from "./component/collapsible_list";
+import {Route, BrowserRouter as Routes, BrowserRouter, Switch} from "react-router-dom";
+import NewItem from "./NewItem"
+import Home from "./Home"
+import Settings from "./Settings";
 
 const App=()=>{
   return (
-    <div>
-      <ToolBar/>
-      <Sidebar/>
-      <Navbar/>
-      <Section title="Personal time off request">
-        <label>
-          <input type="checkbox" /> Due date: N/A
-        </label>
-        <br />
-      </Section>
-    </div>
+    
+    <BrowserRouter>
+    <Routes>
+
+      <Switch>
+        <Route path="/" exact component={Home}/>
+        <Route path="/create-item" component={NewItem}/>
+        <Route path="/settings" component={Settings}/>
+      </Switch>
+
+    </Routes>
+    </BrowserRouter>
+
   )
 }
 export default App;

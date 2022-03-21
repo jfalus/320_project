@@ -3,6 +3,7 @@ const app = express()
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
+const {models} = require('./sequelize/sequelizeConstructor');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -95,6 +96,11 @@ app.get('/hello', (req, res) => {
 
 app.get('/api/testAPI', (req, res) => {
   res.json({ 'string': 'hello!' })
+})
+
+app.get('/api/testDB', async (req, res) => {
+  const users = await models.pto_request.findAll();
+  res.json(users)
 })
 
 module.exports = app;
