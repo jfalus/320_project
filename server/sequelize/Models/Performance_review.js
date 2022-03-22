@@ -7,34 +7,31 @@ const schema = {
     companyId : {
         type: DataTypes.BIGINT,
     },
-    pto_id : {
+    pr_id : {
         type: DataTypes.BIGINT,
         primaryKey: true,
     },
-    type: {
+    overall_comments: {
         type: DataTypes.STRING,
     },
-    start_date : {
-        type: DataTypes.DATE,
+    growth_feedback : {
+        type: DataTypes.INTEGER,
     },
-    end_date : {
-        type: DataTypes.DATE,
+    kindness_feedback : {
+        type: DataTypes.INTEGER,
     },
-    notes : {
-        type: DataTypes.STRING,
+    delivery_feedback : {
+        type: DataTypes.INTEGER,
     },
     date_created : {
         type: DataTypes.DATE,
     },
-    completion : {
-        type: DataTypes.BOOLEAN,
-    },
-    approve_deny : {
-        type: DataTypes.BOOLEAN,
+    progress : {
+        type: DataTypes.STRING,
     },
     sent_from : {
         type: DataTypes.BIGINT,
     },
 };
 
-module.exports = ['pto_request',schema];
+module.exports = ['performance_review',schema];

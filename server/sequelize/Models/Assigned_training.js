@@ -7,34 +7,22 @@ const schema = {
     companyId : {
         type: DataTypes.BIGINT,
     },
-    pto_id : {
+    at_id : {
         type: DataTypes.BIGINT,
         primaryKey: true,
     },
-    type: {
-        type: DataTypes.STRING,
-    },
-    start_date : {
-        type: DataTypes.DATE,
-    },
-    end_date : {
-        type: DataTypes.DATE,
-    },
-    notes : {
+    link: {
         type: DataTypes.STRING,
     },
     date_created : {
         type: DataTypes.DATE,
     },
-    completion : {
-        type: DataTypes.BOOLEAN,
+    date_due : {
+        type: DataTypes.DATE,
     },
-    approve_deny : {
-        type: DataTypes.BOOLEAN,
-    },
-    sent_from : {
-        type: DataTypes.BIGINT,
+    progress : {
+        type: DataTypes.STRING,
     },
 };
 
-module.exports = ['pto_request',schema];
+module.exports = ['assigned_training',schema];
