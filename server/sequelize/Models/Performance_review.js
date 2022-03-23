@@ -1,15 +1,18 @@
 const { DataTypes } = require('sequelize');
 
 const schema = {
+    pr_id : {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+    },
     employeeId : {
         type: DataTypes.BIGINT,
     },
     companyId : {
         type: DataTypes.BIGINT,
     },
-    pr_id : {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
+    title : {
+        type: DataTypes.STRING,
     },
     overall_comments: {
         type: DataTypes.STRING,
@@ -29,7 +32,7 @@ const schema = {
     progress : {
         type: DataTypes.STRING,
     },
-    sent_from : {
+    assigned_to : {
         type: DataTypes.BIGINT,
     },
 };

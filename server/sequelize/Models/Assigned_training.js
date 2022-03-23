@@ -1,15 +1,21 @@
 const { DataTypes } = require('sequelize');
 
 const schema = {
+    at_id : {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+    },
     employeeId : {
         type: DataTypes.BIGINT,
     },
     companyId : {
         type: DataTypes.BIGINT,
     },
-    at_id : {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
+    title : {
+        type: DataTypes.STRING,
+    },
+    description : {
+        type: DataTypes.STRING,
     },
     link: {
         type: DataTypes.STRING,

@@ -1,17 +1,20 @@
 const { DataTypes } = require('sequelize');
 
 const schema = {
+    pto_id : {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+    },
     employeeId : {
         type: DataTypes.BIGINT,
     },
     companyId : {
         type: DataTypes.BIGINT,
     },
-    pto_id : {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
+    title : {
+        type: DataTypes.STRING,
     },
-    type: {
+    description : {
         type: DataTypes.STRING,
     },
     start_date : {
@@ -20,19 +23,19 @@ const schema = {
     end_date : {
         type: DataTypes.DATE,
     },
-    notes : {
-        type: DataTypes.STRING,
-    },
     date_created : {
         type: DataTypes.DATE,
     },
-    completion : {
+    date_due : {
+        type: DataTypes.DATE,
+    },
+    progress : {
+        type: DataTypes.STRING,
+    },
+    approved : {
         type: DataTypes.BOOLEAN,
     },
-    approve_deny : {
-        type: DataTypes.BOOLEAN,
-    },
-    sent_from : {
+    assigned_to : {
         type: DataTypes.BIGINT,
     },
 };
