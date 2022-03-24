@@ -19,7 +19,7 @@ body {
 }
 
 .sidebar {
-  /* position: absolute; */
+  position: flex;
   background-color: #005150;
   color: #fff;
   top: 0;
@@ -149,4 +149,32 @@ h2 {
   border-radius: 50%;
   background: red;
   color: white;
+}
+
+.create-item {
+  color: rgb(0, 0, 0);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+.settings-page {
+  color: rgb(0, 0, 0);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+label {
+  width: 180px;
+  clear: left;
+  text-align: right;
+  padding-right: 10px;
+}
+
+input,
+label {
+  float: left;
 }

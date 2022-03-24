@@ -1,4 +1,5 @@
 import useCollapse from "react-collapsed";
+import Task from "./Task.js";
 import "./../styles/MainContent.css";
 
 function Section(props) {
@@ -12,9 +13,9 @@ function Section(props) {
     <div className="collapsible">
       <div className="header" {...getToggleProps()}>
         {/* <div className="starred" type="checkbox"></div> */}
-        <div className="sender">{props.sender}</div>
-        <div className="subject">{props.subject}</div>
-        <div className="content">{props.content}</div>
+        <div className="category">{props.category}</div>
+        <div className="title">{props.title}</div>
+        <div className="dueDate">Due Date: {props.dueDate}</div>
         <div className="icon">
           <i
             className={"fas fa-chevron-circle-" + (isExpanded ? "up" : "down")}
@@ -22,7 +23,15 @@ function Section(props) {
         </div>
       </div>
       <div {...getCollapseProps()}>
-        <div className="content">{props.children}</div>
+        <div className="content">
+          {props.children}
+          <Task
+            dueDate={props.dueDate}
+            sender={props.sender}
+            createdDate={props.createdDate}
+            description={props.description}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 .collapsible .content {
+  margin: 0px;
   padding: 6px;
-  background-color: rgb(240, 240, 240);
+  background-color: #29c2de;
   font-size: 14px;
   height: fit-content;
 }
@@ -15,32 +16,34 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  border-bottom: 2px solid rgb(220, 220, 220);
+  /* border-bottom: 2px solid rgb(220, 220, 220); */
 }
-.collapsible .header .sender {
+.collapsible .header .category {
   color: black;
   font-weight: 900 !important;
   text-align: left;
-  width: 30%;
+  width: 40%;
   max-height: fit-content;
   text-overflow: ellipsis;
   vertical-align: middle;
 }
 
-.collapsible .header .subject {
+.collapsible .header .title {
   display: table-cell;
+  margin-left: 30px;
   font-weight: 400;
   text-align: left;
-  width: 30%;
+  width: 70%;
   text-overflow: ellipsis;
   vertical-align: middle;
 }
 
-.collapsible .header .content {
+.collapsible .header .dueDate {
+  margin-right: 10px;
   display: table-cell;
   font-weight: 200;
   font-size: 14px;
-  text-align: left;
+  text-align: right;
   background-color: #59d7c8;
   width: 40%;
   text-overflow: ellipsis;

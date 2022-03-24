@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import Section from "./components/Collapsible_list";
 import Sidebar from "./components/Sidebar";
 import "./index.css";
+
 function App() {
   const styles = {
     contentDiv: {
@@ -21,13 +22,19 @@ function App() {
         <div className="Main-section">
           <Section
             sender="Hans Barton"
-            subject="Training request"
-            content="This is a request from Hans"
+            category="Training request"
+            title="Training request for Shannon"
+            description="This is a training request from Hans [...]"
+            dueDate="05/09/2022"
+            createdDate="03/22/2022"
           />
           <Section
             sender="Jordan Levine"
-            subject="Performance Review Request"
-            content="This is a request from Jordan"
+            category="Performance Review Request"
+            title="[Performance Review Request] Need your evaluation"
+            description="Hi, I need your evaluation on my performance in the last quarter [...]"
+            dueDate="04/12/2022"
+            createdDate="03/22/2022"
           />
         </div>
       </div>
