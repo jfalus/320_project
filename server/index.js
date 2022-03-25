@@ -109,4 +109,14 @@ app.get('/api/testDB', async (req, res) => {
   res.json(users)
 })
 
+//GET /api/testGetLocalEmps?CID=aBigInt
+app.get('/api/testGetLocalEmps', async (req, res) => {
+  const users = await models.employees.findAll({
+    attributes: ['employeeId', 'firstName', 'lastName'],
+    where: {
+      companyId: req.query.CID
+    }
+  })
+})
+
 module.exports = app;
