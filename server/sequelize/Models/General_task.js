@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 const schema = {
-    pto_id : {
+    task_id : {
         type: DataTypes.BIGINT,
         primaryKey: true,
     },
@@ -11,17 +11,11 @@ const schema = {
     companyId : {
         type: DataTypes.BIGINT,
     },
-    title : {
+    title: {
         type: DataTypes.STRING,
     },
-    description : {
+    description: {
         type: DataTypes.STRING,
-    },
-    start_date : {
-        type: DataTypes.DATE,
-    },
-    end_date : {
-        type: DataTypes.DATE,
     },
     date_created : {
         type: DataTypes.DATE,
@@ -32,12 +26,9 @@ const schema = {
     progress : {
         type: DataTypes.STRING,
     },
-    approved : {
-        type: DataTypes.BOOLEAN,
-    },
-    assigned_to : {
+    assigned_to: {
         type: DataTypes.BIGINT,
     },
 };
 
-module.exports = ['pto_request',schema];
+module.exports = ['general_task',schema];

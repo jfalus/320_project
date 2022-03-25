@@ -1,28 +1,30 @@
 const { DataTypes } = require('sequelize');
 
-const EmployeeSchema = {
+const schema = {
+    // e_id : {
+    //     type: DataTypes.BIGINT,
+    //     primaryKey: true,
+    // },
+    employeeId : {
+        type: DataTypes.BIGINT,
+    },
+    companyId : {
+        type: DataTypes.BIGINT,
+    },
     firstName : {
         type: DataTypes.STRING,
     },
     lastName : {
         type: DataTypes.STRING,
     },
-    employeeId : {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
-    },
     email : {
         type: DataTypes.STRING,
     },
-    companyId : {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
+    companyName : {
+        type: DataTypes.STRING,
     },
     managerId : {
         type: DataTypes.BIGINT,
-    },
-    companyName: {
-        type: DataTypes.STRING,
     },
     positionTitle : {
         type: DataTypes.STRING,
@@ -38,4 +40,4 @@ const EmployeeSchema = {
     },
 };
 
-module.exports = ['employees',EmployeeSchema];
+module.exports = ['employees',schema];
