@@ -4,6 +4,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
+const {Op} = require('sequelize');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -99,7 +100,12 @@ app.get('/api/testAPI', (req, res) => {
 })
 
 app.get('/api/testDB', async (req, res) => {
-  const users = await models.pto_request.findAll();
+  const users = await models.employees.findAll({
+    attributes: ['employeeId', 'firstName', 'lastName'],
+    where: {
+      positionTitle: 'CEO'
+    }
+  });
   res.json(users)
 })
 
