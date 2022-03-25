@@ -110,8 +110,9 @@ app.get('/api/testDB', async (req, res) => {
 })
 
 //GET /api/testGetLocalEmps/aBigInt
-//ex: /api/testGetLocalEmps/1234
-// Returns json file with Employee Id, First Name, Last Name, Email, and Position Title of each employee in company with given companyId
+// ex: /api/testGetLocalEmps/1234
+// Returns json file with Employee Id, First Name, Last Name, Email, and Position Title of each employee in
+// company with given companyId
 app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
   const users = await models.employees.findAll({
     attributes: ['employeeId', 'firstName', 'lastName', 'email', 'positionTitle'],
