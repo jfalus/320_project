@@ -37279,6 +37279,28 @@ with customer_json(doc) as (values('[ {
 insert into employees ("firstName", "lastName", "employeeId", "email", "companyId", "companyName", "managerId", "positionTitle", "startDate", "isManager", "password")
 select p.* from customer_json l
   cross join lateral json_populate_recordset(null::employees, doc) as p;
+  
+ALTER TABLE general_task DROP COLUMN "employeeId" CASCADE, DROP COLUMN "companyId";
+ALTER TABLE performance_review DROP COLUMN "employeeId" CASCADE, DROP COLUMN "companyId";
+ALTER TABLE pto_request DROP COLUMN "employeeId" CASCADE, DROP COLUMN "companyId";
+ALTER TABLE assigned_training DROP COLUMN "employeeId" CASCADE, DROP COLUMN "companyId";
+ALTER TABLE employees DROP CONSTRAINT employees_pkey;
+
+
+ALTER TABLE employees ADD COLUMN "e_id" BIGSERIAL PRIMARY KEY;
+ALTER TABLE general_task ADD COLUMN "e_id" BIGSERIAL;
+ALTER TABLE performance_review ADD COLUMN "e_id" BIGSERIAL;
+ALTER TABLE pto_request ADD COLUMN "e_id" BIGSERIAL;
+ALTER TABLE assigned_training ADD COLUMN "e_id" BIGSERIAL;
+
+ALTER TABLE general_task ADD CONSTRAINT general_task_fkey FOREIGN KEY ("e_id") REFERENCES employees("e_id") ON DELETE CASCADE;
+ALTER TABLE performance_review ADD CONSTRAINT performance_review_fkey FOREIGN KEY ("e_id") REFERENCES employees("e_id") ON DELETE CASCADE;
+ALTER TABLE pto_request ADD CONSTRAINT pto_request_fkey FOREIGN KEY ("e_id") REFERENCES employees("e_id") ON DELETE CASCADE;
+ALTER TABLE assigned_training ADD CONSTRAINT assigned_training_fkey FOREIGN KEY ("e_id") REFERENCES employees("e_id") ON DELETE CASCADE;
+ALTER TABLE employees ADD CONSTRAINT empId_cmpId_key UNIQUE("employeeId", "companyId");
+
+
+SELECT * FROM employees;
 
 
 SELECT * FROM employees;
