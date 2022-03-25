@@ -104,6 +104,11 @@ app.post('/login',
   })
 );
 
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
 app.get('/', (req, res) => {
   res.sendFile('joenjoe.png', {root: './server'})
 })
