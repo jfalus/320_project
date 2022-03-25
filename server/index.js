@@ -6,6 +6,7 @@ const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
 const {Op} = require('sequelize');
 
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -18,38 +19,54 @@ const session = {
   saveUninitialized: false,
 };
 
-let db = {"email1":"password1", "email2":"password2"};
 
 //placeholder. Real function will be async
-function findUser(db, email){
-  try {
-    return [email];
-  } catch (error) {
+async function findUser(db, email){
+  try{
+    const user = await models.employees.findOne({
+      attributes: ['employeeId', 'companyId'],
+      where: {
+        email: email
+      }
+    });
+    return user;
+  }catch(error){
     console.log(error);
     return [];
   }
 }
 
-function checkCred(db, email, password){
-  if(db[email] === password){
-    return true;
+async function checkCred(db, email, password){
+  try{
+    const user = await models.employees.findOne({
+      attributes: ['employeeId', 'companyId'],
+      where: {
+        email: email,
+        password: password
+      }
+    });
+    return user !== null;
+  }catch(error){
+    console.log(error);
+    return false;
   }
-  return false;
 }
 //strategy for authentication
 const strategy = new LocalStrategy(
   async (email, password, done) => {
     //await for user
-    const user = findUser(db, email);
-    if (user.length === 0) {
+    const user = await findUser(models.employees, email);
+    if (user === null) {
       return done(null, false);
     }
     //add function to check credentials
-    if (!checkCred(db, email, password)) {
-      await new Promise((r) => setTimeout(r, 1000));
-      return done(null, false);
-    }
-    return done(null, email);
+    checkCred(models.employees, email, password).then(async function(result){
+      if (!result) {
+        await new Promise((r) => setTimeout(r, 200));
+        return done(null, false);
+      }
+      return done(null, {employeeId: user.employeeId, companyId: user.companyId});
+    });
   },
 );
 
