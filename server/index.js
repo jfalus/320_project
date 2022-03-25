@@ -116,7 +116,8 @@ app.get('/api/testGetLocalEmps', async (req, res) => {
     where: {
       companyId: req.query.CID
     }
-  })
+  });
+  res.json(users)
 })
 
 module.exports = app;
