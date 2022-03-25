@@ -6,7 +6,7 @@ import "./App.css";
 import "./style.css";
 import ToolBar from "./ToolBar";
 import Sidebar from "./Sidebar";
-import Section from "./component/collapsible_list";
+import Section from "./components/collapsible_list";
 
 export default function Home() {
     return (
