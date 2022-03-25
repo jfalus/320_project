@@ -1,14 +1,14 @@
+DROP TABLE general_task;
 DROP TABLE pto_request;
 DROP TABLE assigned_training;
 DROP TABLE performance_review;
 DROP TABLE employees;
 
-
 CREATE TABLE employees(
 	"firstName"		text,
 	"lastName"		text,
 	"employeeId"	bigserial,
-	"email"			text,
+	"email"			text UNIQUE,
 	"companyId"		bigserial,
 	"companyName"	text,
 	"managerId"		bigint DEFAULT 0, 
@@ -22,40 +22,59 @@ CREATE TABLE employees(
 CREATE TABLE pto_request(
 	"employeeId"	bigserial,
 	"companyId"		bigserial,
-	"ptoId"			bigserial PRIMARY KEY,
-	"type"			text,
+	"pto_id"		bigserial PRIMARY KEY,
+	"title"			text,
+	"description"	text,
 	"start_date"	date,
 	"end_date"		date,
-	"notes"			text,
-	"date_created"	date,
+	"date_created"	date DEFAULT CURRENT_DATE,
+	"date_due"		date,
 	"progress"		text,
+	"approved"		boolean,
+	"assigned_to"	bigint,
 	FOREIGN KEY("employeeId", "companyId") REFERENCES employees("employeeId", "companyId")
 );
 
 CREATE TABLE performance_review(
 	"employeeId"		bigserial,
 	"companyId"			bigserial,
-	"prId"				bigserial PRIMARY KEY,
+	"pr_id"				bigserial PRIMARY KEY,
+	"title"				text,
 	"overall_comments"	text,
 	"growth_feedback"	int,
 	"kindness_feedback"	int,
 	"delivery_feedback"	int,
-	"date_created"		date,
+	"date_created"		date DEFAULT CURRENT_DATE,
 	"progress"			text,
+	"assigned_to"		bigint,
 	FOREIGN KEY("employeeId", "companyId") REFERENCES employees("employeeId", "companyId")
 );
 
 CREATE TABLE assigned_training(
 	"employeeId"	bigserial,
 	"companyId"		bigserial,
-	"atId"			bigserial PRIMARY KEY,
+	"at_id"			bigserial PRIMARY KEY,
+	"title"			text,
+	"description"	text,
 	"link"			text,
-	"date_created"	date,
+	"date_created"	date DEFAULT CURRENT_DATE,
 	"date_due"		date,
 	"progress"		text,
 	FOREIGN KEY("employeeId", "companyId") REFERENCES employees("employeeId", "companyId")
 );
 
+CREATE TABLE general_task(
+	"employeeId"	bigserial,
+	"companyId"		bigserial,
+	"task_id"		bigserial PRIMARY KEY,
+	"title"			text,
+	"description"	text,
+	"date_created"	date DEFAULT CURRENT_DATE,
+	"date_due"		date,
+	"progress"		text,
+	"assigned_to"	bigint,
+	FOREIGN KEY("employeeId", "companyId") REFERENCES employees("employeeId", "companyId")
+);
 
 
 with customer_json(doc) as (values('[ {
@@ -37263,29 +37282,3 @@ select p.* from customer_json l
 
 
 SELECT * FROM employees;
-
-ALTER TABLE employees ADD CONSTRAINT unique_email UNIQUE("email");
-ALTER TABLE "pto_request" ALTER COLUMN "date_created" SET DEFAULT CURRENT_DATE;
-ALTER TABLE "performance_review" ALTER COLUMN "date_created" SET DEFAULT CURRENT_DATE;
-ALTER TABLE "assigned_training" ALTER COLUMN "date_created" SET DEFAULT CURRENT_DATE; 
-
-ALTER TABLE "pto_request" DROP COLUMN "progress";
-
-ALTER TABLE "pto_request" ADD COLUMN "completion" boolean, ADD COLUMN "approve_deny" boolean,
-ADD COLUMN "sent_from" bigint;
-
-ALTER TABLE "performance_review" ADD COLUMN "sent_from" bigint;
-
-CREATE TABLE general_task(
-	"employeeId"	bigserial,
-	"companyId"		bigserial,
-	"task_id"		bigserial PRIMARY KEY,
-	"title"			text,
-	"description"	text,
-	"date_created"	date DEFAULT CURRENT_DATE,
-	"date_due"		date,
-	"progress"		text,
-	
-	FOREIGN KEY("employeeId", "companyId") REFERENCES employees("employeeId", "companyId")
-);
-
