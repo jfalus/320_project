@@ -1,26 +1,44 @@
-import React from "react";
-import '../index.css';
-import "../App.css";
-import "../style.css";
-import Navbar from '../Navbar.js'
-import ToolBar from "../ToolBar";
-import Sidebar from "../Sidebar";
+import Header from "../components/Header";
 import Section from "../components/collapsible_list";
+import Sidebar from "../components/Sidebar";
+import "../index.css";
 
 function Home() {
+  const styles = {
+    contentDiv: {
+      display: "flex",
+    },
+    contentMargin: {
+      marginLeft: "0px",
+      width: "100%",
+      backgroundColor: "005151",
+    },
+  };
   return (
-    <div>
-      <ToolBar />
-      <Sidebar />
-      <Navbar />
-      <Section title="Personal time off request">
-        <label>
-          <input type="checkbox" /> Due date: N/A
-        </label>
-        <br />
-      </Section>
-    </div>
+    <>
+      <Header />
+      <div style={styles.contentDiv}>
+        <Sidebar />
+        <div className="Main-section">
+          <Section
+            sender="Hans Barton"
+            category="Training request"
+            title="Training request for Shannon"
+            description="This is a training request from Hans [...]"
+            dueDate="05/09/2022"
+            createdDate="03/22/2022"
+          />
+          <Section
+            sender="Jordan Levine"
+            category="Performance Review Request"
+            title="[Performance Review Request] Need your evaluation"
+            description="Hi, I need your evaluation on my performance in the last quarter [...]"
+            dueDate="04/12/2022"
+            createdDate="03/22/2022"
+          />
+        </div>
+      </div>
+    </>
   );
 }
-
 export default Home;
