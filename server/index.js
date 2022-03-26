@@ -5,6 +5,7 @@ const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
 const {Op} = require('sequelize');
+var jsonMerger = require("json-merger");
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -121,6 +122,41 @@ app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
     }
   });
   res.json(users)
+})
+
+// GET /api/empTasks/aBigInt
+// ex: /api/testGetLocalEmps/1234
+// Passes a json file with all the tasks assigned to an employee
+// app.get('/api/empTasks/', checkLoggedIn, async (req, res) => {
+app.get('/api/empTasks/:EID', checkLoggedIn, async (req, res) => {
+  const assigned_trainings = await models.assigned_training.findAll({
+    attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
+    where: {
+      e_id: req.params.EID
+    }
+  });
+  const performance_reviews = await models.pto_request.findAll({
+    attributes: ['title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date-created', 'progress', 'assigned_to'],
+    where: {
+      e_id: req.params.EID
+    }
+  });
+  const pto_requests = await models.performance_review.findAll({
+    attributes: ['title', 'description', 'start_date', 'end_date', 'date_created', 'date_due', 'progress', 'approved', 'assigned_to'],
+    where: {
+      e_id: req.params.EID
+    }
+  });
+  const general_tasks = await models.general_task.findAll({
+    attributes: ['title', 'description', 'date_created', 'date_due', 'progress', 'assigned_to'],
+    where: {
+      e_id: req.params.EID
+    }
+  });
+
+  const tasks = jsonMerger.mergeObjects([assigned_trainings, performance_reviews, pto_requests, general_tasks]);
+
+  res.json(tasks)
 })
 
 module.exports = app;
