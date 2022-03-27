@@ -1,11 +1,11 @@
 const express = require('express')
-const app = express()
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
 const {Op} = require('sequelize');
 
+const app = express()
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -19,8 +19,6 @@ const session = {
   saveUninitialized: false,
 };
 
-
-//placeholder. Real function will be async
 async function findUser(db, email){
   try{
     const user = await models.employees.findOne({
@@ -38,7 +36,7 @@ async function findUser(db, email){
 
 async function checkCred(db, email, password){
   try{
-    const user = await models.employees.findOne({
+    const user = await db.findOne({
       attributes: ['employeeId', 'companyId'],
       where: {
         email: email,
@@ -96,6 +94,41 @@ function checkLoggedIn(req, res, next) {
   }
 }
 
+async function isManager(db, user){
+  try{
+    const employee = await db.findOne({
+      attributes: ['isManager'],
+      where: {
+        companyId: user.companyId,
+        managerId: user.employeeId,
+      }
+    });
+    return employee !== null && employee.isManager === true;
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
+async function getManagedEmployees(db, user){
+  try{
+    if(isManager(db, user)){
+      const managedEmployees = await db.findAll({
+        attributes: ['employeeId', 'companyId'],
+        where: {
+          companyId: user.companyId,
+          managerId: user.employeeId,
+        }
+      });
+      return managedEmployees;
+    }
+    return [];
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
 app.post('/login',
   passport.authenticate('local', {
     //placeholders for redirects
@@ -108,6 +141,21 @@ app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
+
+app.get('/managedEmployees', 
+  checkLoggedIn,
+  async (req, res) => {
+    const result = await getManagedEmployees(models.employees, req.user);
+    res.send(JSON.parse(JSON.stringify(result)));
+  }
+);
+
+// app.get('/checkLoggedIn',
+//   checkLoggedIn,
+//   async (req, res) => {
+//     res.send(JSON.parse(JSON.stringify(req.user)));
+//   }
+// )
 
 app.get('/', (req, res) => {
   res.sendFile('joenjoe.png', {root: './server'})
