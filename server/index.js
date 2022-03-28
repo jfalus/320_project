@@ -109,4 +109,18 @@ app.get('/api/testDB', async (req, res) => {
   res.json(users)
 })
 
+// GET /api/testGetLocalEmps/aBigInt
+// ex: /api/testGetLocalEmps/1234
+// Passes json file with Employee Id, First Name, Last Name, Email, and Position Title of each employee in
+// company with given companyId
+app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
+  const users = await models.employees.findAll({
+    attributes: ['employeeId', 'firstName', 'lastName', 'email', 'positionTitle'],
+    where: {
+      companyId: req.params.CID
+    }
+  });
+  res.json(users)
+})
+
 module.exports = app;
