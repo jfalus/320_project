@@ -1,11 +1,12 @@
 const express = require('express')
-const app = express()
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
 const {Op} = require('sequelize');
 var jsonMerger = require("json-merger");
+
+const app = express()
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -19,38 +20,52 @@ const session = {
   saveUninitialized: false,
 };
 
-let db = {"email1":"password1", "email2":"password2"};
-
-//placeholder. Real function will be async
-function findUser(db, email){
-  try {
-    return [email];
-  } catch (error) {
+async function findUser(db, email){
+  try{
+    const user = await models.employees.findOne({
+      attributes: ['employeeId', 'companyId'],
+      where: {
+        email: email
+      }
+    });
+    return user;
+  }catch(error){
     console.log(error);
     return [];
   }
 }
 
-function checkCred(db, email, password){
-  if(db[email] === password){
-    return true;
+async function checkCred(db, email, password){
+  try{
+    const user = await db.findOne({
+      attributes: ['employeeId', 'companyId'],
+      where: {
+        email: email,
+        password: password
+      }
+    });
+    return user !== null;
+  }catch(error){
+    console.log(error);
+    return false;
   }
-  return false;
 }
 //strategy for authentication
 const strategy = new LocalStrategy(
   async (email, password, done) => {
     //await for user
-    const user = findUser(db, email);
-    if (user.length === 0) {
+    const user = await findUser(models.employees, email);
+    if (user === null) {
       return done(null, false);
     }
     //add function to check credentials
-    if (!checkCred(db, email, password)) {
-      await new Promise((r) => setTimeout(r, 1000));
-      return done(null, false);
-    }
-    return done(null, email);
+    checkCred(models.employees, email, password).then(async function(result){
+      if (!result) {
+        await new Promise((r) => setTimeout(r, 200));
+        return done(null, false);
+      }
+      return done(null, {employeeId: user.employeeId, companyId: user.companyId});
+    });
   },
 );
 
@@ -80,6 +95,41 @@ function checkLoggedIn(req, res, next) {
   }
 }
 
+async function isManager(db, user){
+  try{
+    const employee = await db.findOne({
+      attributes: ['isManager'],
+      where: {
+        companyId: user.companyId,
+        managerId: user.employeeId,
+      }
+    });
+    return employee !== null && employee.isManager === true;
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
+async function getManagedEmployees(db, user){
+  try{
+    if(isManager(db, user)){
+      const managedEmployees = await db.findAll({
+        attributes: ['employeeId', 'companyId'],
+        where: {
+          companyId: user.companyId,
+          managerId: user.employeeId,
+        }
+      });
+      return managedEmployees;
+    }
+    return [];
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
 app.post('/login',
   passport.authenticate('local', {
     //placeholders for redirects
@@ -87,6 +137,26 @@ app.post('/login',
     failureRedirect: '/',
   })
 );
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
+app.get('/managedEmployees', 
+  checkLoggedIn,
+  async (req, res) => {
+    const result = await getManagedEmployees(models.employees, req.user);
+    res.send(JSON.parse(JSON.stringify(result)));
+  }
+);
+
+// app.get('/checkLoggedIn',
+//   checkLoggedIn,
+//   async (req, res) => {
+//     res.send(JSON.parse(JSON.stringify(req.user)));
+//   }
+// )
 
 app.get('/', (req, res) => {
   res.sendFile('joenjoe.png', {root: './server'})

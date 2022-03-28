@@ -23,11 +23,11 @@ describe("Test /hello", () => {
   });
 });
 
-describe("Test correct login", () => {
+describe("Test correct email and password for login", () => {
   test("Login should be a success", done => {
     request(app)
       .post("/login")
-      .send({username:"email1", password:"password1"})
+      .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
       .then(response => {
         expect(response.text).toBe("Found. Redirecting to /home");
         done();
@@ -35,14 +35,61 @@ describe("Test correct login", () => {
   });
 });
 
-describe("Test incorrent login", () => {
+describe("Test correct email and wrong password for login", () => {
   test("Login should fail", done => {
     request(app)
       .post("/login")
-      .send({username:"email1", password:"password2"})
+      .send({username:"Charlene_Gilbert@atlastechnology.com", password:"password2"})
       .then(response => {
         expect(response.text).toBe("Found. Redirecting to /");
         done();
       });
   });
 });
+
+describe("Test wrong email and wrong password for login", () => {
+  test("Login should fail", done => {
+    request(app)
+      .post("/login")
+      .send({username:"email123", password:"4password"})
+      .then(response => {
+        expect(response.text).toBe("Found. Redirecting to /");
+        done();
+      });
+  });
+});
+
+// describe("Test getting employees of a manager", () => {
+//   test("Gets the employees", done => {
+//     request(app)
+//       .post("/login")
+//       .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
+//       .then(response => {
+//         expect(response.text).toBe("Found. Redirecting to /home");
+//         request(app)
+//           .get("/managedEmployees")
+//           .then(response => {
+//               expect(response.text != null);
+//         })
+//       });
+//   });
+// });
+
+
+describe("Test getting employees of a manager", () => {
+  test("Gets the employees", done => {
+    let agent = request.agent(app);
+    agent
+      .post("/login")
+      .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
+      .end(function(err,res){
+        agent
+          .get("/managedEmployees")
+          .then(res => {
+            expect(res.text).toBe('[{"employeeId":"8","companyId":"2"},{"employeeId":"19","companyId":"2"},{"employeeId":"179","companyId":"2"}]')
+            done();
+          })
+      })
+  });
+});
+

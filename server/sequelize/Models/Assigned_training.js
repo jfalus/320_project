@@ -5,10 +5,7 @@ const schema = {
         type: DataTypes.BIGINT,
         primaryKey: true,
     },
-    employeeId : {
-        type: DataTypes.BIGINT,
-    },
-    companyId : {
+    e_id : {
         type: DataTypes.BIGINT,
     },
     title : {
@@ -19,12 +16,14 @@ const schema = {
     },
     link: {
         type: DataTypes.STRING,
+        allowNull: false,
     },
     date_created : {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
+        defaultValue: Sequelize.NOW,
     },
     date_due : {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
     },
     progress : {
         type: DataTypes.STRING,
