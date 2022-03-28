@@ -58,3 +58,38 @@ describe("Test wrong email and wrong password for login", () => {
       });
   });
 });
+
+// describe("Test getting employees of a manager", () => {
+//   test("Gets the employees", done => {
+//     request(app)
+//       .post("/login")
+//       .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
+//       .then(response => {
+//         expect(response.text).toBe("Found. Redirecting to /home");
+//         request(app)
+//           .get("/managedEmployees")
+//           .then(response => {
+//               expect(response.text != null);
+//         })
+//       });
+//   });
+// });
+
+
+describe("Test getting employees of a manager", () => {
+  test("Gets the employees", done => {
+    let agent = request.agent(app);
+    agent
+      .post("/login")
+      .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
+      .end(function(err,res){
+        agent
+          .get("/managedEmployees")
+          .then(res => {
+            expect(res.text).toBe('[{"employeeId":"8","companyId":"2"},{"employeeId":"19","companyId":"2"},{"employeeId":"179","companyId":"2"}]')
+            done();
+          })
+      })
+  });
+});
+
