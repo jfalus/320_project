@@ -11,12 +11,8 @@ const Header = () => {
             <img src={logo} alt="UKG Logo" />
           </div>
         </div>
-        <div className="searchbar">
-          <input className="search" type="text" placeholder="search" />
-        </div>
-        <div className="sortby">
-          <p>sort by</p>
-        </div>
+        <input className="search" type="text" placeholder="search" />
+        <button class="sortby">Sort</button>
       </nav>
     </div>
   );

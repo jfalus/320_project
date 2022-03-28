@@ -1,12 +1,12 @@
 .collapsible .content {
   margin: 0px;
   padding: 6px;
-  background-color: #29c2de;
+  background-color: #f4f4f4;
   font-size: 14px;
   height: fit-content;
 }
 .collapsible .header {
-  background-color: #59d7c8;
+  background-color: rgb(118, 187, 183);
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   padding: 5px;
@@ -44,7 +44,7 @@
   font-weight: 200;
   font-size: 14px;
   text-align: right;
-  background-color: #59d7c8;
+  background-color: inherit;
   width: 40%;
   text-overflow: ellipsis;
   vertical-align: middle;
@@ -54,4 +54,8 @@
 .fas fa-chevron-circle- {
   align-items: right !important;
   padding-right: 10px;
+}
+
+.icon {
+  margin-right: 15px;
 }
