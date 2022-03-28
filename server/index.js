@@ -127,7 +127,7 @@ app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
 // GET /api/empTasks/assignedTraining/aBigInt
 // ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's assigned trainings
-app.get('/api/empTasks/assignedTrainings/:EID', checkLoggedIn, async (req, res) => {
+app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
   const assigned_trainings = await models.assigned_training.findAll({
     attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
     where: {
@@ -140,7 +140,7 @@ app.get('/api/empTasks/assignedTrainings/:EID', checkLoggedIn, async (req, res) 
 // GET /api/empTasks/assignedTraining/aBigInt
 // ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's performance reviews
-app.get('/api/empTasks/performanceReviews/:EID', checkLoggedIn, async (req, res) => {
+app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
   const performance_reviews = await models.pto_request.findAll({
     attributes: ['title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date-created', 'progress', 'assigned_to'],
     where: {
@@ -153,7 +153,7 @@ app.get('/api/empTasks/performanceReviews/:EID', checkLoggedIn, async (req, res)
 // GET /api/empTasks/assignedTraining/aBigInt
 // ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's pto requests
-app.get('/api/empTasks/ptoRequests/:EID', checkLoggedIn, async (req, res) => {
+app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
   const pto_requests = await models.performance_review.findAll({
     attributes: ['title', 'description', 'start_date', 'end_date', 'date_created', 'date_due', 'progress', 'approved', 'assigned_to'],
     where: {
@@ -166,7 +166,7 @@ app.get('/api/empTasks/ptoRequests/:EID', checkLoggedIn, async (req, res) => {
 // GET /api/empTasks/generalTasks/aBigInt
 // ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's general tasks
-app.get('/api/empTasks/generalTasks/:EID', checkLoggedIn, async (req, res) => {
+app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   const general_tasks = await models.general_task.findAll({
     attributes: ['title', 'description', 'date_created', 'date_due', 'progress', 'assigned_to'],
     where: {
