@@ -128,13 +128,14 @@ app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
 // ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's assigned trainings
 app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
-  const assigned_trainings = await models.assigned_training.findAll({
-    attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
-    where: {
-      e_id: req.params.EID
-    }
-  });
-  res.json(assigned_trainings)
+  // const assigned_trainings = await models.assigned_training.findAll({
+  //   attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
+  //   where: {
+  //     e_id: req.params.EID
+  //   }
+  // });
+  // res.json(assigned_trainings)
+  res.send("Hello World!")
 });
 
 // GET /api/empTasks/assignedTraining/aBigInt
