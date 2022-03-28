@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+input.form-control::placeholder {
+  color: black;
+}
