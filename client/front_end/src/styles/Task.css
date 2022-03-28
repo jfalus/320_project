@@ -1,0 +1,9 @@
+.task {
+  color: black;
+  font-weight: 400;
+}
+
+.task .task-header .task-header-left {
+  text-align: left;
+  font-weight: bold;
+}

@@ -7,15 +7,15 @@
     "react-collapsed": "^3.3.0",
     "supertest": "^6.2.2"
   },
-  "scripts": {
-    "server": "nodemon ./server/server.js",
-    "client": "npm start --prefix client/front_end/",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test-server": "jest __tests_server__/index.test.js"
-  },
   "devDependencies": {
     "concurrently": "^7.0.0",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "server": "nodemon ./server/server.js",
+    "client": "npm start --prefix client/front_end/",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test-server": "jest __tests_server__/index.test.js --detectOpenHandles"
   }
 }
