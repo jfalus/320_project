@@ -4,6 +4,7 @@ const schema = {
     e_id : {
         type: DataTypes.BIGINT,
         primaryKey: true,
+        autoIncrement: true,
     },
     employeeId : {
         type: DataTypes.BIGINT,
