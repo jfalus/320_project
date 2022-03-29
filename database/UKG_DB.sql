@@ -37299,8 +37299,1417 @@ ALTER TABLE pto_request ADD CONSTRAINT pto_request_fkey FOREIGN KEY ("e_id") REF
 ALTER TABLE assigned_training ADD CONSTRAINT assigned_training_fkey FOREIGN KEY ("e_id") REFERENCES employees("e_id") ON DELETE CASCADE;
 ALTER TABLE employees ADD CONSTRAINT empId_cmpId_key UNIQUE("employeeId", "companyId");
 
-
 SELECT * FROM employees;
+ALTER TABLE performance_review ADD COLUMN "date_due" date;
+
+with sample(doc) as (values('[
+  {
+    "pto_id": 1,
+    "title": "Sick Leave",
+    "description": "POOPY",
+    "start_date": "2017-01-06",
+    "end_date": "2021-08-10",
+    "date_created": "2019-02-15",
+    "date_due": "2020-11-08",
+    "progress": "Not-started",
+    "approved": false,
+    "assigned_to": 31,
+    "e_id": 9
+  },
+  {
+    "pto_id": 2,
+    "title": "Sick Leave",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2014-09-30",
+    "end_date": "2021-01-23",
+    "date_created": "2019-11-23",
+    "date_due": "2020-10-29",
+    "progress": "Complete",
+    "approved": true,
+    "assigned_to": 25,
+    "e_id": 7
+  },
+  {
+    "pto_id": 3,
+    "title": "Sick Leave",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2017-05-16",
+    "end_date": "2020-07-06",
+    "date_created": "2018-05-21",
+    "date_due": "2021-11-02",
+    "progress": "To-do",
+    "approved": true,
+    "assigned_to": 39,
+    "e_id": 26
+  },
+  {
+    "pto_id": 4,
+    "title": "Vacation",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2015-08-15",
+    "end_date": "2021-02-20",
+    "date_created": "2015-09-05",
+    "date_due": "2021-09-07",
+    "progress": "To-do",
+    "approved": false,
+    "assigned_to": 5,
+    "e_id": 28
+  },
+  {
+    "pto_id": 5,
+    "title": "Maternity Leave",
+    "description": "YAY",
+    "start_date": "2019-08-17",
+    "end_date": "2020-05-02",
+    "date_created": "2020-01-04",
+    "date_due": "2022-03-13",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 30,
+    "e_id": 45
+  },
+  {
+    "pto_id": 6,
+    "title": "Sick Leave",
+    "description": "POOPY",
+    "start_date": "2019-08-22",
+    "end_date": "2021-02-27",
+    "date_created": "2015-03-03",
+    "date_due": "2020-06-04",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 16,
+    "e_id": 34
+  },
+  {
+    "pto_id": 7,
+    "title": "Maternity Leave",
+    "description": "POOPY",
+    "start_date": "2014-12-13",
+    "end_date": "2021-04-26",
+    "date_created": "2019-05-25",
+    "date_due": "2020-08-13",
+    "progress": "To-do",
+    "approved": false,
+    "assigned_to": 16,
+    "e_id": 37
+  },
+  {
+    "pto_id": 8,
+    "title": "Vacation",
+    "description": "YAY",
+    "start_date": "2017-02-06",
+    "end_date": "2020-11-14",
+    "date_created": "2018-06-19",
+    "date_due": "2020-12-08",
+    "progress": "Not-started",
+    "approved": false,
+    "assigned_to": 21,
+    "e_id": 41
+  },
+  {
+    "pto_id": 9,
+    "title": "Maternity Leave",
+    "description": "POOPY",
+    "start_date": "2018-09-28",
+    "end_date": "2021-05-22",
+    "date_created": "2015-06-05",
+    "date_due": "2022-04-13",
+    "progress": "Not-started",
+    "approved": true,
+    "assigned_to": 48,
+    "e_id": 35
+  },
+  {
+    "pto_id": 10,
+    "title": "Maternity Leave",
+    "description": "POOPY",
+    "start_date": "2015-09-26",
+    "end_date": "2020-06-23",
+    "date_created": "2014-11-03",
+    "date_due": "2022-01-10",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 39,
+    "e_id": 3
+  },
+  {
+    "pto_id": 11,
+    "title": "Vacation",
+    "description": "YAY",
+    "start_date": "2019-10-08",
+    "end_date": "2022-04-19",
+    "date_created": "2014-08-02",
+    "date_due": "2021-05-19",
+    "progress": "To-do",
+    "approved": true,
+    "assigned_to": 1,
+    "e_id": 39
+  },
+  {
+    "pto_id": 12,
+    "title": "Sick Leave",
+    "description": "POOPY",
+    "start_date": "2015-07-13",
+    "end_date": "2020-05-28",
+    "date_created": "2017-07-30",
+    "date_due": "2020-06-15",
+    "progress": "To-do",
+    "approved": false,
+    "assigned_to": 39,
+    "e_id": 14
+  },
+  {
+    "pto_id": 13,
+    "title": "Sick Leave",
+    "description": "YAY",
+    "start_date": "2016-10-12",
+    "end_date": "2020-05-17",
+    "date_created": "2016-10-19",
+    "date_due": "2020-07-31",
+    "progress": "Not-started",
+    "approved": false,
+    "assigned_to": 13,
+    "e_id": 3
+  },
+  {
+    "pto_id": 14,
+    "title": "Vacation",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2015-05-22",
+    "end_date": "2021-02-08",
+    "date_created": "2019-09-11",
+    "date_due": "2021-01-06",
+    "progress": "Not-started",
+    "approved": true,
+    "assigned_to": 26,
+    "e_id": 14
+  },
+  {
+    "pto_id": 15,
+    "title": "Vacation",
+    "description": "YAY",
+    "start_date": "2015-08-02",
+    "end_date": "2020-07-01",
+    "date_created": "2014-12-01",
+    "date_due": "2021-11-04",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 30,
+    "e_id": 6
+  },
+  {
+    "pto_id": 16,
+    "title": "Sick Leave",
+    "description": "YAY",
+    "start_date": "2015-03-01",
+    "end_date": "2021-04-06",
+    "date_created": "2019-03-04",
+    "date_due": "2021-04-03",
+    "progress": "Not-started",
+    "approved": false,
+    "assigned_to": 33,
+    "e_id": 26
+  },
+  {
+    "pto_id": 17,
+    "title": "Vacation",
+    "description": "YAY",
+    "start_date": "2015-01-02",
+    "end_date": "2021-08-02",
+    "date_created": "2016-07-01",
+    "date_due": "2020-05-16",
+    "progress": "Not-started",
+    "approved": false,
+    "assigned_to": 23,
+    "e_id": 35
+  },
+  {
+    "pto_id": 18,
+    "title": "Vacation",
+    "description": "YAY",
+    "start_date": "2019-12-14",
+    "end_date": "2020-05-08",
+    "date_created": "2016-02-21",
+    "date_due": "2020-08-20",
+    "progress": "To-do",
+    "approved": true,
+    "assigned_to": 33,
+    "e_id": 10
+  },
+  {
+    "pto_id": 19,
+    "title": "Sick Leave",
+    "description": "POOPY",
+    "start_date": "2014-02-08",
+    "end_date": "2021-05-07",
+    "date_created": "2020-01-01",
+    "date_due": "2021-05-26",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 36,
+    "e_id": 13
+  },
+  {
+    "pto_id": 20,
+    "title": "Maternity Leave",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2016-10-19",
+    "end_date": "2021-04-30",
+    "date_created": "2020-01-24",
+    "date_due": "2020-04-08",
+    "progress": "To-do",
+    "approved": false,
+    "assigned_to": 33,
+    "e_id": 36
+  },
+  {
+    "pto_id": 21,
+    "title": "Vacation",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2014-12-07",
+    "end_date": "2022-02-12",
+    "date_created": "2018-12-24",
+    "date_due": "2021-09-24",
+    "progress": "Complete",
+    "approved": true,
+    "assigned_to": 30,
+    "e_id": 33
+  },
+  {
+    "pto_id": 22,
+    "title": "Maternity Leave",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2014-04-15",
+    "end_date": "2022-01-04",
+    "date_created": "2017-05-31",
+    "date_due": "2021-02-09",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 42,
+    "e_id": 34
+  },
+  {
+    "pto_id": 23,
+    "title": "Maternity Leave",
+    "description": "UH OHHHH STINKY",
+    "start_date": "2018-12-03",
+    "end_date": "2021-03-30",
+    "date_created": "2019-10-29",
+    "date_due": "2020-08-01",
+    "progress": "To-do",
+    "approved": true,
+    "assigned_to": 2,
+    "e_id": 36
+  },
+  {
+    "pto_id": 24,
+    "title": "Maternity Leave",
+    "description": "YAY",
+    "start_date": "2018-09-04",
+    "end_date": "2021-08-11",
+    "date_created": "2018-03-06",
+    "date_due": "2020-02-08",
+    "progress": "Not-started",
+    "approved": false,
+    "assigned_to": 45,
+    "e_id": 19
+  },
+  {
+    "pto_id": 25,
+    "title": "Vacation",
+    "description": "POOPY",
+    "start_date": "2019-07-14",
+    "end_date": "2021-08-09",
+    "date_created": "2018-11-12",
+    "date_due": "2021-09-01",
+    "progress": "To-do",
+    "approved": false,
+    "assigned_to": 38,
+    "e_id": 18
+  },
+  {
+    "pto_id": 26,
+    "title": "Sick Leave",
+    "description": "YAY",
+    "start_date": "2016-11-21",
+    "end_date": "2021-09-17",
+    "date_created": "2018-02-12",
+    "date_due": "2020-05-27",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 34,
+    "e_id": 47
+  },
+  {
+    "pto_id": 27,
+    "title": "Maternity Leave",
+    "description": "POOPY",
+    "start_date": "2019-01-15",
+    "end_date": "2020-02-07",
+    "date_created": "2016-04-09",
+    "date_due": "2021-06-02",
+    "progress": "To-do",
+    "approved": true,
+    "assigned_to": 2,
+    "e_id": 47
+  },
+  {
+    "pto_id": 28,
+    "title": "Maternity Leave",
+    "description": "POOPY",
+    "start_date": "2015-02-12",
+    "end_date": "2022-03-03",
+    "date_created": "2018-09-06",
+    "date_due": "2022-02-26",
+    "progress": "Complete",
+    "approved": true,
+    "assigned_to": 29,
+    "e_id": 17
+  },
+  {
+    "pto_id": 29,
+    "title": "Sick Leave",
+    "description": "POOPY",
+    "start_date": "2015-08-21",
+    "end_date": "2020-11-03",
+    "date_created": "2015-03-28",
+    "date_due": "2020-05-01",
+    "progress": "Complete",
+    "approved": false,
+    "assigned_to": 4,
+    "e_id": 49
+  },
+  {
+    "pto_id": 30,
+    "title": "Vacation",
+    "description": "YAY",
+    "start_date": "2014-02-24",
+    "end_date": "2021-10-14",
+    "date_created": "2014-09-15",
+    "date_due": "2020-11-09",
+    "progress": "Complete",
+    "approved": true,
+    "assigned_to": 1,
+    "e_id": 34
+  }
+]'::json))
 
 
-SELECT * FROM employees;
+insert into pto_request ("pto_id", "title", "description", "start_date", "end_date", "date_created", "date_due", "progress", "approved", "assigned_to", "e_id")
+select p.* from sample l
+  cross join lateral json_populate_recordset(null::pto_request, doc) as p;
+  
+with sample_pr(doc) as (values('[
+  {
+    "pr_id": 1,
+    "title": "good.",
+    "overall_comments": "YAY",
+    "growth_feedback": 2,
+    "kindness_feedback": 4,
+    "delivery_feedback": 2,
+    "date_created": "2015-09-07",
+    "date_due": "2020-03-26",
+    "progress": "Not-started",
+    "assigned_to": 2,
+    "e_id": 34
+  },
+  {
+    "pr_id": 2,
+    "title": "good.",
+    "overall_comments": "UH OHHHH STINKY",
+    "growth_feedback": 3,
+    "kindness_feedback": 2,
+    "delivery_feedback": 1,
+    "date_created": "2015-01-11",
+    "date_due": "2020-07-27",
+    "progress": "To-do",
+    "assigned_to": 16,
+    "e_id": 16
+  },
+  {
+    "pr_id": 3,
+    "title": "Satisfactory performance",
+    "overall_comments": "YAY",
+    "growth_feedback": 5,
+    "kindness_feedback": 4,
+    "delivery_feedback": 4,
+    "date_created": "2016-07-08",
+    "date_due": "2021-05-30",
+    "progress": "To-do",
+    "assigned_to": 7,
+    "e_id": 37
+  },
+  {
+    "pr_id": 4,
+    "title": "good.",
+    "overall_comments": "UH OHHHH STINKY",
+    "growth_feedback": 5,
+    "kindness_feedback": 2,
+    "delivery_feedback": 2,
+    "date_created": "2018-07-01",
+    "date_due": "2021-04-13",
+    "progress": "Not-started",
+    "assigned_to": 1,
+    "e_id": 42
+  },
+  {
+    "pr_id": 5,
+    "title": "UH OH",
+    "overall_comments": "YAY",
+    "growth_feedback": 3,
+    "kindness_feedback": 5,
+    "delivery_feedback": 2,
+    "date_created": "2015-03-30",
+    "date_due": "2022-01-01",
+    "progress": "Not-started",
+    "assigned_to": 23,
+    "e_id": 14
+  },
+  {
+    "pr_id": 6,
+    "title": "good.",
+    "overall_comments": "YAY",
+    "growth_feedback": 1,
+    "kindness_feedback": 5,
+    "delivery_feedback": 5,
+    "date_created": "2018-03-21",
+    "date_due": "2021-01-05",
+    "progress": "To-do",
+    "assigned_to": 25,
+    "e_id": 23
+  },
+  {
+    "pr_id": 7,
+    "title": "good.",
+    "overall_comments": "YAY",
+    "growth_feedback": 1,
+    "kindness_feedback": 4,
+    "delivery_feedback": 5,
+    "date_created": "2016-06-29",
+    "date_due": "2021-09-23",
+    "progress": "Not-started",
+    "assigned_to": 36,
+    "e_id": 5
+  },
+  {
+    "pr_id": 8,
+    "title": "UH OH",
+    "overall_comments": "UH OHHHH STINKY",
+    "growth_feedback": 3,
+    "kindness_feedback": 1,
+    "delivery_feedback": 3,
+    "date_created": "2016-01-31",
+    "date_due": "2021-09-25",
+    "progress": "To-do",
+    "assigned_to": 43,
+    "e_id": 13
+  },
+  {
+    "pr_id": 9,
+    "title": "good.",
+    "overall_comments": "UH OHHHH STINKY",
+    "growth_feedback": 3,
+    "kindness_feedback": 5,
+    "delivery_feedback": 3,
+    "date_created": "2017-10-09",
+    "date_due": "2020-02-20",
+    "progress": "Not-started",
+    "assigned_to": 46,
+    "e_id": 18
+  },
+  {
+    "pr_id": 10,
+    "title": "Satisfactory performance",
+    "overall_comments": "POOPY",
+    "growth_feedback": 5,
+    "kindness_feedback": 3,
+    "delivery_feedback": 4,
+    "date_created": "2018-10-20",
+    "date_due": "2020-09-05",
+    "progress": "Complete",
+    "assigned_to": 3,
+    "e_id": 33
+  },
+  {
+    "pr_id": 11,
+    "title": "UH OH",
+    "overall_comments": "YAY",
+    "growth_feedback": 3,
+    "kindness_feedback": 3,
+    "delivery_feedback": 4,
+    "date_created": "2017-08-16",
+    "date_due": "2021-07-26",
+    "progress": "To-do",
+    "assigned_to": 23,
+    "e_id": 28
+  },
+  {
+    "pr_id": 12,
+    "title": "Satisfactory performance",
+    "overall_comments": "POOPY",
+    "growth_feedback": 5,
+    "kindness_feedback": 3,
+    "delivery_feedback": 5,
+    "date_created": "2017-02-23",
+    "date_due": "2020-04-01",
+    "progress": "To-do",
+    "assigned_to": 36,
+    "e_id": 31
+  },
+  {
+    "pr_id": 13,
+    "title": "Satisfactory performance",
+    "overall_comments": "POOPY",
+    "growth_feedback": 4,
+    "kindness_feedback": 4,
+    "delivery_feedback": 1,
+    "date_created": "2018-04-09",
+    "date_due": "2021-08-09",
+    "progress": "Complete",
+    "assigned_to": 12,
+    "e_id": 6
+  },
+  {
+    "pr_id": 14,
+    "title": "UH OH",
+    "overall_comments": "UH OHHHH STINKY",
+    "growth_feedback": 1,
+    "kindness_feedback": 2,
+    "delivery_feedback": 2,
+    "date_created": "2019-04-07",
+    "date_due": "2020-12-06",
+    "progress": "Not-started",
+    "assigned_to": 42,
+    "e_id": 44
+  },
+  {
+    "pr_id": 15,
+    "title": "UH OH",
+    "overall_comments": "YAY",
+    "growth_feedback": 1,
+    "kindness_feedback": 3,
+    "delivery_feedback": 5,
+    "date_created": "2017-02-24",
+    "date_due": "2020-07-07",
+    "progress": "Complete",
+    "assigned_to": 26,
+    "e_id": 46
+  },
+  {
+    "pr_id": 16,
+    "title": "UH OH",
+    "overall_comments": "POOPY",
+    "growth_feedback": 3,
+    "kindness_feedback": 4,
+    "delivery_feedback": 5,
+    "date_created": "2015-11-22",
+    "date_due": "2022-02-24",
+    "progress": "To-do",
+    "assigned_to": 11,
+    "e_id": 26
+  },
+  {
+    "pr_id": 17,
+    "title": "good.",
+    "overall_comments": "POOPY",
+    "growth_feedback": 2,
+    "kindness_feedback": 2,
+    "delivery_feedback": 5,
+    "date_created": "2018-08-20",
+    "date_due": "2020-02-12",
+    "progress": "To-do",
+    "assigned_to": 17,
+    "e_id": 30
+  },
+  {
+    "pr_id": 18,
+    "title": "good.",
+    "overall_comments": "POOPY",
+    "growth_feedback": 4,
+    "kindness_feedback": 4,
+    "delivery_feedback": 1,
+    "date_created": "2019-10-29",
+    "date_due": "2021-12-25",
+    "progress": "Complete",
+    "assigned_to": 24,
+    "e_id": 4
+  },
+  {
+    "pr_id": 19,
+    "title": "Satisfactory performance",
+    "overall_comments": "YAY",
+    "growth_feedback": 4,
+    "kindness_feedback": 3,
+    "delivery_feedback": 3,
+    "date_created": "2019-04-02",
+    "date_due": "2021-08-02",
+    "progress": "To-do",
+    "assigned_to": 32,
+    "e_id": 9
+  },
+  {
+    "pr_id": 20,
+    "title": "good.",
+    "overall_comments": "POOPY",
+    "growth_feedback": 5,
+    "kindness_feedback": 1,
+    "delivery_feedback": 3,
+    "date_created": "2018-01-25",
+    "date_due": "2021-07-13",
+    "progress": "To-do",
+    "assigned_to": 26,
+    "e_id": 14
+  },
+  {
+    "pr_id": 21,
+    "title": "Satisfactory performance",
+    "overall_comments": "YAY",
+    "growth_feedback": 4,
+    "kindness_feedback": 5,
+    "delivery_feedback": 2,
+    "date_created": "2016-09-12",
+    "date_due": "2022-02-22",
+    "progress": "Complete",
+    "assigned_to": 9,
+    "e_id": 40
+  },
+  {
+    "pr_id": 22,
+    "title": "Satisfactory performance",
+    "overall_comments": "UH OHHHH STINKY",
+    "growth_feedback": 1,
+    "kindness_feedback": 3,
+    "delivery_feedback": 5,
+    "date_created": "2018-03-17",
+    "date_due": "2022-03-10",
+    "progress": "Complete",
+    "assigned_to": 37,
+    "e_id": 49
+  },
+  {
+    "pr_id": 23,
+    "title": "Satisfactory performance",
+    "overall_comments": "YAY",
+    "growth_feedback": 2,
+    "kindness_feedback": 1,
+    "delivery_feedback": 1,
+    "date_created": "2014-08-29",
+    "date_due": "2022-03-14",
+    "progress": "To-do",
+    "assigned_to": 20,
+    "e_id": 6
+  },
+  {
+    "pr_id": 24,
+    "title": "good.",
+    "overall_comments": "POOPY",
+    "growth_feedback": 4,
+    "kindness_feedback": 5,
+    "delivery_feedback": 5,
+    "date_created": "2014-02-15",
+    "date_due": "2020-10-21",
+    "progress": "Not-started",
+    "assigned_to": 37,
+    "e_id": 25
+  },
+  {
+    "pr_id": 25,
+    "title": "UH OH",
+    "overall_comments": "YAY",
+    "growth_feedback": 4,
+    "kindness_feedback": 4,
+    "delivery_feedback": 3,
+    "date_created": "2018-11-29",
+    "date_due": "2021-04-05",
+    "progress": "Not-started",
+    "assigned_to": 22,
+    "e_id": 4
+  },
+  {
+    "pr_id": 26,
+    "title": "good.",
+    "overall_comments": "POOPY",
+    "growth_feedback": 2,
+    "kindness_feedback": 2,
+    "delivery_feedback": 1,
+    "date_created": "2015-07-10",
+    "date_due": "2022-01-15",
+    "progress": "Complete",
+    "assigned_to": 44,
+    "e_id": 3
+  },
+  {
+    "pr_id": 27,
+    "title": "good.",
+    "overall_comments": "UH OHHHH STINKY",
+    "growth_feedback": 3,
+    "kindness_feedback": 3,
+    "delivery_feedback": 2,
+    "date_created": "2015-04-12",
+    "date_due": "2020-02-23",
+    "progress": "To-do",
+    "assigned_to": 18,
+    "e_id": 3
+  },
+  {
+    "pr_id": 28,
+    "title": "Satisfactory performance",
+    "overall_comments": "YAY",
+    "growth_feedback": 2,
+    "kindness_feedback": 4,
+    "delivery_feedback": 3,
+    "date_created": "2018-02-28",
+    "date_due": "2020-07-03",
+    "progress": "Not-started",
+    "assigned_to": 35,
+    "e_id": 39
+  },
+  {
+    "pr_id": 29,
+    "title": "UH OH",
+    "overall_comments": "POOPY",
+    "growth_feedback": 3,
+    "kindness_feedback": 2,
+    "delivery_feedback": 5,
+    "date_created": "2015-06-27",
+    "date_due": "2020-11-30",
+    "progress": "Not-started",
+    "assigned_to": 16,
+    "e_id": 48
+  },
+  {
+    "pr_id": 30,
+    "title": "Satisfactory performance",
+    "overall_comments": "POOPY",
+    "growth_feedback": 1,
+    "kindness_feedback": 2,
+    "delivery_feedback": 5,
+    "date_created": "2015-07-12",
+    "date_due": "2020-12-12",
+    "progress": "Complete",
+    "assigned_to": 23,
+    "e_id": 33
+  }
+]'::json))
+
+
+insert into performance_review ("pr_id", "title", "overall_comments", "growth_feedback", "kindness_feedback", "delivery_feedback", "date_created", "progress", "assigned_to", "e_id", "date_due")
+select p.* from sample_pr l
+  cross join lateral json_populate_recordset(null::performance_review, doc) as p;
+  
+with sample_gt(doc) as (values('[
+  {
+    "task_id": 1,
+    "title": "conference call",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2016-08-24",
+    "date_due": "2021-03-23",
+    "progress": "Complete",
+    "assigned_to": 38,
+    "e_id": 27
+  },
+  {
+    "task_id": 2,
+    "title": "team meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2016-09-08",
+    "date_due": "2020-07-28",
+    "progress": "Complete",
+    "assigned_to": 23,
+    "e_id": 29
+  },
+  {
+    "task_id": 3,
+    "title": "manager meeting",
+    "description": "POOPY",
+    "date_created": "2016-12-20",
+    "date_due": "2020-11-08",
+    "progress": "To-do",
+    "assigned_to": 3,
+    "e_id": 6
+  },
+  {
+    "task_id": 4,
+    "title": "manager meeting",
+    "description": "YAY",
+    "date_created": "2016-04-16",
+    "date_due": "2021-07-02",
+    "progress": "To-do",
+    "assigned_to": 37,
+    "e_id": 22
+  },
+  {
+    "task_id": 5,
+    "title": "team meeting",
+    "description": "YAY",
+    "date_created": "2016-09-09",
+    "date_due": "2021-02-05",
+    "progress": "Not-started",
+    "assigned_to": 6,
+    "e_id": 6
+  },
+  {
+    "task_id": 6,
+    "title": "conference call",
+    "description": "POOPY",
+    "date_created": "2016-08-01",
+    "date_due": "2020-08-03",
+    "progress": "To-do",
+    "assigned_to": 31,
+    "e_id": 22
+  },
+  {
+    "task_id": 7,
+    "title": "conference call",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2019-05-03",
+    "date_due": "2022-04-26",
+    "progress": "To-do",
+    "assigned_to": 20,
+    "e_id": 19
+  },
+  {
+    "task_id": 8,
+    "title": "manager meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2016-07-23",
+    "date_due": "2021-04-01",
+    "progress": "Complete",
+    "assigned_to": 40,
+    "e_id": 21
+  },
+  {
+    "task_id": 9,
+    "title": "team meeting",
+    "description": "POOPY",
+    "date_created": "2014-11-27",
+    "date_due": "2020-12-20",
+    "progress": "Not-started",
+    "assigned_to": 21,
+    "e_id": 3
+  },
+  {
+    "task_id": 10,
+    "title": "team meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2017-05-11",
+    "date_due": "2020-06-23",
+    "progress": "Complete",
+    "assigned_to": 37,
+    "e_id": 34
+  },
+  {
+    "task_id": 11,
+    "title": "conference call",
+    "description": "YAY",
+    "date_created": "2014-03-06",
+    "date_due": "2020-11-30",
+    "progress": "Not-started",
+    "assigned_to": 7,
+    "e_id": 20
+  },
+  {
+    "task_id": 12,
+    "title": "conference call",
+    "description": "POOPY",
+    "date_created": "2016-10-11",
+    "date_due": "2020-07-18",
+    "progress": "To-do",
+    "assigned_to": 31,
+    "e_id": 31
+  },
+  {
+    "task_id": 13,
+    "title": "manager meeting",
+    "description": "POOPY",
+    "date_created": "2014-08-16",
+    "date_due": "2020-06-30",
+    "progress": "To-do",
+    "assigned_to": 23,
+    "e_id": 8
+  },
+  {
+    "task_id": 14,
+    "title": "team meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2014-10-05",
+    "date_due": "2021-06-13",
+    "progress": "Not-started",
+    "assigned_to": 39,
+    "e_id": 20
+  },
+  {
+    "task_id": 15,
+    "title": "manager meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2017-05-21",
+    "date_due": "2021-01-20",
+    "progress": "To-do",
+    "assigned_to": 9,
+    "e_id": 29
+  },
+  {
+    "task_id": 16,
+    "title": "conference call",
+    "description": "POOPY",
+    "date_created": "2019-04-06",
+    "date_due": "2020-10-15",
+    "progress": "Complete",
+    "assigned_to": 11,
+    "e_id": 28
+  },
+  {
+    "task_id": 17,
+    "title": "manager meeting",
+    "description": "POOPY",
+    "date_created": "2019-12-13",
+    "date_due": "2021-09-14",
+    "progress": "Complete",
+    "assigned_to": 49,
+    "e_id": 48
+  },
+  {
+    "task_id": 18,
+    "title": "manager meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2018-01-11",
+    "date_due": "2021-07-24",
+    "progress": "To-do",
+    "assigned_to": 15,
+    "e_id": 2
+  },
+  {
+    "task_id": 19,
+    "title": "team meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2016-09-02",
+    "date_due": "2020-03-17",
+    "progress": "Complete",
+    "assigned_to": 38,
+    "e_id": 6
+  },
+  {
+    "task_id": 20,
+    "title": "team meeting",
+    "description": "POOPY",
+    "date_created": "2017-06-28",
+    "date_due": "2021-04-04",
+    "progress": "Not-started",
+    "assigned_to": 40,
+    "e_id": 13
+  },
+  {
+    "task_id": 21,
+    "title": "team meeting",
+    "description": "POOPY",
+    "date_created": "2016-10-16",
+    "date_due": "2021-12-04",
+    "progress": "Complete",
+    "assigned_to": 39,
+    "e_id": 21
+  },
+  {
+    "task_id": 22,
+    "title": "conference call",
+    "description": "YAY",
+    "date_created": "2017-07-23",
+    "date_due": "2021-12-02",
+    "progress": "Complete",
+    "assigned_to": 38,
+    "e_id": 21
+  },
+  {
+    "task_id": 23,
+    "title": "team meeting",
+    "description": "YAY",
+    "date_created": "2019-09-27",
+    "date_due": "2021-01-11",
+    "progress": "Complete",
+    "assigned_to": 33,
+    "e_id": 9
+  },
+  {
+    "task_id": 24,
+    "title": "manager meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2019-06-25",
+    "date_due": "2021-11-12",
+    "progress": "Not-started",
+    "assigned_to": 19,
+    "e_id": 46
+  },
+  {
+    "task_id": 25,
+    "title": "conference call",
+    "description": "YAY",
+    "date_created": "2015-06-15",
+    "date_due": "2021-06-29",
+    "progress": "Complete",
+    "assigned_to": 10,
+    "e_id": 42
+  },
+  {
+    "task_id": 26,
+    "title": "manager meeting",
+    "description": "POOPY",
+    "date_created": "2014-09-24",
+    "date_due": "2021-01-04",
+    "progress": "Complete",
+    "assigned_to": 8,
+    "e_id": 38
+  },
+  {
+    "task_id": 27,
+    "title": "manager meeting",
+    "description": "POOPY",
+    "date_created": "2016-02-23",
+    "date_due": "2021-02-13",
+    "progress": "Complete",
+    "assigned_to": 20,
+    "e_id": 34
+  },
+  {
+    "task_id": 28,
+    "title": "manager meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2018-11-07",
+    "date_due": "2020-08-23",
+    "progress": "Not-started",
+    "assigned_to": 18,
+    "e_id": 6
+  },
+  {
+    "task_id": 29,
+    "title": "team meeting",
+    "description": "UH OHHHH STINKY",
+    "date_created": "2018-08-14",
+    "date_due": "2022-02-09",
+    "progress": "To-do",
+    "assigned_to": 15,
+    "e_id": 11
+  },
+  {
+    "task_id": 30,
+    "title": "conference call",
+    "description": "POOPY",
+    "date_created": "2016-03-22",
+    "date_due": "2020-05-21",
+    "progress": "Complete",
+    "assigned_to": 41,
+    "e_id": 39
+  }
+]'::json))
+
+
+insert into general_task("task_id", "title", "description", "date_created", "date_due", "progress", "assigned_to", "e_id")
+select p.* from sample_gt l
+  cross join lateral json_populate_recordset(null::general_task, doc) as p;
+  
+with sample_at(doc) as (values('[
+  {
+    "at_id": 1,
+    "title": "basic training",
+    "description": "UH OHHHH STINKY",
+    "link": "Exozent.com",
+    "date_created": "2014-09-18",
+    "date_due": "2020-11-16",
+    "progress": "Not-started",
+    "e_id": 43
+  },
+  {
+    "at_id": 2,
+    "title": "sexual harassment",
+    "description": "POOPY",
+    "link": "Centree.com",
+    "date_created": "2016-04-18",
+    "date_due": "2021-03-06",
+    "progress": "Complete",
+    "e_id": 17
+  },
+  {
+    "at_id": 3,
+    "title": "sexual harassment",
+    "description": "UH OHHHH STINKY",
+    "link": "Makingway.com",
+    "date_created": "2019-03-10",
+    "date_due": "2021-07-01",
+    "progress": "To-do",
+    "e_id": 18
+  },
+  {
+    "at_id": 4,
+    "title": "basic training",
+    "description": "YAY",
+    "link": "Insurety.com",
+    "date_created": "2019-08-10",
+    "date_due": "2021-04-27",
+    "progress": "Complete",
+    "e_id": 32
+  },
+  {
+    "at_id": 5,
+    "title": "basic training",
+    "description": "UH OHHHH STINKY",
+    "link": "Dymi.com",
+    "date_created": "2019-08-15",
+    "date_due": "2021-01-12",
+    "progress": "To-do",
+    "e_id": 40
+  },
+  {
+    "at_id": 6,
+    "title": "cpr",
+    "description": "POOPY",
+    "link": "Acusage.com",
+    "date_created": "2018-09-17",
+    "date_due": "2020-06-07",
+    "progress": "To-do",
+    "e_id": 11
+  },
+  {
+    "at_id": 7,
+    "title": "sexual harassment",
+    "description": "YAY",
+    "link": "Entogrok.com",
+    "date_created": "2018-04-24",
+    "date_due": "2022-04-03",
+    "progress": "Not-started",
+    "e_id": 20
+  },
+  {
+    "at_id": 8,
+    "title": "sexual harassment",
+    "description": "YAY",
+    "link": "Xplor.com",
+    "date_created": "2014-03-14",
+    "date_due": "2020-07-26",
+    "progress": "To-do",
+    "e_id": 45
+  },
+  {
+    "at_id": 9,
+    "title": "sexual harassment",
+    "description": "YAY",
+    "link": "Comveyor.com",
+    "date_created": "2014-07-25",
+    "date_due": "2020-12-28",
+    "progress": "Not-started",
+    "e_id": 33
+  },
+  {
+    "at_id": 10,
+    "title": "sexual harassment",
+    "description": "YAY",
+    "link": "Maineland.com",
+    "date_created": "2019-08-26",
+    "date_due": "2021-09-16",
+    "progress": "Complete",
+    "e_id": 17
+  },
+  {
+    "at_id": 11,
+    "title": "sexual harassment",
+    "description": "UH OHHHH STINKY",
+    "link": "Insource.com",
+    "date_created": "2014-07-29",
+    "date_due": "2020-07-28",
+    "progress": "Not-started",
+    "e_id": 17
+  },
+  {
+    "at_id": 12,
+    "title": "basic training",
+    "description": "UH OHHHH STINKY",
+    "link": "Medalert.com",
+    "date_created": "2016-10-20",
+    "date_due": "2020-06-25",
+    "progress": "To-do",
+    "e_id": 5
+  },
+  {
+    "at_id": 13,
+    "title": "cpr",
+    "description": "POOPY",
+    "link": "Extro.com",
+    "date_created": "2018-01-16",
+    "date_due": "2021-09-18",
+    "progress": "Not-started",
+    "e_id": 35
+  },
+  {
+    "at_id": 14,
+    "title": "sexual harassment",
+    "description": "POOPY",
+    "link": "Comtrail.com",
+    "date_created": "2018-11-06",
+    "date_due": "2021-10-02",
+    "progress": "Complete",
+    "e_id": 9
+  },
+  {
+    "at_id": 15,
+    "title": "basic training",
+    "description": "POOPY",
+    "link": "Plasmosis.com",
+    "date_created": "2015-05-24",
+    "date_due": "2022-02-06",
+    "progress": "To-do",
+    "e_id": 23
+  },
+  {
+    "at_id": 16,
+    "title": "basic training",
+    "description": "YAY",
+    "link": "Zensure.com",
+    "date_created": "2017-06-29",
+    "date_due": "2021-04-26",
+    "progress": "Complete",
+    "e_id": 11
+  },
+  {
+    "at_id": 17,
+    "title": "basic training",
+    "description": "YAY",
+    "link": "Melbacor.com",
+    "date_created": "2018-01-18",
+    "date_due": "2022-02-16",
+    "progress": "Complete",
+    "e_id": 21
+  },
+  {
+    "at_id": 18,
+    "title": "basic training",
+    "description": "POOPY",
+    "link": "Sloganaut.com",
+    "date_created": "2017-03-08",
+    "date_due": "2020-06-19",
+    "progress": "To-do",
+    "e_id": 12
+  },
+  {
+    "at_id": 19,
+    "title": "sexual harassment",
+    "description": "YAY",
+    "link": "Gadtron.com",
+    "date_created": "2018-01-23",
+    "date_due": "2020-06-08",
+    "progress": "To-do",
+    "e_id": 3
+  },
+  {
+    "at_id": 20,
+    "title": "cpr",
+    "description": "UH OHHHH STINKY",
+    "link": "Idetica.com",
+    "date_created": "2016-02-09",
+    "date_due": "2020-07-23",
+    "progress": "To-do",
+    "e_id": 43
+  },
+  {
+    "at_id": 21,
+    "title": "sexual harassment",
+    "description": "UH OHHHH STINKY",
+    "link": "Quintity.com",
+    "date_created": "2017-10-14",
+    "date_due": "2022-01-05",
+    "progress": "Complete",
+    "e_id": 39
+  },
+  {
+    "at_id": 22,
+    "title": "basic training",
+    "description": "YAY",
+    "link": "Tetak.com",
+    "date_created": "2015-03-12",
+    "date_due": "2021-01-24",
+    "progress": "Complete",
+    "e_id": 12
+  },
+  {
+    "at_id": 23,
+    "title": "sexual harassment",
+    "description": "UH OHHHH STINKY",
+    "link": "Exovent.com",
+    "date_created": "2016-06-29",
+    "date_due": "2020-02-19",
+    "progress": "Not-started",
+    "e_id": 6
+  },
+  {
+    "at_id": 24,
+    "title": "sexual harassment",
+    "description": "POOPY",
+    "link": "Enerforce.com",
+    "date_created": "2019-03-19",
+    "date_due": "2020-12-08",
+    "progress": "Not-started",
+    "e_id": 13
+  },
+  {
+    "at_id": 25,
+    "title": "cpr",
+    "description": "UH OHHHH STINKY",
+    "link": "Datacator.com",
+    "date_created": "2015-05-14",
+    "date_due": "2021-07-01",
+    "progress": "To-do",
+    "e_id": 40
+  },
+  {
+    "at_id": 26,
+    "title": "sexual harassment",
+    "description": "YAY",
+    "link": "Lunchpod.com",
+    "date_created": "2018-07-07",
+    "date_due": "2020-08-09",
+    "progress": "Complete",
+    "e_id": 32
+  },
+  {
+    "at_id": 27,
+    "title": "sexual harassment",
+    "description": "YAY",
+    "link": "Comtent.com",
+    "date_created": "2016-02-08",
+    "date_due": "2020-12-10",
+    "progress": "To-do",
+    "e_id": 8
+  },
+  {
+    "at_id": 28,
+    "title": "cpr",
+    "description": "POOPY",
+    "link": "Plasmos.com",
+    "date_created": "2015-01-02",
+    "date_due": "2021-05-22",
+    "progress": "To-do",
+    "e_id": 14
+  },
+  {
+    "at_id": 29,
+    "title": "sexual harassment",
+    "description": "UH OHHHH STINKY",
+    "link": "Equitax.com",
+    "date_created": "2015-05-01",
+    "date_due": "2021-06-16",
+    "progress": "To-do",
+    "e_id": 9
+  },
+  {
+    "at_id": 30,
+    "title": "basic training",
+    "description": "POOPY",
+    "link": "Neocent.com",
+    "date_created": "2018-06-17",
+    "date_due": "2022-01-11",
+    "progress": "To-do",
+    "e_id": 16
+  }
+]'::json))
+
+
+insert into assigned_training("at_id", "title", "description", "link", "date_created", "date_due", "progress", "e_id")
+select p.* from sample_at l
+  cross join lateral json_populate_recordset(null::assigned_training, doc) as p;
