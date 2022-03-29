@@ -4,6 +4,7 @@ const schema = {
     at_id : {
         type: DataTypes.BIGINT,
         primaryKey: true,
+        autoIncrement: true,
     },
     e_id : {
         type: DataTypes.BIGINT,

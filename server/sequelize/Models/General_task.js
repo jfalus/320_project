@@ -4,6 +4,7 @@ const schema = {
     task_id : {
         type: DataTypes.BIGINT,
         primaryKey: true,
+        autoIncrement: true,
     },
     e_id : {
         type: DataTypes.BIGINT,

@@ -8,8 +8,8 @@ const { Op, Sequelize } = require('sequelize');
  */
 function applyExtraSetup(sequelize) {
     // Setup inter-model relations here, like foreign keys etc.
-    const {Employee, Position} = sequelize.models;
-    Employee.hasMany(Position, {
+    const {Employees, Position} = sequelize.models;
+    Employees.hasMany(Position, {
         foreignKey: 'managerId',
         sourceKey: 'employeeId',
         scope: {
