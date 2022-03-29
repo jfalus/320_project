@@ -110,7 +110,7 @@ async function isManager(db, user){
   }
 }
 
-async function getManagedEmployees(db, user){
+async function getDirectManagedEmployees(db, user){
   try{
     if(isManager(db, user)){
       const managedEmployees = await db.findAll({
@@ -121,6 +121,61 @@ async function getManagedEmployees(db, user){
         }
       });
       return managedEmployees;
+    }
+    return [];
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
+// async function getAll(db, user){
+//   try{
+//       const managedEmployees = await db.findAll({
+//         attributes: ['employeeId', 'companyId', 'managerId'],
+//         where: {
+//           companyId: user.companyId,
+//         }
+//       });
+//       return managedEmployees;
+//   }catch(error){
+//     console.log(error);
+//     return [];
+//   }
+// }
+
+async function getRecursiveManagedEmployees(db, user){
+  try{
+    if(isManager(db, user)){
+      var managedEmployees = await db.findAll({
+        attributes: ['employeeId', 'companyId'],
+        where: {
+          companyId: user.companyId,
+          managerId: user.employeeId,
+        }
+      });
+      var managedL2 = managedEmployees;
+      while(managedL2.length > 0)
+      {
+        var managedL3 = [];
+        for(var i = 0; i < managedL2.length; ++i)
+        {
+          const managedL3Part = await getDirectManagedEmployees(models.employees, managedL2[i]);
+          managedL3 = managedL3.concat(managedL3Part);
+        }
+        managedL2 = managedL3;
+        managedEmployees = managedEmployees.concat(managedL2);
+      }
+      managedEmployees = managedEmployees.concat({employeeId: "128", companyId: "2"});
+      var ret = [];
+      var hit = [];
+      managedEmployees.forEach(e => {
+        if(!hit.includes(e.employeeId)) {
+          ret = ret.concat(e);
+          hit = hit.concat(e.employeeId);
+        }
+      })
+      return ret;
     }
     return [];
   }catch(error){
@@ -142,13 +197,29 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/managedEmployees', 
+app.get('/directManagedEmployees', 
   checkLoggedIn,
   async (req, res) => {
-    const result = await getManagedEmployees(models.employees, req.user);
+    const result = await getDirectManagedEmployees(models.employees, req.user);
     res.send(JSON.parse(JSON.stringify(result)));
   }
 );
+
+app.get('/recursiveManagedEmployees', 
+  checkLoggedIn,
+  async (req, res) => {
+    const result = await getRecursiveManagedEmployees(models.employees, req.user);
+    res.send(JSON.parse(JSON.stringify(result)));
+  }
+);
+
+// app.get('/allFrom2',
+//   checkLoggedIn,
+//   async (req, res) => {
+//     const result = await getAll(models.employees, req.user);
+//     res.send(JSON.parse(JSON.stringify(result)));
+//   }
+// );
 
 // app.get('/checkLoggedIn',
 //   checkLoggedIn,
@@ -174,20 +245,6 @@ app.get('/api/testDB', async (req, res) => {
     attributes: ['employeeId', 'firstName', 'lastName'],
     where: {
       positionTitle: 'CEO'
-    }
-  });
-  res.json(users)
-})
-
-// GET /api/testGetLocalEmps/aBigInt
-// ex: /api/testGetLocalEmps/1234
-// Passes json file with Employee Id, First Name, Last Name, Email, and Position Title of each employee in
-// company with given companyId
-app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
-  const users = await models.employees.findAll({
-    attributes: ['employeeId', 'firstName', 'lastName', 'email', 'positionTitle'],
-    where: {
-      companyId: req.params.CID
     }
   });
   res.json(users)

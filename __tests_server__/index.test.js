@@ -84,7 +84,7 @@ describe("Test getting employees of a manager", () => {
       .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
       .end(function(err,res){
         agent
-          .get("/managedEmployees")
+          .get("/directManagedEmployees")
           .then(res => {
             expect(res.text).toBe('[{"employeeId":"8","companyId":"2"},{"employeeId":"19","companyId":"2"},{"employeeId":"179","companyId":"2"}]')
             done();
@@ -92,4 +92,41 @@ describe("Test getting employees of a manager", () => {
       })
   });
 });
+
+// SHOULD NOT PASS
+// NEEDS THOROUGH TESTING
+describe("Test getting ALL employees below user", () => {
+  jest.setTimeout(10000);
+  test("Gets the employees below user hierarchically", done => {
+    let agent = request.agent(app);
+    agent
+      .post("/login")
+      .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
+      .end(function(err,res){
+        agent
+        .get("/recursiveManagedEmployees")
+          .then(res => {
+            expect(res.text).toBe('[{"employeeId":"8","companyId":"2"},{"employeeId":"19","companyId":"2"},{"employeeId":"179","companyId":"2"}]')
+            done();
+          })
+      })
+  });
+});
+
+// describe("Test getting ALL employees from company 2", () => {
+//   test("Gets the employees from company 2", done => {
+//     let agent = request.agent(app);
+//     agent
+//       .post("/login")
+//       .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
+//       .end(function(err,res){
+//         agent
+//         .get("/allFrom2")
+//           .then(res => {
+//             console.log(res);
+//             done();
+//           })
+//       })
+//   });
+// });
 
