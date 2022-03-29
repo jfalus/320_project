@@ -8,9 +8,11 @@ const schema = {
     },
     employeeId : {
         type: DataTypes.BIGINT,
+        unique: 'e_id',
     },
     companyId : {
         type: DataTypes.BIGINT,
+        unique: 'e_id',
     },
     firstName : {
         type: DataTypes.STRING,
