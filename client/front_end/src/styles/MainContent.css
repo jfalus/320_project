@@ -9,14 +9,14 @@
   background-color: rgb(118, 187, 183);
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
-  padding: 5px;
+  padding: 0px;
   width: 100%;
-  height: 30px;
+  height: 40px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-   border-bottom: 1px solid black; 
+  border-bottom: 1px solid black; 
 }
 .collapsible .header .category {
   color: black;
@@ -26,11 +26,12 @@
   max-height: fit-content;
   text-overflow: ellipsis;
   vertical-align: middle;
+  margin: 5px;
 }
 
 .collapsible .header .title {
   display: table-cell;
-  margin-left: 30px;
+  margin: 5px 5px 5px 30px;
   font-weight: 400;
   text-align: left;
   width: 70%;
@@ -39,7 +40,7 @@
 }
 
 .collapsible .header .dueDate {
-  margin-right: 10px;
+  margin: 5px 10px 5px 5px;
   display: table-cell;
   font-weight: 200;
   font-size: 14px;
@@ -57,5 +58,5 @@
 }
 
 .icon {
-  margin-right: 15px;
+  margin: 5px 15px 5px 5px;
 }
