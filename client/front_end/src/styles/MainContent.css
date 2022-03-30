@@ -1,6 +1,6 @@
 .collapsible .content {
   margin: 0px;
-  padding: 6px;
+  padding: 0px;
   background-color: #f4f4f4;
   font-size: 14px;
   height: fit-content;
@@ -16,7 +16,7 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  /* border-bottom: 2px solid rgb(220, 220, 220); */
+   border-bottom: 1px solid black; 
 }
 .collapsible .header .category {
   color: black;

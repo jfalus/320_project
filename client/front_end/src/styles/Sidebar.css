@@ -19,13 +19,14 @@ body {
 }
 
 .sidebar {
-  position: flex;
+  display: flex;
+  flex-direction: column;
   background-color: rgb(32, 80, 80);
   color: #fff;
   top: 0;
   left: 0;
   height: 100vh;
-  width: 280px;
+  width: 244px;
 }
 
 .sidebar li {

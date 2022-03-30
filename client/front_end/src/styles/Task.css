@@ -1,6 +1,11 @@
 .task {
   color: black;
   font-weight: 400;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  padding: 6px;
+  border-radius: 10px;
 }
 
 .task .task-header .task-header-left {

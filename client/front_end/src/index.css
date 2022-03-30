@@ -4,7 +4,11 @@
 }
 
 .Main-section {
-  background-color: #f4f4f4;
+  background: url(../src/images/pattern1_It_grey_1.png);
+  background-attachment: fixed;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
   margin-left: "2px";
   width: 100%;
   font-family: "Open Sans", sans-serif;
