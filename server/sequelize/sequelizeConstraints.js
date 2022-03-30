@@ -1,4 +1,4 @@
-const { Op, Sequelize } = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 
 /**
@@ -8,28 +8,22 @@ const { Op, Sequelize } = require('sequelize');
  */
 function applyExtraSetup(sequelize) {
     // Setup inter-model relations here, like foreign keys etc.
-    const {Employees, Position} = sequelize.models;
-    Employees.hasMany(Position, {
-        foreignKey: 'managerId',
-        sourceKey: 'employeeId',
-        scope: {
-            [Op.and]: sequelize.where(
-                sequelize.col("Employee.companyName"), '=' ,sequelize.col("listings.companyName"))
-        },
-        as: 'listings'
+    const {employees, pto_request, performance_review, assigned_training, general_task} = sequelize.models;
 
-    })
+    // array of task models
+    const taskModels = [pto_request, performance_review, assigned_training, general_task];
 
-    Position.hasOne(Employee,{
-        foreignKey: 'employeeId',
-        sourceKey: 'managerId',
-        scope: {
-            [Op.and]: sequelize.where(
-                sequelize.col("manager.companyName"), '=' ,sequelize.col("Position.companyName"))
-        },
-        as: 'manager'
-    })
+    taskModels.map(tasks =>
+        employees.hasMany(tasks, {
+        foreignKey: 'e_id',
+        sourceKey: 'e_id',
+    }))
 
+    taskModels.map(tasks =>
+        tasks.belongsTo(employees, {
+        foreignKey: 'e_id',
+        targetKey: 'e_id',
+    }))
 }
 
 module.exports = applyExtraSetup;
