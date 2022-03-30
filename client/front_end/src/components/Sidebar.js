@@ -1,20 +1,29 @@
 import React, { useState } from "react";
 import "../styles/Sidebar.css";
-import { Container } from "./Container.js";
+import CustomTask from "./Task/CustomTask.js";
+import PTORequest from "./Task/PTORequest.js";
+import TrainingRequest from "./Task/TrainingRequest.js";
+import PerformanceReview from "./Task/PerformanceReview.js";
+
+import { Dropdown } from "react-bootstrap";
 
 function Sidebar() {
-  const triggerText = "Create Task";
-  const onSubmit = (event) => {
-    event.preventDefault(event);
-    console.log(event.target.name.value);
-    console.log(event.target.email.value);
-  };
-
   return (
     <div className="sidebar">
       <li>
         <div className="createTask">
-          <Container triggerText={triggerText} onSubmit={onSubmit} />
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Create Task
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <PTORequest category="PTO Request" />
+              <TrainingRequest category="Performance Review" />
+              <PerformanceReview category="Training Request" />
+              <CustomTask category="Custom Task" />
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </li>
 
