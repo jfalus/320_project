@@ -96,22 +96,60 @@ function checkLoggedIn(req, res, next) {
   }
 }
 
-async function getManagedEmployees(db, user){
+async function getDirectManagedEmployees(db, user){
   try{
     if(user.isManager){
-      const managedEmployees = await db.findAll({
-        attributes: ['firstName', 'lastName', 'employeeId', 'email', 'positionTitle'],
+      return await db.findAll({
+        attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'],
         where: {
           companyId: user.companyId,
           managerId: user.employeeId,
         }
       });
-      return managedEmployees;
     }
     return [];
   }catch(error){
     console.log(error);
     return [];
+  }
+}
+
+async function getAllManagedEmployees(db, user, currentManagers){
+  try{
+                                      // omitted because it queries the database a lot (SLOW)
+    const managerIds = currentManagers/*.filter(m => isManager(db, m))*/.map(m => m.employeeId);
+    if(managerIds.length === 0) {return [];}
+    const managedEmployees = await db.findAll({
+        attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'/*, 'managerId', 'password'*/],
+        where: {
+          companyId: user.companyId,
+          managerId: {[Op.in]: managerIds},
+        }
+      });
+      //console.log(currentManagers.map(m => m.employeeId) + ":\n" + managedEmployees.map(m => m.employeeId + "@" + m.managerId));
+      return managedEmployees.concat(await getAllManagedEmployees(db, user, managedEmployees));
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
+// Updates assigned training with at_id assigned to user. Returns number of fields updated (should be 1)
+//                                                                          progress <- prog
+async function updateTraining(db, eid, atid, prog){
+  try{
+    return await db.update(
+      {progress: prog},
+      {where: {
+        e_id: eid,
+        at_id: atid,
+        }
+      },
+    );
+  }
+  catch(error){
+    console.log(error);
+    return -1;
   }
 }
 
@@ -128,10 +166,18 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/managedEmployees', 
+app.get('/directManagedEmployees', 
   checkLoggedIn,
   async (req, res) => {
-    const result = await getManagedEmployees(models.employees, req.user);
+    const result = await getDirectManagedEmployees(models.employees, req.user);
+    res.send(JSON.parse(JSON.stringify(result)));
+  }
+);
+
+app.get('/allManagedEmployees', 
+  checkLoggedIn,
+  async (req, res) => {
+    const result = await getAllManagedEmployees(models.employees, req.user, [req.urser]);
     res.send(JSON.parse(JSON.stringify(result)));
   }
 );
@@ -165,22 +211,7 @@ app.get('/api/testDB', async (req, res) => {
   res.json(users)
 })
 
-// GET /api/testGetLocalEmps/aBigInt
-// ex: /api/testGetLocalEmps/1234
-// Passes json file with Employee Id, First Name, Last Name, Email, and Position Title of each employee in
-// company with given companyId
-app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
-  const users = await models.employees.findAll({
-    attributes: ['employeeId', 'firstName', 'lastName', 'email', 'positionTitle'],
-    where: {
-      companyId: req.params.CID
-    }
-  });
-  res.json(users)
-})
-
 // GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's assigned trainings
 app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
   // const assigned_trainings = await models.assigned_training.findAll({
@@ -193,8 +224,16 @@ app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
   res.send("Hello World!")
 });
 
+/* FOR ^ AND v NEED TO WORK OUT WHO CAN ACCESS WHOSE TRAININGS */
+
+// PUT /api/empTasks/assignedTraining/aBigInt
+// Passes true if updated successfully, false otherwise
+app.put('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
+  //res.send((await updateTraining(models.assigned_training, req.params.EID, req.params.ATID, req.params.PROGRESS)) === 1);
+  res.send("Hello World!");
+});
+
 // GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's performance reviews
 app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
   const performance_reviews = await models.pto_request.findAll({
@@ -207,7 +246,6 @@ app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
 });
 
 // GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's pto requests
 app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
   const pto_requests = await models.performance_review.findAll({
@@ -220,7 +258,6 @@ app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
 });
 
 // GET /api/empTasks/generalTasks/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's general tasks
 app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   const general_tasks = await models.general_task.findAll({

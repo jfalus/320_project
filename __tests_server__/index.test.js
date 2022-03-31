@@ -84,7 +84,7 @@ describe("Test getting employees of a manager", () => {
       .send({username:"Charlene_Gilbert@atlastechnology.com", password:"gilbertch"})
       .end(function(err,res){
         agent
-          .get("/managedEmployees")
+          .get("/directManagedEmployees")
           .then(res => {
             expect(res.text).toBe('[{"employeeId":"8","companyId":"2"},{"employeeId":"19","companyId":"2"},{"employeeId":"179","companyId":"2"}]')
             done();
