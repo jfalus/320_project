@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
 const {Op} = require('sequelize');
-var jsonMerger = require("json-merger");
+//const jsonMerger = require('json-merger');
 
 const app = express()
 
@@ -145,45 +145,86 @@ async function getDirectManagedEmployees(db, user){
 //   }
 // }
 
-async function getRecursiveManagedEmployees(db, user){
+async function getRecursiveManagedEmployees(db, user, taskId, currentManagers){
   try{
-    if(isManager(db, user)){
-      var managedEmployees = await db.findAll({
-        attributes: ['employeeId', 'companyId'],
+                                      // omitted because it queries the database a lot (SLOW)
+    const managerIds = currentManagers/*.filter(m => isManager(db, m))*/.map(m => m.employeeId);
+    if(managerIds.length === 0) {return [];}
+    const managedEmployees = await db.findAll({
+        attributes: ['employeeId', 'companyId'/*, 'managerId', 'email', 'password'*/],
         where: {
           companyId: user.companyId,
-          managerId: user.employeeId,
+          managerId: {[Op.in]: managerIds},
         }
       });
-      var managedL2 = managedEmployees;
-      while(managedL2.length > 0)
-      {
-        var managedL3 = [];
-        for(var i = 0; i < managedL2.length; ++i)
-        {
-          const managedL3Part = await getDirectManagedEmployees(models.employees, managedL2[i]);
-          managedL3 = managedL3.concat(managedL3Part);
-        }
-        managedL2 = managedL3;
-        managedEmployees = managedEmployees.concat(managedL2);
-      }
-      managedEmployees = managedEmployees.concat({employeeId: "128", companyId: "2"});
-      var ret = [];
-      var hit = [];
-      managedEmployees.forEach(e => {
-        if(!hit.includes(e.employeeId)) {
-          ret = ret.concat(e);
-          hit = hit.concat(e.employeeId);
-        }
-      })
-      return ret;
-    }
-    return [];
+      //console.log(currentManagers.map(m => m.employeeId) + ":\n" + managedEmployees.map(m => m.employeeId + "@" + m.managerId));
+      return managedEmployees.concat(await getRecursiveManagedEmployees(db, user, managedEmployees));
   }catch(error){
     console.log(error);
     return [];
   }
 }
+
+//Updates a 
+async function updateTraining(db, user, task_id, prog){
+  num_fields_to_update = 1 //prog -> progress
+  try{
+    const updated = await db.update(
+      {progress: prog},
+      {where: {
+          taskId: task_id,
+          
+        }
+      },
+    );
+    if(updated == num_fields_to_update) {return 1;}
+    return 0;
+  }
+  catch(error){
+    console.log(error);
+    return -1;
+  }
+}
+
+// async function getRecursiveManagedEmployees(db, user){
+//   try{
+//     if(isManager(db, user)){
+//       var managedEmployees = await db.findAll({
+//         attributes: ['employeeId', 'companyId'],
+//         where: {
+//           companyId: user.companyId,
+//           managerId: user.employeeId,
+//         }
+//       });
+//       var managedL2 = managedEmployees;
+//       while(managedL2.length > 0)
+//       {
+//         var managedL3 = [];
+//         for(var i = 0; i < managedL2.length; ++i)
+//         {
+//           const managedL3Part = await getDirectManagedEmployees(models.employees, managedL2[i]);
+//           managedL3 = managedL3.concat(managedL3Part);
+//         }
+//         managedL2 = managedL3;
+//         managedEmployees = managedEmployees.concat(managedL2);
+//       }
+//       managedEmployees = managedEmployees.concat({employeeId: "128", companyId: "2"});
+//       var ret = [];
+//       var hit = [];
+//       managedEmployees.forEach(e => {
+//         if(!hit.includes(e.employeeId)) {
+//           ret = ret.concat(e);
+//           hit = hit.concat(e.employeeId);
+//         }
+//       })
+//       return ret;
+//     }
+//     return [];
+//   }catch(error){
+//     console.log(error);
+//     return [];
+//   }
+// }
 
 app.post('/login',
   passport.authenticate('local', {
@@ -206,10 +247,12 @@ app.get('/directManagedEmployees',
   }
 );
 
-app.get('/recursiveManagedEmployees', 
+// Passes json with just array of all employees under user in hierarchy
+app.get('/allManagedEmployees', 
   checkLoggedIn,
   async (req, res) => {
-    const result = await getRecursiveManagedEmployees(models.employees, req.user);
+    const result = await getRecursiveManagedEmployees(models.employees, req.user, [req.user]);
+    //console.log(result);
     res.send(JSON.parse(JSON.stringify(result)));
   }
 );
@@ -251,24 +294,7 @@ app.get('/api/testDB', async (req, res) => {
   res.json(users)
 })
 
-<<<<<<< HEAD
-=======
-// GET /api/testGetLocalEmps/aBigInt
-// ex: /api/testGetLocalEmps/1234
-// Passes json file with Employee Id, First Name, Last Name, Email, and Position Title of each employee in
-// company with given companyId
-app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
-  const users = await models.employees.findAll({
-    attributes: ['employeeId', 'firstName', 'lastName', 'email', 'positionTitle'],
-    where: {
-      companyId: req.params.CID
-    }
-  });
-  res.json(users)
-})
-
 // GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's assigned trainings
 app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
   // const assigned_trainings = await models.assigned_training.findAll({
@@ -282,7 +308,6 @@ app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
 });
 
 // GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's performance reviews
 app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
   const performance_reviews = await models.pto_request.findAll({
@@ -295,7 +320,6 @@ app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
 });
 
 // GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's pto requests
 app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
   const pto_requests = await models.performance_review.findAll({
@@ -308,7 +332,6 @@ app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
 });
 
 // GET /api/empTasks/generalTasks/aBigInt
-// ex: /api/testGetLocalEmps/1234
 // Passes a json file with the employee's general tasks
 app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   const general_tasks = await models.general_task.findAll({
@@ -320,5 +343,4 @@ app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   res.json(general_tasks)
 });
 
->>>>>>> 98b4d39e65129418fd0111200a067bdfd5ec488e
 module.exports = app;
