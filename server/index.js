@@ -180,7 +180,7 @@ async function updatePerformanceReview(db, eid, prid, prog, growth, kindness, de
   }
   catch(error){
     console.log(error);
-    return (-1, -1);
+    return -1;
   }
 }
 
