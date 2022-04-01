@@ -284,7 +284,7 @@ app.get('/api/testDB', async (req, res) => {
 
 /* NEED TO DECIDE WHO CAN VIEW/EDIT WHOSE TASKS */
 
-// GET /api/empTasks/assignedTraining/aBigInt
+// GET /api/empTasks/assignedTraining?EID=aBigInt
 // Passes a json file with the employee's assigned trainings
 app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
   const assigned_trainings = await models.assigned_training.findAll({
@@ -304,6 +304,7 @@ app.put('/api/empTasks/updateAssignedTraining', checkLoggedIn, async (req, res) 
 });                                                                                                         // Sequelize update returns array,
                                                                                                             // first element is number of updated values
 
+// GET /api/empTasks/PerformanceReviews?EID=aBigInt
 // Passes a json file with the employee's performance reviews
 app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
   const performance_reviews = await models.pto_request.findAll({
@@ -350,6 +351,7 @@ app.put('/api/empTasks/updatePerformanceReview', checkLoggedIn, async (req, res)
   res.send((await updatePerformanceReview(models.performance_review, req.query.EID, req.query.PRID, pars[0], pars[1], pars[2], pars[3], pars[4]))[0] === hit);
 });
 
+// GET /api/empTasks/ptoRequests?EID=aBigInt
 // Passes a json file with the employee's pto requests
 app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
   const pto_requests = await models.performance_review.findAll({
@@ -368,7 +370,7 @@ app.put('/api/empTasks/updatePtoRequest', checkLoggedIn, async (req, res) => {
   res.send((await updatePTORequest(models.pto_request, req.query.EID, req.query.PTOID, req.query.PROGRESS, req.query.APPROVED))[0] === 2);
 });
 
-// GET /api/empTasks/generalTasks/aBigInt
+// GET /api/empTasks/generalTasks?EID=aBigInt
 // Passes a json file with the employee's general tasks
 app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   const general_tasks = await models.general_task.findAll({
