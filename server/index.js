@@ -248,7 +248,7 @@ app.get('/directManagedEmployees',
 app.get('/allManagedEmployees', 
   checkLoggedIn,
   async (req, res) => {
-    const result = await getAllManagedEmployees(models.employees, req.user, [req.urser]);
+    const result = await getAllManagedEmployees(models.employees, req.user, [req.user]);
     res.send(JSON.parse(JSON.stringify(result)));
   }
 );
@@ -282,72 +282,72 @@ app.get('/api/testDB', async (req, res) => {
   res.json(users)
 })
 
+/* NEED TO DECIDE WHO CAN VIEW/EDIT WHOSE TASKS */
+
 // GET /api/empTasks/assignedTraining/aBigInt
 // Passes a json file with the employee's assigned trainings
 app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
-  // const assigned_trainings = await models.assigned_training.findAll({
-  //   attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
-  //   where: {
-  //     e_id: req.params.EID
-  //   }
-  // });
-  // res.json(assigned_trainings)
-  res.send("Hello World!")
+  const assigned_trainings = await models.assigned_training.findAll({
+    attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
+    where: {
+      e_id: req.query.EID
+    }
+  });
+  res.json(assigned_trainings)
 });
 
-/* FOR ^ AND v NEED TO WORK OUT WHO CAN ACCESS WHOSE TRAININGS */
-
-// request must have params EID (employeeId matching training task's e_id), ATID (task's at_id), and PROGRESS (String)
+// request must have query params EID (employeeId matching training task's e_id), ATID (task's at_id), and PROGRESS (String: Not-started, To-do, OR Complete)
+// /api/empTasks/updateAssignedTraining?EID=int&ATID=int&PROGRESS=string
 // Passes true if updated successfully, false otherwise
 app.put('/api/empTasks/updateAssignedTraining', checkLoggedIn, async (req, res) => {
-  //res.send((await updateTraining(models.assigned_training, req.params.EID, req.params.ATID, req.params.PROGRESS)) === 1);
-  res.send("Hello World!");
-});
+  res.send((await updateTraining(models.assigned_training, req.query.EID, req.query.ATID, req.query.PROGRESS))[0] === 1);
+});                                                                                                         // Sequelize update returns array,
+                                                                                                            // first element is number of updated values
 
 // Passes a json file with the employee's performance reviews
 app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
   const performance_reviews = await models.pto_request.findAll({
     attributes: ['title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date-created', 'progress', 'assigned_to'],
     where: {
-      e_id: req.params.EID
+      e_id: req.query.EID
     }
   });
   res.json(performance_reviews)
 });
 
-// request must have params EID (employeeId matching training task's e_id) and PRID (task's pr_id)
-// request must have at least one of params PROGRESS (String), GROWTH (int), KINDNESS (int), DELIVERY (int), COMMENTS (String)
+// request must have query params EID (employeeId matching training task's e_id) and PRID (task's pr_id)
+// request must have at least one of query params PROGRESS (String: Not-started, To-do, OR Complete), GROWTH (int), KINDNESS (int), DELIVERY (int), COMMENTS (String)
+// /api/empTasks/updatePerformanceReview?EID=int&PRID=int&PROGRESS=string&GROWTH=int&KINDNESS=int&DELIVERY=int&COMMENT=stringInURLFormat
 // Passes true if updated successfully, false otherwise
 app.put('/api/empTasks/updatePerformanceReview', checkLoggedIn, async (req, res) => {
   var hit = 0;
   const pars = [SAME, SAME, SAME, SAME, SAME];
-  if('PROGRESS' in req.params) {
+  if('PROGRESS' in req.query) {
     hit += 1;
-    pars[0] = req.params.PROGRESS;
+    pars[0] = req.query.PROGRESS;
   }
-  if('GROWTH' in req.params) {
+  if('GROWTH' in req.query) {
     hit += 1;
-    pars[1] = req.params.GROWTH;
+    pars[1] = req.query.GROWTH;
   }
-  if('KINDNESS' in req.params) {
+  if('KINDNESS' in req.query) {
     hit += 1;
-    pars[2] = req.params.KINDNESS;
+    pars[2] = req.query.KINDNESS;
   }
-  if('DELIVERY' in req.params) {
+  if('DELIVERY' in req.query) {
     hit += 1;
-    pars[3] = req.params.DELIVERY;
+    pars[3] = req.query.DELIVERY;
   }
-  if('COMMENTS' in req.params) {
+  if('COMMENTS' in req.query) {
     hit += 1;
-    pars[4] = req.params.COMMENTS;
+    pars[4] = req.query.COMMENTS;
   }
   if(hit === 0) {
     res.status(500).send({
       message: "Error: No parameters to update task with."
     });
   }
-  //res.send((await updatePerformanceReview(models.performance_review, req.params.EID, req.params.PRID, pars[0], pars[1], pars[2], pars[3], pars[4])) === hit);
-  res.send("Hello World!");
+  res.send((await updatePerformanceReview(models.performance_review, req.query.EID, req.query.PRID, pars[0], pars[1], pars[2], pars[3], pars[4]))[0] === hit);
 });
 
 // Passes a json file with the employee's pto requests
@@ -355,17 +355,17 @@ app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
   const pto_requests = await models.performance_review.findAll({
     attributes: ['title', 'description', 'start_date', 'end_date', 'date_created', 'date_due', 'progress', 'approved', 'assigned_to'],
     where: {
-      e_id: req.params.EID
+      e_id: req.query.EID
     }
   });
   res.json(pto_requests)
 });
 
-// request must have params EID (employeeId matching training task's e_id), PTOID (task's pto_id), PROGRESS (String), and APPROVED (Boolean)
+// request must have query params EID (employeeId matching training task's e_id), PTOID (task's pto_id), PROGRESS (String: Not-started, To-do, OR Complete), and APPROVED (Boolean)
+// /api/empTasks/updatePtoRequest?EID=int&PTOID=int&PROGRESS=string&APPROVED=boolean
 // Passes true if updated successfully, false otherwise
 app.put('/api/empTasks/updatePtoRequest', checkLoggedIn, async (req, res) => {
-  //res.send((await updatePTORequest(models.pto_request, req.params.EID, req.params.PTOID, req.params.PROGRESS, req.params.APPROVED)) === 2);
-  res.send("Hello World!");
+  res.send((await updatePTORequest(models.pto_request, req.query.EID, req.query.PTOID, req.query.PROGRESS, req.query.APPROVED))[0] === 2);
 });
 
 // GET /api/empTasks/generalTasks/aBigInt
@@ -374,17 +374,17 @@ app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   const general_tasks = await models.general_task.findAll({
     attributes: ['title', 'description', 'date_created', 'date_due', 'progress', 'assigned_to'],
     where: {
-      e_id: req.params.EID
+      e_id: req.query.EID
     }
   });
   res.json(general_tasks)
 });
 
-// request must have params EID (employeeId matching training task's e_id), TASKID (task's task_id), PROGRESS (String), and DESCRIPTION (String)
+// request must have query params EID (employeeId matching training task's e_id), TASKID (task's task_id), PROGRESS (String: Not-started, To-do, OR Complete), and DESCRIPTION (String)
+// /api/empTasks/updateGeneralTask?EID=int&TASKID=int&PROGRESS=string&DESCRIPTION=stringInURLFormat
 // Passes true if updated successfully, false otherwise
 app.put('/api/empTasks/updateGeneralTask', checkLoggedIn, async (req, res) => {
-  //res.send((await updateGeneralTask(models.general_task, req.params.EID, req.params.TASKID, req.params.PROGRESS, req.params.DESCRIPTION)) === 2);
-  res.send("Hello World!");
+  res.send((await updateGeneralTask(models.general_task, req.query.EID, req.query.TASKID, req.query.PROGRESS, req.query.DESCRIPTION))[0] === 2);
 });
 
 module.exports = app;
