@@ -318,7 +318,7 @@ app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
 // request must have params EID (employeeId matching training task's e_id) and PRID (task's pr_id)
 // request must have at least one of params PROGRESS (String), GROWTH (int), KINDNESS (int), DELIVERY (int), COMMENTS (String)
 // Passes true if updated successfully, false otherwise
-app.put('/api/empTasks/updateAssignedTraining', checkLoggedIn, async (req, res) => {
+app.put('/api/empTasks/updatePerformanceReview', checkLoggedIn, async (req, res) => {
   var hit = 0;
   const pars = [SAME, SAME, SAME, SAME, SAME];
   if('PROGRESS' in req.params) {
