@@ -7,3 +7,11 @@
   text-align: left;
   font-weight: bold;
 }
+
+.task-feedback {
+  width: 30%;
+}
+
+.task-timeframe {
+  text-align: right;
+}
