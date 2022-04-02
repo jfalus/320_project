@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import "../styles/Sidebar.css";
 import CustomTask from "./Task/CustomTask.js";
 import PTORequest from "./Task/PTORequest.js";
 import TrainingRequest from "./Task/TrainingRequest.js";
 import PerformanceReview from "./Task/PerformanceReview.js";
-
 import { Dropdown } from "react-bootstrap";
 
 function Sidebar() {
@@ -16,11 +15,10 @@ function Sidebar() {
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               Create Task
             </Dropdown.Toggle>
-
             <Dropdown.Menu>
               <PTORequest category="PTO Request" />
-              <TrainingRequest category="Performance Review" />
-              <PerformanceReview category="Training Request" />
+              <TrainingRequest category="Training Request" />
+              <PerformanceReview category="Performance Review" />
               <CustomTask category="Custom Task" />
             </Dropdown.Menu>
           </Dropdown>

@@ -40,7 +40,7 @@ body {
 
 button {
   display: inline-block;
-  background-color: #ffffff;
+  background-color: white;
   border-radius: 10px;
   border: 0px double #cccccc;
   color: #000000;

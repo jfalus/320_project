@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-// import "../../../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../../styles/CreateTask.css";
 
 function PTORequest(props) {
@@ -11,38 +10,48 @@ function PTORequest(props) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} className="createTask">
+      <button onClick={handleShow} className="createTask">
         {props.category}
-      </Button>
+      </button>
 
-      <Modal show={show} dialogClassName="modal-90%" onHide={handleClose}>
-        <Modal.Header closeButton>
+      <Modal show={show} dialogClassName="test" onHide={handleClose}>
+        <Modal.Header>
           <Modal.Title id="example-custom-modal-styling-title">
-            Custom Modal Styling
+            New Paid time off Request
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
+        <Form>
+          <Modal.Body>
+            <Form.Group className="mb-3" controlId="formBasicTitle">
+              <Form.Label className="label">Title</Form.Label>
+              <Form.Control type="text" placeholder="Enter task title" />
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
+            <Form.Group className="mb-3" controlId="formAssignee">
+              <Form.Label className="label">Assignee</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter task assignee email"
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
+            <Form.Group className="mb-3" controlId="formStartDate">
+              <Form.Label className="label">Start Date</Form.Label>
+              <Form.Control type="date" placeholder="MM/DD/YYYY" />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="formStartDate">
+              <Form.Label className="label">End Date</Form.Label>
+              <Form.Control type="date" placeholder="MM/DD/YYYY" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="description">
+              <Form.Label className="label">Task description</Form.Label>
+              <Form.Control as="textarea" rows={5} />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
             <Button variant="primary" type="submit">
               Submit
             </Button>
-          </Form>
-        </Modal.Body>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </>
   );
