@@ -23,7 +23,6 @@ const session = {
 async function findUser(db, email){
   try{
     const user = await models.employees.findOne({
-      attributes: ['employeeId', 'companyId'],
       where: {
         email: email
       }
@@ -38,7 +37,7 @@ async function findUser(db, email){
 async function checkCred(db, email, password){
   try{
     const user = await db.findOne({
-      attributes: ['employeeId', 'companyId'],
+      attributes: ['e_id'],
       where: {
         email: email,
         password: password
@@ -64,7 +63,9 @@ const strategy = new LocalStrategy(
         await new Promise((r) => setTimeout(r, 200));
         return done(null, false);
       }
-      return done(null, {employeeId: user.employeeId, companyId: user.companyId});
+      return done(null, {e_id:user.e_id, employeeId:user.employeeId, companyId:user.companyId, firstName:user.firstName, 
+        lastName:user.lastName, email:user.email, companyName:user.companyName, managerId:user.managerId, 
+        positionTitle:user.positionTitle, isManager:user.isManager});
     });
   },
 );
@@ -95,27 +96,11 @@ function checkLoggedIn(req, res, next) {
   }
 }
 
-async function isManager(db, user){
-  try{
-    const employee = await db.findOne({
-      attributes: ['isManager'],
-      where: {
-        companyId: user.companyId,
-        managerId: user.employeeId,
-      }
-    });
-    return employee !== null && employee.isManager === true;
-  }catch(error){
-    console.log(error);
-    return [];
-  }
-}
-
 async function getManagedEmployees(db, user){
   try{
-    if(isManager(db, user)){
+    if(user.isManager){
       const managedEmployees = await db.findAll({
-        attributes: ['employeeId', 'companyId'],
+        attributes: ['firstName', 'lastName', 'employeeId', 'email', 'positionTitle'],
         where: {
           companyId: user.companyId,
           managerId: user.employeeId,

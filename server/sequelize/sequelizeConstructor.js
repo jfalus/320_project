@@ -20,10 +20,10 @@ const sequelize = new Sequelize(DATABASE_URL, DATABASE_OPTIONS);
 
 const modelDefiners = [
     require('./Models/Employees'),
-    // require('./Models/Pto_request'),
-    // require('./Models/Performance_review'),
-    // require('./Models/Assigned_training'),
-    // require('./Models/General_task'),
+    require('./Models/Pto_request'),
+    require('./Models/Performance_review'),
+    require('./Models/Assigned_training'),
+    require('./Models/General_task'),
 ];
 
 for (const modelDefiner of modelDefiners) {
@@ -33,6 +33,6 @@ for (const modelDefiner of modelDefiners) {
     });
 }
 
-// require('./sequalizeConstraints')(sequelize);
+require('./sequelizeConstraints')(sequelize);
 
 module.exports = sequelize;
