@@ -96,22 +96,131 @@ function checkLoggedIn(req, res, next) {
   }
 }
 
-async function getManagedEmployees(db, user){
+async function getDirectManagedEmployees(db, user){
   try{
     if(user.isManager){
-      const managedEmployees = await db.findAll({
-        attributes: ['firstName', 'lastName', 'employeeId', 'email', 'positionTitle'],
+      return await db.findAll({
+        attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'],
         where: {
           companyId: user.companyId,
           managerId: user.employeeId,
         }
       });
-      return managedEmployees;
     }
     return [];
   }catch(error){
     console.log(error);
     return [];
+  }
+}
+
+async function getAllManagedEmployees(db, user, currentManagers){
+  try{
+                                      // omitted because it queries the database a lot (SLOW)
+    const managerIds = currentManagers/*.filter(m => isManager(db, m))*/.map(m => m.employeeId);
+    if(managerIds.length === 0) {return [];}
+    const managedEmployees = await db.findAll({
+        attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'/*, 'managerId', 'password'*/],
+        where: {
+          companyId: user.companyId,
+          managerId: {[Op.in]: managerIds},
+        }
+      });
+      //console.log(currentManagers.map(m => m.employeeId) + ":\n" + managedEmployees.map(m => m.employeeId + "@" + m.managerId));
+      return managedEmployees.concat(await getAllManagedEmployees(db, user, managedEmployees));
+  }catch(error){
+    console.log(error);
+    return [];
+  }
+}
+
+// Updates assigned training with atid assigned to employee with eid. Returns number of fields updated (should be 1) or
+// -1 if error.                                                                         progress <- prog
+async function updateTraining(db, eid, atid, prog){
+  try{
+    return await db.update(
+      {progress: prog},
+      {where: {
+        e_id: eid,
+        at_id: atid,
+        }
+      },
+    );
+  }
+  catch(error){
+    console.log(error);
+    return -1;
+  }
+}
+
+const SAME = "#SAME";
+
+// Updates performance review with prid assigned to employee with eid. Returns number of fields updated (should be [1-5] if
+// called correctly and no error) or -1 if error.                                        progress <- prog,
+//                                                                                       growth_feedback <- growth,
+//                                                                                       kindness_feedback <- kindness,
+//                                                                                       delivery_feedback <- delivery,
+//                                                                                       overall_comment <- comments
+async function updatePerformanceReview(db, eid, prid, prog, growth, kindness, delivery, comments){
+  try{
+    up = {};
+    if(prog !== SAME) {up.progress = prog;}
+    if(growth !== SAME) {up.growth_feedback = growth;}
+    if(kindness !== SAME) {up.kindness_feedback = kindness;}
+    if(delivery !== SAME) {up.delivery_feedback = delivery;}
+    if(comments !== SAME) {up.overall_comments = comments;}
+    return await db.update(
+      up,
+      {where: {
+        e_id: eid,
+        pr_id: prid,
+        }
+      },
+    );
+  }
+  catch(error){
+    console.log(error);
+    return -1;
+  }
+}
+
+// Updates pto request with ptoid assigned to employee with eid. Returns number of fields updated (should be 2) or -1 if error.
+//                                                                                 progress <- prog,
+//                                                                                 approved <- appr
+async function updatePTORequest(db, eid, ptoid, prog, appr){
+  try{
+    return await db.update(
+      {progress: prog, approved: appr},
+      {where: {
+        e_id: eid,
+        pto_id: ptoid,
+        }
+      },
+    );
+  }
+  catch(error){
+    console.log(error);
+    return -1;
+  }
+}
+
+// Updates general task with taskid assigned to employee with eid. Returns number of fields updated (should be 2) or
+// -1 if error.                                                                      progress <- prog,
+//                                                                                   description <- desc
+async function updateGeneralTask(db, eid, taskid, prog, desc){
+  try{
+    return await db.update(
+      {progress: prog, description: desc},
+      {where: {
+        e_id: eid,
+        task_id: taskid,
+        }
+      },
+    );
+  }
+  catch(error){
+    console.log(error);
+    return -1;
   }
 }
 
@@ -128,10 +237,18 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/managedEmployees', 
+app.get('/directManagedEmployees', 
   checkLoggedIn,
   async (req, res) => {
-    const result = await getManagedEmployees(models.employees, req.user);
+    const result = await getDirectManagedEmployees(models.employees, req.user);
+    res.send(JSON.parse(JSON.stringify(result)));
+  }
+);
+
+app.get('/allManagedEmployees', 
+  checkLoggedIn,
+  async (req, res) => {
+    const result = await getAllManagedEmployees(models.employees, req.user, [req.user]);
     res.send(JSON.parse(JSON.stringify(result)));
   }
 );
@@ -165,72 +282,106 @@ app.get('/api/testDB', async (req, res) => {
   res.json(users)
 })
 
-// GET /api/testGetLocalEmps/aBigInt
-// ex: /api/testGetLocalEmps/1234
-// Passes json file with Employee Id, First Name, Last Name, Email, and Position Title of each employee in
-// company with given companyId
-app.get('/api/testGetLocalEmps/:CID', checkLoggedIn, async (req, res) => {
-  const users = await models.employees.findAll({
-    attributes: ['employeeId', 'firstName', 'lastName', 'email', 'positionTitle'],
-    where: {
-      companyId: req.params.CID
-    }
-  });
-  res.json(users)
-})
+/* NEED TO DECIDE WHO CAN VIEW/EDIT WHOSE TASKS */
 
-// GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
+// GET /api/empTasks/assignedTraining?EID=aBigInt
 // Passes a json file with the employee's assigned trainings
 app.get('/api/empTasks/assignedTrainings', checkLoggedIn, async (req, res) => {
-  // const assigned_trainings = await models.assigned_training.findAll({
-  //   attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
-  //   where: {
-  //     e_id: req.params.EID
-  //   }
-  // });
-  // res.json(assigned_trainings)
-  res.send("Hello World!")
+  const assigned_trainings = await models.assigned_training.findAll({
+    attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'],
+    where: {
+      e_id: req.query.EID
+    }
+  });
+  res.json(assigned_trainings)
 });
 
-// GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
+// request must have query params EID (employeeId matching training task's e_id), ATID (task's at_id), and PROGRESS (String: Not-started, To-do, OR Complete)
+// /api/empTasks/updateAssignedTraining?EID=int&ATID=int&PROGRESS=string
+// Passes true if updated successfully, false otherwise
+app.put('/api/empTasks/updateAssignedTraining', checkLoggedIn, async (req, res) => {
+  res.send((await updateTraining(models.assigned_training, req.query.EID, req.query.ATID, req.query.PROGRESS))[0] === 1);
+});                                                                                                         // Sequelize update returns array,
+                                                                                                            // first element is number of updated values
+
+// GET /api/empTasks/PerformanceReviews?EID=aBigInt
 // Passes a json file with the employee's performance reviews
 app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
   const performance_reviews = await models.pto_request.findAll({
     attributes: ['title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date-created', 'progress', 'assigned_to'],
     where: {
-      e_id: req.params.EID
+      e_id: req.query.EID
     }
   });
   res.json(performance_reviews)
 });
 
-// GET /api/empTasks/assignedTraining/aBigInt
-// ex: /api/testGetLocalEmps/1234
+// request must have query params EID (employeeId matching training task's e_id) and PRID (task's pr_id)
+// request must have at least one of query params PROGRESS (String: Not-started, To-do, OR Complete), GROWTH (int), KINDNESS (int), DELIVERY (int), COMMENTS (String)
+// /api/empTasks/updatePerformanceReview?EID=int&PRID=int&PROGRESS=string&GROWTH=int&KINDNESS=int&DELIVERY=int&COMMENT=stringInURLFormat
+// Passes true if updated successfully, false otherwise
+app.put('/api/empTasks/updatePerformanceReview', checkLoggedIn, async (req, res) => {
+  var hit = 0;
+  const pars = [SAME, SAME, SAME, SAME, SAME];
+  if('PROGRESS' in req.query) {
+    hit += 1;
+    pars[0] = req.query.PROGRESS;
+  }
+  if('GROWTH' in req.query) {
+    hit += 1;
+    pars[1] = req.query.GROWTH;
+  }
+  if('KINDNESS' in req.query) {
+    hit += 1;
+    pars[2] = req.query.KINDNESS;
+  }
+  if('DELIVERY' in req.query) {
+    hit += 1;
+    pars[3] = req.query.DELIVERY;
+  }
+  if('COMMENTS' in req.query) {
+    hit += 1;
+    pars[4] = req.query.COMMENTS;
+  }
+  if(hit === 0) {
+    res.status(500).send({
+      message: "Error: No parameters to update task with."
+    });
+  }
+  res.send((await updatePerformanceReview(models.performance_review, req.query.EID, req.query.PRID, pars[0], pars[1], pars[2], pars[3], pars[4]))[0] === hit);
+});
+
+// GET /api/empTasks/ptoRequests?EID=aBigInt
 // Passes a json file with the employee's pto requests
 app.get('/api/empTasks/ptoRequests', checkLoggedIn, async (req, res) => {
   const pto_requests = await models.performance_review.findAll({
     attributes: ['title', 'description', 'start_date', 'end_date', 'date_created', 'date_due', 'progress', 'approved', 'assigned_to'],
     where: {
-      e_id: req.params.EID
+      e_id: req.query.EID
     }
   });
   res.json(pto_requests)
 });
 
-// GET /api/empTasks/generalTasks/aBigInt
-// ex: /api/testGetLocalEmps/1234
+// request must have query params EID (employeeId matching training task's e_id), PTOID (task's pto_id), PROGRESS (String: Not-started, To-do, OR Complete), and APPROVED (Boolean)
+// /api/empTasks/updatePtoRequest?EID=int&PTOID=int&PROGRESS=string&APPROVED=boolean
+// Passes true if updated successfully, false otherwise
+app.put('/api/empTasks/updatePtoRequest', checkLoggedIn, async (req, res) => {
+  res.send((await updatePTORequest(models.pto_request, req.query.EID, req.query.PTOID, req.query.PROGRESS, req.query.APPROVED))[0] === 2);
+});
+
+// GET /api/empTasks/generalTasks?EID=aBigInt
 // Passes a json file with the employee's general tasks
 app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   const general_tasks = await models.general_task.findAll({
     attributes: ['title', 'description', 'date_created', 'date_due', 'progress', 'assigned_to'],
     where: {
-      e_id: req.params.EID
+      e_id: req.query.EID
     }
   });
   res.json(general_tasks)
 });
+
 
 function createGeneralTask(e_id, title, desc, date_due) {
   return models.general_task.create({
@@ -399,5 +550,13 @@ app.post(
     )
   }
 )
+
+// request must have query params EID (employeeId matching training task's e_id), TASKID (task's task_id), PROGRESS (String: Not-started, To-do, OR Complete), and DESCRIPTION (String)
+// /api/empTasks/updateGeneralTask?EID=int&TASKID=int&PROGRESS=string&DESCRIPTION=stringInURLFormat
+// Passes true if updated successfully, false otherwise
+app.put('/api/empTasks/updateGeneralTask', checkLoggedIn, async (req, res) => {
+  res.send((await updateGeneralTask(models.general_task, req.query.EID, req.query.TASKID, req.query.PROGRESS, req.query.DESCRIPTION))[0] === 2);
+});
+
 
 module.exports = app;
