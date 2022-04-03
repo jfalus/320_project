@@ -3,7 +3,8 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
 
-DATABASE_URL = process.env.DATABASE_URI;
+// DATABASE_URL = process.env.DATABASE_URI;
+DATABASE_URL = "postgres://pmykybuouedzak:09807d514a8fd156e0cf3d91850f85de24c1301ffcf5abad52e718ca801225fb@ec2-44-193-188-118.compute-1.amazonaws.com:5432/d5c4r711daleuf";
 
 DATABASE_OPTIONS = {
     logging: false,
