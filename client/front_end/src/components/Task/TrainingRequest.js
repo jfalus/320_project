@@ -10,9 +10,9 @@ function TrainingRequest(props) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} className="createTask">
+      <button variant="primary" onClick={handleShow} className="createTask">
         {props.category}
-      </Button>
+      </button>
 
       <Modal show={show} dialogClassName="test" onHide={handleClose}>
         <Modal.Header>
