@@ -10,9 +10,9 @@ function PTORequest(props) {
 
   return (
     <>
-      <button onClick={handleShow} className="createTask">
+      <Button onClick={handleShow} className="createTask">
         {props.category}
-      </button>
+      </Button>
 
       <Modal show={show} dialogClassName="test" onHide={handleClose}>
         <Modal.Header>
