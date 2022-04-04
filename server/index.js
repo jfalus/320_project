@@ -3,9 +3,12 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
+const path = require("path");
 // var jsonMerger = require("json-merger");
 
 const app = express()
+
+app.use(express.static("../client/public"));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -113,10 +116,14 @@ for(const endpoint of endpoints){
 
 require('./endpoints/authentication/login')(app, passport)
 
-//I don't know what this does but others use it
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get('/hello', (req, res) => {
+  res.send("Hello, World!");
 })
+
+//I don't know what this does but others use it
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// })
 
 module.exports = app;
 
