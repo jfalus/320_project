@@ -382,11 +382,181 @@ app.get('/api/empTasks/generalTasks', checkLoggedIn, async (req, res) => {
   res.json(general_tasks)
 });
 
+
+function createGeneralTask(e_id, title, desc, date_due) {
+  return models.general_task.create({
+    e_id: e_id,
+    title: title,
+    description: desc,
+    date_due: date_due,
+    progress: 'Not-started',
+    assigned_to: null,
+  })
+}
+
+function createAssignedTraining(e_id, title, desc, link, date_due) {
+  return models.assigned_training.create({
+    e_id: e_id,
+    title: title,
+    description: desc,
+    link: link,
+    date_due: date_due,
+    progress: 'Not-started',
+  })
+}
+
+function createPtoRequest(e_id, title, desc, start_date, end_date, date_due) {
+  return models.pto_request.create({
+    e_id: e_id,
+    title: title,
+    description: desc,
+    start_date: start_date,
+    end_date: end_date,
+    date_due: date_due,
+    progress: 'Not-started',
+    approved: false,
+    assigned_to: null,
+  })
+}
+
+function createPerformanceReview(e_id, title, assigned_to, date_due) {
+  return models.performance_review.create({
+    e_id: e_id,
+    title: title,
+    overall_comments: null,
+    growth_feedback: 0,
+    kindness_feedback: 0,
+    delivery_feedback: 0,
+    date_due: date_due,
+    progress: 'Not-started',
+    assigned_to: assigned_to,
+  })
+}
+
+function isValidGT(e_id, title, desc, date_due) {
+  let valid = false
+  if (
+    e_id !== null &&
+    title !== null &&
+    desc !== null &&
+    date_due !== null &&
+    Number.isInteger(e_id)
+  ) {
+    valid = true
+  }
+  return valid
+}
+
+function isValidAT(e_id, title, desc, link, date_due) {
+  let valid = false
+  if (
+    e_id !== null &&
+    title !== null &&
+    desc !== null &&
+    link !== null &&
+    date_due !== null &&
+    Number.isInteger(e_id)
+  ) {
+    valid = true
+  }
+  return valid
+}
+
+function isValidPR(e_id, title, assigned_to, date_due) {
+  let valid = false
+  if (
+    e_id !== null &&
+    title !== null &&
+    assigned_to !== null &&
+    date_due !== null &&
+    Number.isInteger(e_id)
+  ) {
+    valid = true
+  }
+  return valid
+}
+
+function isValidPTO(e_id, title, desc, start_date, end_date, date_due) {
+  let valid = false
+  if (
+    e_id !== null &&
+    title !== null &&
+    desc !== null &&
+    start_date !== null &&
+    end_date !== null &&
+    date_due !== null &&
+    Number.isInteger(e_id)
+  ) {
+    valid = true
+  }
+  return valid
+}
+
+app.post('/api/empTasks/new-general_task', checkLoggedIn, async (req, res) => {
+  res.send(
+    await createGeneralTask(
+      models.general_task,
+      req.query.EID,
+      req.query.TITLE,
+      req.query.DESCRIPTION,
+      req.query.DATE_DUE
+    )
+  )
+})
+
+app.post('/api/empTasks/new-pto_request', checkLoggedIn, async (req, res) => {
+  res.send(
+    await createPtoRequest(
+      models.pto_request,
+      req.query.EID,
+      req.query.TITLE,
+      req.query.DESCRIPTION,
+      req.query.START_DATE,
+      req.query.END_DATE,
+      req.query.DATE_DUE
+    )
+  )
+})
+
+app.post(
+  '/api/empTasks/new-assigned_training',
+  checkLoggedIn,
+  async (req, res) => {
+    res.send(
+      await createAssignedTraining(
+        models.assigned_training,
+        req.query.EID,
+        req.query.TITLE,
+        req.query.DESCRIPTION,
+        req.query.LINK,
+        req.quqery.DATE_DUE
+      )
+    )
+  }
+)
+
+app.post(
+  '/api/empTasks/new-performance_review',
+  checkLoggedIn,
+  async (req, res) => {
+    res.send(
+      await createPerformanceReview(
+        models.performance_review,
+        req.query.EID,
+        req.query.TITLE,
+        req.query.assigned_to,
+        req.query.DATE_DUE
+      )
+    )
+  }
+)
+
 // request must have query params EID (employeeId matching training task's e_id), TASKID (task's task_id), PROGRESS (String: Not-started, To-do, OR Complete), and DESCRIPTION (String)
 // /api/empTasks/updateGeneralTask?EID=int&TASKID=int&PROGRESS=string&DESCRIPTION=stringInURLFormat
 // Passes true if updated successfully, false otherwise
 app.put('/api/empTasks/updateGeneralTask', checkLoggedIn, async (req, res) => {
   res.send((await updateGeneralTask(models.general_task, req.query.EID, req.query.TASKID, req.query.PROGRESS, req.query.DESCRIPTION))[0] === 2);
 });
+
 
 module.exports = app;
