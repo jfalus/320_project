@@ -113,11 +113,6 @@ for(const endpoint of endpoints){
 
 require('./endpoints/authentication/login')(app, passport)
 
-//I don't know what this does but others use it
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-})
-
 module.exports = app;
 
 
