@@ -3,7 +3,8 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
-// var jsonMerger = require("json-merger");
+//var jsonMerger = require("json-merger");
+require('dotenv').config()
 
 const app = express()
 
