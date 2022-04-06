@@ -14,6 +14,22 @@ function Home() {
       backgroundColor: "005151",
     },
   };
+
+  function unpackResults(results) {
+    return results;
+  }
+
+  var vals = {}
+
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  
+  fetch("/hello", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
   return (
     <>
       <Header />
