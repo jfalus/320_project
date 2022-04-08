@@ -6,7 +6,7 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 function performanceReview(app){
   app.get('/api/empTasks/performanceReviews', checkLoggedIn, async (req, res) => {
     const performance_reviews = await models.pto_request.findAll({
-      attributes: ['title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date-created', 'progress', 'assigned_to'],
+      attributes: ['title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date_created', 'date_due', 'progress', 'assigned_to'],
       where: {
         e_id: req.query.EID
       }
