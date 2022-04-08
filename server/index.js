@@ -5,6 +5,7 @@ const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
 const path = require("path");
 // var jsonMerger = require("json-merger");
+require('dotenv').config()
 
 const app = express()
 
