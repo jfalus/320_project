@@ -116,7 +116,7 @@ for(const endpoint of endpoints){
 
 require('./endpoints/authentication/login')(app, passport)
 
-app.get('/hello', (req, res) => {
+app.get('/hello', async (req, res) => {
   res.send("Hello, World!");
 })
 

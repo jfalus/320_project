@@ -15,21 +15,62 @@ function Home() {
     },
   };
 
-  function unpackResults(results) {
-    return results;
+  async function getKind(url_kind, employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    var ret;
+    await fetch("/api/empTasks/" + url_kind + "?EID=" + employee_id, request_options)
+    .then(response => response.json())
+    .then(result => {
+      if(debug)
+      {
+        var p = "";
+        for(t in result)
+        {
+          p += t;
+        }
+        console.log(url_kind + ":\n" + p);
+      }
+      ret = result;
+    })
+    .catch(error => console.log('error', error));
+    return ret;
   }
 
-  var vals = {}
+  async function getAllTasks(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    const ret = {};
+    const tasks = await Promise.all([getKind("assignedTrainings", employee_id, request_options, debug),
+                                     getKind("performanceReviews", employee_id, request_options, debug),
+                                     getKind("ptoRequests", employee_id, request_options, debug),
+                                     getKind("generalTasks", employee_id, request_options, debug)]);
+    ret.assigned_trainings = tasks[0];
+    ret.performance_reviews = tasks[1];
+    ret.pto_requests = tasks[2];
+    ret.general_tasks = tasks[3];
+    return ret;
+  }
+
+  async function getAllTasksSmooth(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    var ret = [];
+    const tasks = await getAllTasks(employee_id, request_options, debug);
+    tasks.assigned_trainings.forEach(e => ret.push(e));
+    tasks.performance_reviews.forEach(e => ret.push(e));
+    tasks.pto_requests.forEach(e => ret.push(e));
+    tasks.general_tasks.forEach(e => ret.push(e));
+    return ret;
+  }
 
   var requestOptions = {
     method: 'GET',
-    redirect: 'follow'
+    redirect: 'error'
   };
-  
-  fetch("/hello", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+
+  var tasks;
+  getAllTasksSmooth(43, requestOptions).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
+                                                              // If possible, make Home() async and just await ^that^ line
+                                                              // Otherwise, need to have the .then() update the return
+
   return (
     <>
       <Header />
