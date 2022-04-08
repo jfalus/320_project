@@ -15,6 +15,8 @@ function Home() {
     },
   };
 
+  // Accesses a GET endpoint, returns array of JSON objects
+  // ex: getKind("assignedTrainings", 43, {method:'GET', redirect:'follow'})
   async function getKind(url_kind, employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     var ret;
@@ -36,6 +38,8 @@ function Home() {
     return ret;
   }
 
+  // Accesses all task GET endpoints, returns object: {assigned_trainings:[JSON objects], performance_reviews:[JSON objects], pto_requests:[JSON objects], general_tasks:[JSON objects]}
+  // ex: getAllTasks(43, {method:'GET', redirect:'follow'})
   async function getAllTasks(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     const ret = {};
@@ -50,6 +54,8 @@ function Home() {
     return ret;
   }
 
+  // Accesses all task GET endpoints, returns singular array of JSON objects
+  // ex: getAllTasksSmooth(43)
   async function getAllTasksSmooth(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     var ret = [];
@@ -61,15 +67,63 @@ function Home() {
     return ret;
   }
 
+  // MAY NOT BE ABLE TO TEST THIS YET (login doesn't seem to work properly yet)
+  // Accesses directManagedEmployees endpoint (gets direct subordinates of current user), returns array of JSON objects
+  // ex: getDirectSubordinateEmployees()
+  async function getDirectSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    var ret;
+    await fetch("/api/directManagedEmployees", request_options)
+    .then(response => response.json())
+    .then(result => {
+      if(debug)
+      {
+        var p = "";
+        for(t in result)
+        {
+          p += t;
+        }
+        console.log("Direct Subordinate Employees:\n" + p);
+      }
+      ret = result;
+    })
+    .catch(error => console.log('error', error));
+    return ret;
+  }
+
+  // MAY NOT BE ABLE TO TEST THIS YET (login doesn't seem to work properly yet)
+  // Accesses allManagedEmployees endpoint (gets all subordinates of current user), returns array of JSON objects
+  // ex: getAllSubordinateEmployees()
+  async function getAllSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    var ret;
+    await fetch("/api/allManagedEmployees", request_options)
+    .then(response => response.json())
+    .then(result => {
+      if(debug)
+      {
+        var p = "";
+        for(t in result)
+        {
+          p += t;
+        }
+        console.log("All Subordinate Employees:\n" + p);
+      }
+      ret = result;
+    })
+    .catch(error => console.log('error', error));
+    return ret;
+  }
+
   var requestOptions = {
     method: 'GET',
     redirect: 'error'
   };
 
   var tasks;
-  getAllTasksSmooth(43, requestOptions).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
-                                                              // If possible, make Home() async and just await ^that^ line
-                                                              // Otherwise, need to have the .then() update the return
+  getAllTasksSmooth(43).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
+                                              // If possible, make Home() async and just await the line above this one.
+                                              // Otherwise, need to have the .then() update the return.
 
   return (
     <>
