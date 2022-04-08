@@ -56,7 +56,7 @@ function Home() {
 
   // Accesses all task GET endpoints, returns singular array of JSON objects
   // ex: getAllTasksSmooth(43)
-  async function getAllTasksSmooth(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false, category_string=false)
+  async function getAllTasksSmooth(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false, category_strings=false)
   {
     var ret = [];
     const tasks = await getAllTasks(employee_id, request_options, debug);
@@ -121,7 +121,7 @@ function Home() {
   };
 
   var tasks;
-  getAllTasksSmooth(43, category_string=true).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
+  getAllTasksSmooth(43, category_strings=true).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
                                                                     // If possible, make Home() async and just await the line above this one.
                                                                     // Otherwise, need to have the .then() update the return.
 
