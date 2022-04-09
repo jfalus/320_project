@@ -4,6 +4,10 @@ function login(app, passport){
       successRedirect: '/home',
       failureRedirect: '/',
     })
+    // }),
+    // function(req, res) {
+    //   console.log(req)
+    // }
   );
 }
 
