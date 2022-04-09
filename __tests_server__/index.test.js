@@ -195,7 +195,7 @@ const COMPLETE = 'Complete'
 //   })
 // })
 
-jest.setTimeout(20000);
+jest.setTimeout(1000);
 
 
 describe('Test new assigned training', () => {
@@ -210,6 +210,7 @@ describe('Test new assigned training', () => {
         date_due: '2022-05-16'
       })
       .then((response) => {
+        console.log(response.text);
         expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"at_id\":\"34\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"link\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\"}")
         done()
       })
@@ -228,7 +229,8 @@ describe('Test new general task', () => {
         assigned_to: 1
       })
       .then((response) => {
-        expect(response).toBe()
+        console.log(response.text);
+        expect(response.text).toBe("f")
         done()
       })
   }) 
@@ -245,7 +247,8 @@ describe('Test new performance review', () => {
         date_due: '2022-05-16'
       })
       .then((response) => {
-        expect(response).toBe()
+        console.log(response.text);
+        expect(response.text).toBe("f")
         done()
       })
   }) 
@@ -264,7 +267,8 @@ describe('Test new PTO Request', () => {
         date_due: '2022-05-16'
       })
       .then((response) => {
-        expect(response.text).toBe()
+        console.log(response.text);
+        expect(response.text).toBe("f")
         done()
       })
   }) 
