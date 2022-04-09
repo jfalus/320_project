@@ -9,13 +9,18 @@ require('dotenv').config()
 
 const app = express()
 
-app.use(express.static("../client/public"));
+app.use(express.static(path.join(__dirname, "../client/front_end/build")));
+app.use(express.static(path.join(__dirname, "../client/front_end/public")));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use(express.json({
+  type: ['application/json', 'text/plain']
+}))
 
 const session = {
   secret: process.env.SECRET || 'SECRET',
@@ -117,14 +122,28 @@ for(const endpoint of endpoints){
 
 require('./endpoints/authentication/login')(app, passport)
 
-app.get('/hello', (req, res) => {
-  res.send("Hello, World!");
-})
+// app.use((req, res, next) => {
+//   console.log("also sent")
+//   res.sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
+//   res.end()
+// });
 
-//I don't know what this does but others use it
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// app.get('/hello', (req, res) => {
+//   res.send("Hello, World!");
 // })
+
+// I don't know what this does but others use it
+
+// app.get('/home', (req, res, next) => {
+//   console.log("AEWRTEWAT")
+//   // res.sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
+//   next()
+// })
+
+app.get('/*', (req, res, next) => {
+  // req.url = '/bar'
+  res.sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
+})
 
 module.exports = app;
 

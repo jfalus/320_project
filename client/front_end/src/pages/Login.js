@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import "../styles/Login.css";
 import logo from "../images/ukglogo.png";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate()
   const clickLogin = (e) => {
     
     e.preventDefault();
-
     fetch("api/login", {
       method: "POST",
       body: JSON.stringify({ username: username, password: password })
     })
-      // .then((response) => response.json())
-      // .then((data) => {
-      //   console.log("Success", data);
-      // });
+      .then((data) => {
+        if(data.url.substring(data.url.length-4) === "home"){
+          navigate("/home", { replace: true })
+        }
+      });
   }
 
   return (

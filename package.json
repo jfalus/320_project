@@ -26,6 +26,7 @@
     "server": "nodemon ./server/server.js",
     "client": "npm start --prefix client/front_end/",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build --prefix client/front_end/",
     "test-server": "jest __tests_server__/index.test.js --detectOpenHandles"
   }
 }
