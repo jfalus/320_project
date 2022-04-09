@@ -1,0 +1,14 @@
+.createTask {
+  padding: 0;
+  border: none;
+  background-color: none;
+  color: black;
+}
+
+.label {
+  text-align: left;
+}
+
+.createTask :hover {
+  background-color: #59d7c8;
+}
