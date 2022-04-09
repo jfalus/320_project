@@ -157,3 +157,19 @@ describe("Test assigned trainings endpoints", () => {
     })
   })
 });
+
+describe("Get Endpoint Testing", done => {
+  test("Gets assigned trainings of user with employee id 17", done => {
+    let agent = request.agent(app);
+    agent.post("/api/login")
+    .send({username:"Morgan_Bernard@atlastechnology.com", password:"bernardmo"})
+    .end(function(err, res){
+      agent
+      .get("/api/empTasks/assignedTrainings?EID=17")
+      .then(res => {
+        expect(res.text).toBe('[{"title":"basic training","description":"UH OHHHH STINKY","link":"Exozent.com","date_created":"2014-09-18","date_due":"2020-11-16","progress":"Not-started}]');
+        done();
+      })
+    })
+  });
+});
