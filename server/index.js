@@ -123,9 +123,7 @@ for(const endpoint of endpoints){
 require('./endpoints/authentication/login')(app, passport)
 
 // app.use((req, res, next) => {
-//   console.log("also sent")
-//   res.sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
-//   res.end()
+//   res.status(302).sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
 // });
 
 // app.get('/hello', (req, res) => {
@@ -140,9 +138,8 @@ require('./endpoints/authentication/login')(app, passport)
 //   next()
 // })
 
-app.get('/*', (req, res, next) => {
-  // req.url = '/bar'
-  res.sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/front_end/public/index.html"));
 })
 
 module.exports = app;
