@@ -23,7 +23,7 @@ function Home() {
     await fetch("/api/empTasks/" + url_kind + "?EID=" + employee_id, request_options)
     .then(response => response.json())
     .then(result => {
-      if(debug) {console.log(url_kind + ":\n" + result);}
+      if(debug) {console.log(url_kind + " for employee " + employee_id + ":\n"); result.forEach(t => console.log(t));}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -39,10 +39,10 @@ function Home() {
                                      getKind("performanceReviews", employee_id, request_options, debug),
                                      getKind("ptoRequests", employee_id, request_options, debug),
                                      getKind("generalTasks", employee_id, request_options, debug)]);
-    ret.assigned_trainings = tasks[0];
-    ret.performance_reviews = tasks[1];
-    ret.pto_requests = tasks[2];
-    ret.general_tasks = tasks[3];
+    ret.assigned_trainings = tasks[0] || [];
+    ret.performance_reviews = tasks[1] || [];
+    ret.pto_requests = tasks[2] || [];
+    ret.general_tasks = tasks[3] || [];
     // ret.assignedTrainings = await getKind("assignedTrainings", employee_id, request_options, debug);
     // ret.performance_reviews = await getKind("performanceReviews", employee_id, request_options, debug);
     // ret.pto_requests = await getKind("ptoRequests", employee_id, request_options, debug);
@@ -72,7 +72,7 @@ function Home() {
     await fetch("/api/directManagedEmployees", request_options)
     .then(response => response.json())
     .then(result => {
-      if(debug) {console.log("Direct Subordinate Employees:\n" + result);}
+      if(debug) {console.log("Direct Subordinate Employees:\n"); result.forEach(t => console.log(t));}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -88,7 +88,7 @@ function Home() {
     await fetch("/api/allManagedEmployees", request_options)
     .then(response => response.json())
     .then(result => {
-      if(debug) {console.log("All Subordinate Employees:\n" + result);}
+      if(debug) {console.log("All Subordinate Employees:\n"); result.forEach(t => console.log(t));}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -105,6 +105,9 @@ function Home() {
     // THIS IS ASYNC!!!!!!!!
     // If possible, make Home() async and just await the line above this one.
     // Otherwise, need to have the .then() update the return.
+  
+  getAllTasksSmooth(31, undefined, true, true).then(a => tasks = a);
+  getAllTasksSmooth(9, undefined, true, true).then(a => tasks = a);
 
   return (
     <>
