@@ -26,10 +26,7 @@ function Home() {
       if(debug)
       {
         var p = "";
-        for(t in result)
-        {
-          p += t;
-        }
+        result.forEach(t => p += t);
         console.log(url_kind + ":\n" + p);
       }
       ret = result;
@@ -55,15 +52,15 @@ function Home() {
   }
 
   // Accesses all task GET endpoints, returns singular array of JSON objects
-  // ex: getAllTasksSmooth(43)
+  // ex: getAllTasksSmooth(43, undefined, undefined, true)
   async function getAllTasksSmooth(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false, category_strings=false)
   {
     var ret = [];
     const tasks = await getAllTasks(employee_id, request_options, debug);
-    tasks.assigned_trainings.forEach(e => {if(category_string){e.category = "Assigned Training";} ret.push(e);});
-    tasks.performance_reviews.forEach(e => {if(category_string){e.category = "Performance Review";} ret.push(e);});
-    tasks.pto_requests.forEach(e => {if(category_string){e.category = "PTO Request";} ret.push(e);});
-    tasks.general_tasks.forEach(e => {if(category_string){e.category = "General Task";} ret.push(e);});
+    tasks.assigned_trainings.forEach(e => {if(category_strings){e.category = "Assigned Training";} ret.push(e);});
+    tasks.performance_reviews.forEach(e => {if(category_strings){e.category = "Performance Review";} ret.push(e);});
+    tasks.pto_requests.forEach(e => {if(category_strings){e.category = "PTO Request";} ret.push(e);});
+    tasks.general_tasks.forEach(e => {if(category_strings){e.category = "General Task";} ret.push(e);});
     return ret;
   }
 
@@ -79,10 +76,7 @@ function Home() {
       if(debug)
       {
         var p = "";
-        for(t in result)
-        {
-          p += t;
-        }
+        result.forEach(t => p += t);
         console.log("Direct Subordinate Employees:\n" + p);
       }
       ret = result;
@@ -103,10 +97,7 @@ function Home() {
       if(debug)
       {
         var p = "";
-        for(t in result)
-        {
-          p += t;
-        }
+        result.forEach(t => p += t);
         console.log("All Subordinate Employees:\n" + p);
       }
       ret = result;
@@ -121,9 +112,9 @@ function Home() {
   };
 
   var tasks;
-  getAllTasksSmooth(43, category_strings=true).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
-                                                                    // If possible, make Home() async and just await the line above this one.
-                                                                    // Otherwise, need to have the .then() update the return.
+  getAllTasksSmooth(43, undefined, undefined, true).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
+                                                                     // If possible, make Home() async and just await the line above this one.
+                                                                     // Otherwise, need to have the .then() update the return.
 
   return (
     <>
