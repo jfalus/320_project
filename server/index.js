@@ -126,6 +126,10 @@ require('./endpoints/authentication/login')(app, passport)
 //   res.status(302).sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
 // });
 
+app.get('/hello', async (req, res) => {
+  res.send("Hello, World!");
+})
+
 // app.get('/hello', (req, res) => {
 //   res.send("Hello, World!");
 // })
