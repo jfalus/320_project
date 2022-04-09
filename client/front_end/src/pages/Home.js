@@ -48,6 +48,10 @@ function Home() {
     ret.performance_reviews = tasks[1];
     ret.pto_requests = tasks[2];
     ret.general_tasks = tasks[3];
+    // ret.assignedTrainings = await getKind("assignedTrainings", employee_id, request_options, debug);
+    // ret.performance_reviews = await getKind("performanceReviews", employee_id, request_options, debug);
+    // ret.pto_requests = await getKind("ptoRequests", employee_id, request_options, debug);
+    // ret.general_tasks = await getKind("generalTasks", employee_id, request_options, debug);
     return ret;
   }
 
@@ -112,9 +116,17 @@ function Home() {
   };
 
   var tasks;
-  getAllTasksSmooth(43, undefined, undefined, true).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
-                                                                     // If possible, make Home() async and just await the line above this one.
-                                                                     // Otherwise, need to have the .then() update the return.
+  getAllTasksSmooth(43, undefined, true, true).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
+                                                                          // If possible, make Home() async and just await the line above this one.
+                                                                          // Otherwise, need to have the .then() update the return.
+  // fetch("/api/empTasks/assignedTrainings?EID=43", requestOptions)
+  // .then(response => response.text())
+  // .then(result => {
+  //   console.log(result);
+  // })
+  // .catch(error => console.log('error', error));
+  //getKind("assignedTrainings", 43).then(result => console.log(result)).catch(error => console.log('error', error));
+  //getKind("ptoRequests", 43).then(result => console.log(result)).catch(error => console.log('error', error));
 
   return (
     <>
