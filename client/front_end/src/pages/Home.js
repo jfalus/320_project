@@ -23,12 +23,7 @@ function Home() {
     await fetch("/api/empTasks/" + url_kind + "?EID=" + employee_id, request_options)
     .then(response => response.json())
     .then(result => {
-      if(debug)
-      {
-        var p = "";
-        result.forEach(t => p += t);
-        console.log(url_kind + ":\n" + p);
-      }
+      if(debug) {console.log(url_kind + ":\n" + result);}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -77,12 +72,7 @@ function Home() {
     await fetch("/api/directManagedEmployees", request_options)
     .then(response => response.json())
     .then(result => {
-      if(debug)
-      {
-        var p = "";
-        result.forEach(t => p += t);
-        console.log("Direct Subordinate Employees:\n" + p);
-      }
+      if(debug) {console.log("Direct Subordinate Employees:\n" + result);}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -98,12 +88,7 @@ function Home() {
     await fetch("/api/allManagedEmployees", request_options)
     .then(response => response.json())
     .then(result => {
-      if(debug)
-      {
-        var p = "";
-        result.forEach(t => p += t);
-        console.log("All Subordinate Employees:\n" + p);
-      }
+      if(debug) {console.log("All Subordinate Employees:\n" + result);}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -116,17 +101,10 @@ function Home() {
   };
 
   var tasks;
-  getAllTasksSmooth(43, undefined, true, true).then(a => tasks = a); // THIS IS ASYNC!!!!!!!!
-                                                                          // If possible, make Home() async and just await the line above this one.
-                                                                          // Otherwise, need to have the .then() update the return.
-  // fetch("/api/empTasks/assignedTrainings?EID=43", requestOptions)
-  // .then(response => response.text())
-  // .then(result => {
-  //   console.log(result);
-  // })
-  // .catch(error => console.log('error', error));
-  //getKind("assignedTrainings", 43).then(result => console.log(result)).catch(error => console.log('error', error));
-  //getKind("ptoRequests", 43).then(result => console.log(result)).catch(error => console.log('error', error));
+  getAllTasksSmooth(43, undefined, true, true).then(a => tasks = a);
+    // THIS IS ASYNC!!!!!!!!
+    // If possible, make Home() async and just await the line above this one.
+    // Otherwise, need to have the .then() update the return.
 
   return (
     <>
