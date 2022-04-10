@@ -18,7 +18,7 @@ function newPtoRequest(app){
     console.log(req.body)
     if (isValidPto(req.body.e_id, req.body.title, req.body.description, req.body.start_date, req.body.end_date, req.body.date_due)) {
       const data = {e_id: req.body.e_id, title: req.body.title, description: req.body.description, start_date: req.body.start_date, end_date: req.body.end_date, date_due: req.body.date_due, progress: 'Not-started'}
-      const x = await models.assigned_training.create(data)
+      const x = await models.pto_request.create(data)
       console.log(x.toJSON())
       res.send(x.toJSON())
     } else {
