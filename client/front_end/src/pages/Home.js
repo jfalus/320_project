@@ -115,6 +115,31 @@ function Home() {
     return ret;
   }
 
+  // Filters tasks according to some field of the json, such as progress or category
+  // Inputs: tasks json array, field to filter by, array of values to filter by
+  // ex: filterTasks(tasks, "category", ["Assigned Training", "PTO Request"])
+  function filterTasks(tasks, key, values) {
+    return tasks.filter(e => values.include(e[key]));
+  }
+
+  // Filters tasks if any of its fields contains query as substring
+  // Inputs: tasks json array, query string
+  // ex: filterTasks(tasks, "sick")
+  function searchTasks(tasks, query) {
+    return tasks.filter(e => Object.keys(e).some(k => e[k].toLowerCase().includes(query.toLowerCase())));
+  }
+
+  // Sorts tasks according to some field of the json
+  // Inputs: tasks json array, field to sort by
+  // ex: sortTasks(tasks, "category")
+  function sortTasks(tasks, key) {
+    if (Number.isFinite(tasks[0][key])) {
+      return tasks.sort((a, b) => a[key] - b[key]);
+    } else {
+      return tasks.sort((a, b) => a[key].localeCompare(b[key]));
+    }
+  }
+
   var requestOptions = {
     method: 'GET',
     redirect: 'error'

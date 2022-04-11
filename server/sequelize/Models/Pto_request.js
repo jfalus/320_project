@@ -16,17 +16,17 @@ const schema = {
         type: DataTypes.STRING,
     },
     start_date : {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
     },
     end_date : {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
     },
     date_created : {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         defaultValue: Sequelize.NOW,
     },
     date_due : {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
     },
     progress : {
         type: DataTypes.STRING,
