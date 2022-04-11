@@ -26,7 +26,6 @@ function Sidebar() {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <PTORequest category="PTO Request" />
-              <p>{!data ? "hello world" : data}</p>
               <TrainingRequest category="Training Request" />
               <PerformanceReview category="Performance Review" />
               <CustomTask category="Custom Task" />
@@ -45,6 +44,7 @@ function Sidebar() {
         <body2>
           <a href="#" className="notification">
             <span>PTO Requests</span>
+            <p>{!data ? "hello world" : data}</p>
             <span className="badge">3</span>
           </a>
           <br></br>
