@@ -15,21 +15,124 @@ function Home() {
     },
   };
 
-  function unpackResults(results) {
-    return results;
+  // Accesses a GET endpoint, returns array of JSON objects
+  // ex: getKind("assignedTrainings", 43, {method:'GET', redirect:'follow'})
+  async function getKind(url_kind, employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    var ret;
+    await fetch("/api/empTasks/" + url_kind + "?EID=" + employee_id, request_options)
+    .then(response => response.json())
+    .then(result => {
+      if(debug) {console.log(url_kind + " for employee " + employee_id + ":\n"); result.forEach(t => console.log(t));}
+      ret = result;
+    })
+    .catch(error => console.log('error', error));
+    return ret;
   }
 
-  var vals = {}
+  // Accesses all task GET endpoints, returns object: {assigned_trainings:[JSON objects], performance_reviews:[JSON objects], pto_requests:[JSON objects], general_tasks:[JSON objects]}
+  // ex: getAllTasks(43, {method:'GET', redirect:'follow'})
+  async function getAllTasks(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    const ret = {};
+    const tasks = await Promise.all([getKind("assignedTrainings", employee_id, request_options, debug),
+                                     getKind("performanceReviews", employee_id, request_options, debug),
+                                     getKind("ptoRequests", employee_id, request_options, debug),
+                                     getKind("generalTasks", employee_id, request_options, debug)]);
+    ret.assigned_trainings = tasks[0] || [];
+    ret.performance_reviews = tasks[1] || [];
+    ret.pto_requests = tasks[2] || [];
+    ret.general_tasks = tasks[3] || [];
+    return ret;
+  }
+
+  // Accesses all task GET endpoints, returns singular array of JSON objects
+  // ex: getAllTasksSmooth(43, undefined, undefined, true)
+  async function getAllTasksSmooth(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false, category_strings=false)
+  {
+    var ret = [];
+    const tasks = await getAllTasks(employee_id, request_options, debug);
+    tasks.assigned_trainings.forEach(e => {if(category_strings){e.category = "Assigned Training";} ret.push(e);});
+    tasks.performance_reviews.forEach(e => {if(category_strings){e.category = "Performance Review";} ret.push(e);});
+    tasks.pto_requests.forEach(e => {if(category_strings){e.category = "PTO Request";} ret.push(e);});
+    tasks.general_tasks.forEach(e => {if(category_strings){e.category = "General Task";} ret.push(e);});
+    return ret;
+  }
+
+  // MAY NOT BE ABLE TO TEST THIS YET (login doesn't seem to work properly yet)
+  // Accesses directManagedEmployees endpoint (gets direct subordinates of current user), returns array of JSON objects
+  // ex: getDirectSubordinateEmployees()
+  async function getDirectSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    var ret;
+    await fetch("/api/directManagedEmployees", request_options)
+    .then(response => response.json())
+    .then(result => {
+      if(debug) {console.log("Direct Subordinate Employees:\n"); result.forEach(t => console.log(t));}
+      ret = result;
+    })
+    .catch(error => console.log('error', error));
+    return ret;
+  }
+
+  // MAY NOT BE ABLE TO TEST THIS YET (login doesn't seem to work properly yet)
+  // Accesses allManagedEmployees endpoint (gets all subordinates of current user), returns array of JSON objects
+  // ex: getAllSubordinateEmployees()
+  async function getAllSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  {
+    var ret;
+    await fetch("/api/allManagedEmployees", request_options)
+    .then(response => response.json())
+    .then(result => {
+      if(debug) {console.log("All Subordinate Employees:\n"); result.forEach(t => console.log(t));}
+      ret = result;
+    })
+    .catch(error => console.log('error', error));
+    return ret;
+  }
+
+  // Filters tasks according to some field of the json, such as progress or category
+  // Inputs: tasks json array, field to filter by, array of values to filter by
+  // ex: filterTasks(tasks, "category", ["Assigned Training", "PTO Request"])
+  function filterTasks(tasks, key, values) {
+    return tasks.filter(e => values.include(e[key]));
+  }
+
+  // Filters tasks if any of its fields contains query as substring
+  // Inputs: tasks json array, query string
+  // ex: filterTasks(tasks, "sick")
+  function searchTasks(tasks, query) {
+    return tasks.filter(e => Object.keys(e).some(k => e[k].toLowerCase().includes(query.toLowerCase())));
+  }
+
+  // Sorts tasks according to some field of the json
+  // Inputs: tasks json array, field to sort by
+  // ex: sortTasks(tasks, "category")
+  function sortTasks(tasks, key) {
+    if (tasks.all(e => Number.isFinite(e[key]))) {
+      return tasks.sort((a, b) => a[key] - b[key]);
+    } else if (tasks.all(e => !Number.isNaN(Date.parse(e[key])))) {
+      return tasks.sort((a, b) => Date.parse(a[key]) - Date.parse(b[key]));
+    } else {
+      return tasks.sort((a, b) => a[key].localeCompare(b[key]));
+    }
+  }
 
   var requestOptions = {
     method: 'GET',
-    redirect: 'follow'
+    redirect: 'error'
   };
+
+  var tasks;
+  getAllTasksSmooth(43, undefined, true, true).then(a => tasks = a);
+    // THIS IS ASYNC!!!!!!!!
+    // If possible, make Home() async and just await the line above this one.
+    // Otherwise, need to have the .then() update the return.
   
-  fetch("/hello", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+  getAllTasksSmooth(31, undefined, true, true).then(a => tasks = a);
+  getAllTasksSmooth(9, undefined, true, true).then(a => tasks = a);
+  
+
   return (
     <>
       <Header />

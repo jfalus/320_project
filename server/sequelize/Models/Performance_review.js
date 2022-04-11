@@ -28,6 +28,9 @@ const schema = {
         type: DataTypes.DATEONLY,
         defaultValue: Sequelize.NOW,
     },
+    date_due : {
+        type: DataTypes.DATEONLY,
+    },
     progress : {
         type: DataTypes.STRING,
     },
