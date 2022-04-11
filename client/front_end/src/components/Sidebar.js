@@ -7,6 +7,15 @@ import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
 
 function Sidebar() {
+
+  const [data, setData] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch("/api/empTasks/ptoRequests")
+      .then((res) => res.json())
+      .then((data) => setData(data.message));
+  }, []);
+
   return (
     <div className="sidebar">
       <li>
@@ -17,6 +26,7 @@ function Sidebar() {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <PTORequest category="PTO Request" />
+              <p>{!data ? "hello world" : data}</p>
               <TrainingRequest category="Training Request" />
               <PerformanceReview category="Performance Review" />
               <CustomTask category="Custom Task" />
