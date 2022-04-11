@@ -14,11 +14,15 @@ const Login = () => {
     fetch("api/login", {
       method: "POST",
       body: JSON.stringify({ username: username, password: password })
-    }).then(res =>{
+    })
+    .then(res => {
       if(res.redirected){
         window.location.href = res.url;
       }
+      return res
     })
+    .then(res=>res.text())
+    .then(data => console.log(data))
     
       // .then((data) => {
       //   if(data.url.substring(data.url.length-4) === "home"){

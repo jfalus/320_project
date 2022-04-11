@@ -64,13 +64,13 @@ const strategy = new LocalStrategy(
     //await for user
     const user = await findUser(models.employees, email);
     if (user === null) {
-      return done(null, false);
+      return done(null, false, {message: "Email not found"});
     }
     //add function to check credentials
     checkCred(models.employees, email, password).then(async function(result){
       if (!result) {
         await new Promise((r) => setTimeout(r, 200));
-        return done(null, false);
+        return done(null, false, {message: "Incorrect password"});
       }
       return done(null, {e_id:user.e_id, employeeId:user.employeeId, companyId:user.companyId, firstName:user.firstName, 
         lastName:user.lastName, email:user.email, companyName:user.companyName, managerId:user.managerId, 
