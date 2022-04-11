@@ -24,7 +24,7 @@ async function getAllManagedEmployees(db, user, currentManagers){
 
 function allManagedEmployees(app){
   app.get('/api/allManagedEmployees', 
-    checkLoggedIn,
+    //checkLoggedIn,
     async (req, res) => {
       const result = await getAllManagedEmployees(models.employees, req.user, [req.user]);
       res.send(JSON.parse(JSON.stringify(result)));
