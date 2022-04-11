@@ -5,10 +5,12 @@ function login(app, passport){
       if (err) { return next(err); }
       if (!user) { 
           res.status(401);
-          res.end(info.message);
-          return;
+          return res.end(info.message);
       }
-      res.redirect("/home")
+      req.logIn(user, function(err){
+        if (err) { return next(err); }
+        return res.redirect("/home");
+      })
     })(req, res, next);
   })
 }

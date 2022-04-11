@@ -6,7 +6,7 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 // Passes a json file with the employee's assigned trainings
 function assignedTrainings(app){
   app.get('/api/empTasks/assignedTrainings',
-  //checkLoggedIn,
+  checkLoggedIn,
   async (req, res) => {
     const assigned_trainings = await models.assigned_training.findAll({
       attributes: ['title', 'description', 'link', 'date_created', 'date_due', 'progress'/**/],
