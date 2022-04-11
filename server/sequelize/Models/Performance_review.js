@@ -12,7 +12,7 @@ const schema = {
     title : {
         type: DataTypes.STRING,
     },
-    overall_comments: {
+    overall_comments : {
         type: DataTypes.STRING,
     },
     growth_feedback : {
