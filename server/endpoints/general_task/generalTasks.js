@@ -5,7 +5,7 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 // Passes a json file with the employee's general tasks
 function generalTasks(app){
   app.get('/api/empTasks/generalTasks',
-  //checkLoggedIn,
+  checkLoggedIn,
   async (req, res) => {
     const general_tasks = await models.general_task.findAll({
       attributes: ['title', 'description', 'date_created', 'date_due', 'progress', 'assigned_to'],

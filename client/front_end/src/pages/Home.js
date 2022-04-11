@@ -131,6 +131,7 @@ function Home() {
   
   getAllTasksSmooth(31, undefined, true, true).then(a => tasks = a);
   getAllTasksSmooth(9, undefined, true, true).then(a => tasks = a);
+  
 
   return (
     <>
