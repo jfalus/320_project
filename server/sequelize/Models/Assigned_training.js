@@ -20,14 +20,17 @@ const schema = {
         allowNull: false,
     },
     date_created : {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         defaultValue: Sequelize.NOW,
     },
     date_due : {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
     },
     progress : {
         type: DataTypes.STRING,
+    },
+    assigned_to: {
+        type: DataTypes.BIGINT,
     },
 };
 

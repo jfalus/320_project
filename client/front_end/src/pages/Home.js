@@ -109,8 +109,10 @@ function Home() {
   // Inputs: tasks json array, field to sort by
   // ex: sortTasks(tasks, "category")
   function sortTasks(tasks, key) {
-    if (Number.isFinite(tasks[0][key])) {
+    if (tasks.all(e => Number.isFinite(e[key]))) {
       return tasks.sort((a, b) => a[key] - b[key]);
+    } else if (tasks.all(e => !Number.isNaN(Date.parse(e[key])))) {
+      return tasks.sort((a, b) => Date.parse(a[key]) - Date.parse(b[key]));
     } else {
       return tasks.sort((a, b) => a[key].localeCompare(b[key]));
     }
