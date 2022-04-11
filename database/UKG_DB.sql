@@ -38713,3 +38713,343 @@ with sample_at(doc) as (values('[
 insert into assigned_training("at_id", "title", "description", "link", "date_created", "date_due", "progress", "e_id")
 select p.* from sample_at l
   cross join lateral json_populate_recordset(null::assigned_training, doc) as p;
+  
+DELETE FROM assigned_training;
+ALTER TABLE assigned_training ADD COLUMN "assigned_to" BIGSERIAL;
+
+with sample_at(doc) as (values('[
+  {
+    "at_id": 1,
+    "title": "diversity and inclusion",
+    "description": "YAY",
+    "link": "Bitendrex.com",
+    "date_created": "2017-09-13",
+    "date_due": "2020-08-04",
+    "progress": "Complete",
+    "assigned_to": 5,
+    "e_id": 1
+  },
+  {
+    "at_id": 2,
+    "title": "onboarding",
+    "description": "POOPY",
+    "link": "Zboo.com",
+    "date_created": "2016-08-04",
+    "date_due": "2020-05-09",
+    "progress": "Not-started",
+    "assigned_to": 40,
+    "e_id": 1
+  },
+  {
+    "at_id": 3,
+    "title": "diversity and inclusion",
+    "description": "YAY",
+    "link": "Verbus.com",
+    "date_created": "2014-07-31",
+    "date_due": "2021-06-17",
+    "progress": "Not-started",
+    "assigned_to": 36,
+    "e_id": 1
+  },
+  {
+    "at_id": 4,
+    "title": "onboarding",
+    "description": "YAY",
+    "link": "Kyagoro.com",
+    "date_created": "2016-01-12",
+    "date_due": "2020-06-01",
+    "progress": "Complete",
+    "assigned_to": 21,
+    "e_id": 1
+  },
+  {
+    "at_id": 5,
+    "title": "diversity and inclusion",
+    "description": "POOPY",
+    "link": "Lotron.com",
+    "date_created": "2019-01-15",
+    "date_due": "2021-09-20",
+    "progress": "To-do",
+    "assigned_to": 46,
+    "e_id": 1
+  },
+  {
+    "at_id": 6,
+    "title": "onboarding",
+    "description": "UH OHHHH STINKY",
+    "link": "Cujo.com",
+    "date_created": "2017-12-30",
+    "date_due": "2020-04-23",
+    "progress": "To-do",
+    "assigned_to": 18,
+    "e_id": 1
+  },
+  {
+    "at_id": 7,
+    "title": "diversity and inclusion",
+    "description": "UH OHHHH STINKY",
+    "link": "Exodoc.com",
+    "date_created": "2019-03-24",
+    "date_due": "2020-07-22",
+    "progress": "To-do",
+    "assigned_to": 5,
+    "e_id": 1
+  },
+  {
+    "at_id": 8,
+    "title": "onboarding",
+    "description": "UH OHHHH STINKY",
+    "link": "Navir.com",
+    "date_created": "2015-04-08",
+    "date_due": "2020-05-17",
+    "progress": "Not-started",
+    "assigned_to": 21,
+    "e_id": 1
+  },
+  {
+    "at_id": 9,
+    "title": "coworker respect",
+    "description": "YAY",
+    "link": "Ramjob.com",
+    "date_created": "2015-04-17",
+    "date_due": "2021-05-09",
+    "progress": "To-do",
+    "assigned_to": 49,
+    "e_id": 1
+  },
+  {
+    "at_id": 10,
+    "title": "diversity and inclusion",
+    "description": "POOPY",
+    "link": "Magmina.com",
+    "date_created": "2018-05-23",
+    "date_due": "2021-12-11",
+    "progress": "Complete",
+    "assigned_to": 32,
+    "e_id": 1
+  },
+  {
+    "at_id": 11,
+    "title": "coworker respect",
+    "description": "YAY",
+    "link": "Talendula.com",
+    "date_created": "2017-07-10",
+    "date_due": "2021-02-10",
+    "progress": "Not-started",
+    "assigned_to": 36,
+    "e_id": 1
+  },
+  {
+    "at_id": 12,
+    "title": "onboarding",
+    "description": "POOPY",
+    "link": "Xleen.com",
+    "date_created": "2019-08-27",
+    "date_due": "2020-10-01",
+    "progress": "Not-started",
+    "assigned_to": 4,
+    "e_id": 1
+  },
+  {
+    "at_id": 13,
+    "title": "onboarding",
+    "description": "UH OHHHH STINKY",
+    "link": "Waab.com",
+    "date_created": "2015-03-28",
+    "date_due": "2021-12-21",
+    "progress": "Not-started",
+    "assigned_to": 41,
+    "e_id": 1
+  },
+  {
+    "at_id": 14,
+    "title": "diversity and inclusion",
+    "description": "UH OHHHH STINKY",
+    "link": "Assitia.com",
+    "date_created": "2015-01-28",
+    "date_due": "2021-02-03",
+    "progress": "Not-started",
+    "assigned_to": 28,
+    "e_id": 1
+  },
+  {
+    "at_id": 15,
+    "title": "diversity and inclusion",
+    "description": "UH OHHHH STINKY",
+    "link": "Exoplode.com",
+    "date_created": "2014-04-25",
+    "date_due": "2021-12-08",
+    "progress": "Complete",
+    "assigned_to": 27,
+    "e_id": 1
+  },
+  {
+    "at_id": 16,
+    "title": "coworker respect",
+    "description": "POOPY",
+    "link": "Fleetmix.com",
+    "date_created": "2019-04-23",
+    "date_due": "2021-12-18",
+    "progress": "Complete",
+    "assigned_to": 33,
+    "e_id": 1
+  },
+  {
+    "at_id": 17,
+    "title": "diversity and inclusion",
+    "description": "POOPY",
+    "link": "Obliq.com",
+    "date_created": "2019-01-02",
+    "date_due": "2021-01-06",
+    "progress": "Complete",
+    "assigned_to": 13,
+    "e_id": 1
+  },
+  {
+    "at_id": 18,
+    "title": "diversity and inclusion",
+    "description": "POOPY",
+    "link": "Snips.com",
+    "date_created": "2015-09-19",
+    "date_due": "2022-01-28",
+    "progress": "Not-started",
+    "assigned_to": 26,
+    "e_id": 1
+  },
+  {
+    "at_id": 19,
+    "title": "onboarding",
+    "description": "UH OHHHH STINKY",
+    "link": "Oatfarm.com",
+    "date_created": "2019-11-23",
+    "date_due": "2020-12-06",
+    "progress": "Complete",
+    "assigned_to": 45,
+    "e_id": 1
+  },
+  {
+    "at_id": 20,
+    "title": "onboarding",
+    "description": "POOPY",
+    "link": "Recrisys.com",
+    "date_created": "2014-02-24",
+    "date_due": "2022-04-18",
+    "progress": "Complete",
+    "assigned_to": 36,
+    "e_id": 1
+  },
+  {
+    "at_id": 21,
+    "title": "onboarding",
+    "description": "UH OHHHH STINKY",
+    "link": "Imperium.com",
+    "date_created": "2018-10-22",
+    "date_due": "2020-06-29",
+    "progress": "To-do",
+    "assigned_to": 42,
+    "e_id": 1
+  },
+  {
+    "at_id": 22,
+    "title": "onboarding",
+    "description": "YAY",
+    "link": "Luxuria.com",
+    "date_created": "2016-09-15",
+    "date_due": "2020-10-24",
+    "progress": "To-do",
+    "assigned_to": 38,
+    "e_id": 1
+  },
+  {
+    "at_id": 23,
+    "title": "diversity and inclusion",
+    "description": "UH OHHHH STINKY",
+    "link": "Sentia.com",
+    "date_created": "2017-04-01",
+    "date_due": "2021-12-06",
+    "progress": "Not-started",
+    "assigned_to": 39,
+    "e_id": 1
+  },
+  {
+    "at_id": 24,
+    "title": "onboarding",
+    "description": "YAY",
+    "link": "Combogene.com",
+    "date_created": "2018-07-12",
+    "date_due": "2020-08-06",
+    "progress": "Complete",
+    "assigned_to": 33,
+    "e_id": 1
+  },
+  {
+    "at_id": 25,
+    "title": "diversity and inclusion",
+    "description": "YAY",
+    "link": "Zogak.com",
+    "date_created": "2016-10-29",
+    "date_due": "2021-03-29",
+    "progress": "Complete",
+    "assigned_to": 16,
+    "e_id": 1
+  },
+  {
+    "at_id": 26,
+    "title": "onboarding",
+    "description": "YAY",
+    "link": "Homelux.com",
+    "date_created": "2015-01-13",
+    "date_due": "2022-03-10",
+    "progress": "Not-started",
+    "assigned_to": 24,
+    "e_id": 1
+  },
+  {
+    "at_id": 27,
+    "title": "onboarding",
+    "description": "UH OHHHH STINKY",
+    "link": "Infotrips.com",
+    "date_created": "2020-01-24",
+    "date_due": "2022-02-26",
+    "progress": "Not-started",
+    "assigned_to": 50,
+    "e_id": 1
+  },
+  {
+    "at_id": 28,
+    "title": "onboarding",
+    "description": "UH OHHHH STINKY",
+    "link": "Ultrasure.com",
+    "date_created": "2018-09-10",
+    "date_due": "2020-10-17",
+    "progress": "To-do",
+    "assigned_to": 35,
+    "e_id": 1
+  },
+  {
+    "at_id": 29,
+    "title": "coworker respect",
+    "description": "YAY",
+    "link": "Radiantix.com",
+    "date_created": "2015-10-03",
+    "date_due": "2021-10-23",
+    "progress": "Complete",
+    "assigned_to": 22,
+    "e_id": 1
+  },
+  {
+    "at_id": 30,
+    "title": "diversity and inclusion",
+    "description": "YAY",
+    "link": "Fitcore.com",
+    "date_created": "2014-05-17",
+    "date_due": "2020-06-07",
+    "progress": "Not-started",
+    "assigned_to": 40,
+    "e_id": 1
+  }
+]'::json))
+
+insert into assigned_training("at_id", "title", "description", "link", "date_created", "date_due", "progress", "e_id", "assigned_to")
+select p.* from sample_at l
+  cross join lateral json_populate_recordset(null::assigned_training, doc) as p;
