@@ -39053,3 +39053,6 @@ with sample_at(doc) as (values('[
 insert into assigned_training("at_id", "title", "description", "link", "date_created", "date_due", "progress", "e_id", "assigned_to")
 select p.* from sample_at l
   cross join lateral json_populate_recordset(null::assigned_training, doc) as p;
+  
+ALTER TABLE pto_request ALTER COLUMN date_created SET DEFAULT CURRENT_DATE;
+
