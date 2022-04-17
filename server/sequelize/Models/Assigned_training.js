@@ -29,6 +29,9 @@ const schema = {
     progress : {
         type: DataTypes.STRING,
     },
+    assigned_to: {
+        type: DataTypes.BIGINT,
+    },
 };
 
 module.exports = ['assigned_training',schema];

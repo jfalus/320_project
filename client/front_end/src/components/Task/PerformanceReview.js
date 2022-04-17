@@ -8,6 +8,16 @@ function PTORequest(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  async function createPerformanceReview (data, request_options={method: 'GET', redirect: 'error'}, debug=false) {
+    await fetch('/api/empTasks/newPtoRequest', data)
+    .then(response => response.json())
+    .then(result => {
+      if (debug) {
+        result.forEach(t => console.log(t))
+      }
+    })
+  }
+
   return (
     <>
       <button variant="primary" onClick={handleShow} className="createTask">

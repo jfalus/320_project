@@ -8,6 +8,16 @@ function TrainingRequest(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  async function createAssignedTraining (data, request_options={method: 'GET', redirect: 'error'}, debug=false) {
+    await fetch('/api/empTasks/newAssignedTraining', data)
+    .then(response => response.json())
+    .then(result => {
+      if (debug) {
+        result.forEach(t => console.log(t))
+      }
+    })
+  }
+
   return (
     <>
       <button variant="primary" onClick={handleShow} className="createTask">
