@@ -267,7 +267,6 @@ describe('Test new PTO Request', () => {
         expect(response.text).toBe()
         done()
       })
-    })
   })
 });
 
