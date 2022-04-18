@@ -1,23 +1,36 @@
-// function Login() {
-//     let navigate = useNavigate();
-//     return (
-//         <div>This is the Login Page!
-//             <button onClick={() => { navigate("/home"); }}>
-//                 {" "} Sign in
-//             </button>
-//         </div>
-//     );
-// }
-
-// export default Login;
-
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import "../styles/Login.css";
 import logo from "../images/ukglogo.png";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  let navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+  const clickLogin = (e) => {
+    
+    e.preventDefault();
+    fetch("api/login", {
+      method: "POST",
+      body: JSON.stringify({ username: username, password: password })
+    })
+    .then(res => {
+      if(res.redirected){
+        window.location.href = res.url;
+      }
+      return res
+    })
+    .then(res=>res.text())
+    .then(data => console.log(data))
+    
+      // .then((data) => {
+      //   if(data.url.substring(data.url.length-4) === "home"){
+      //     navigate("/home", { replace: true })
+      //   }
+      // });
+  }
+
   return (
     <div>
       <div className="background-image">
@@ -33,6 +46,8 @@ const Login = () => {
                 placeholder="Email"
                 name="email"
                 aria-label="email input for login"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
               />
               <input
                 className="inputForm"
@@ -41,12 +56,12 @@ const Login = () => {
                 aria-label="password input for login"
                 id="password"
                 name="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
               <button
                 id="login-button"
-                onClick={() => {
-                  navigate("/home");
-                }}
+                onClick={clickLogin}
               >
                 Log in
               </button>
