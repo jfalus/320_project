@@ -31,12 +31,13 @@ function Home() {
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
-  fetch("/api/empTasks/ptoRequests", {
-    method: "GET",
-    // credentials: "include",
-    redirect: "follow"
+  fetch('/api/empTasks/ptoRequests', {
+      headers:{
+          "accepts":"ptoRequests/json",
+          "method": "GET"
+      }
   })
-    .then(response => console.log(response.json()));
+    .then(response => console.log(response));
 
   return (
     <>
