@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Section from "../components/collapsible_list";
 import Sidebar from "../components/Sidebar";
 import "../index.css";
+import React from "react";
 
 function Home() {
   const styles = {
@@ -23,7 +24,8 @@ function Home() {
 
   var requestOptions = {
     method: 'GET',
-    redirect: 'follow'
+    redirect: 'follow',
+    credentials: 'include'
   };
   
   fetch("/hello", requestOptions)
@@ -31,13 +33,11 @@ function Home() {
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
-  fetch('/api/empTasks/ptoRequests', {
-      headers:{
-          "accepts":"ptoRequests/json",
-          "method": "GET"
-      }
-  })
-    .then(response => console.log(response));
+    React.useEffect(() => {
+      fetch("http://localhost:5000/api/empTasks/ptoRequests", requestOptions)
+        .then(res => res.json())
+        .then(data => console.log(data));
+    }, []);
 
   return (
     <>

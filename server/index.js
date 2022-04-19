@@ -4,6 +4,7 @@ const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
 const path = require("path");
+const cors = require('cors');
 // var jsonMerger = require("json-merger");
 require('dotenv').config()
 
@@ -11,11 +12,12 @@ const app = express()
 
 app.use(express.static("../client/public"));
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true
+}
+
+app.use(cors(corsOptions))
 
 const session = {
   secret: process.env.SECRET || 'SECRET',

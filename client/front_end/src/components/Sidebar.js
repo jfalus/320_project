@@ -11,8 +11,6 @@ function Sidebar() {
 
   function handleClick(e) {
     e.preventDefault();
-    console.log("Hello World!!!!")
-    
     naviagte("/ptoTasks");
   }
   
@@ -21,9 +19,10 @@ function Sidebar() {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch("/api/empTasks/ptoRequests")
+    fetch("http://localhost:5000/api/empTasks/ptoRequests")
       .then((res) => res.json())
-      .then((data) => setData(data.message));
+      .then(data => console.log(data))
+      // .then((data) => setData(data.message));
   }, []);
 
   return (
