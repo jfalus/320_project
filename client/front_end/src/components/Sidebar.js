@@ -5,7 +5,6 @@ import PTORequest from "./Task/PTORequest.js";
 import TrainingRequest from "./Task/TrainingRequest.js";
 import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
-
 import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
@@ -16,7 +15,7 @@ function Sidebar() {
     
     naviagte("/ptoTasks");
   }
-
+  
   let naviagte = useNavigate();
 
   const [data, setData] = React.useState(null);

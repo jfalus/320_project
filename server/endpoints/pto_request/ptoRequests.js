@@ -8,7 +8,7 @@ function ptoRequests(app){
     const pto_requests = await models.performance_review.findAll({
       attributes: ['title', 'description', 'start_date', 'end_date', 'date_created', 'date_due', 'progress', 'approved', 'assigned_to'],
       where: {
-        e_id: req.query.EID
+        assigned_to: req.user.e_id
       }
     });
     res.json(pto_requests)

@@ -2,8 +2,6 @@ import Header from "../components/Header";
 import Section from "../components/collapsible_list";
 import Sidebar from "../components/Sidebar";
 import "../index.css";
-import { redirect } from "express/lib/response";
-import { response } from "express";
 
 function Home() {
   const styles = {
@@ -33,10 +31,10 @@ function Home() {
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
-  fetch("http://localhost:5000/api/empTasks/ptoRequests", {
+  fetch("/api/empTasks/ptoRequests", {
     method: "GET",
-    redirect: "follow",
-    credentials: "include"
+    // credentials: "include",
+    redirect: "follow"
   })
     .then(response => console.log(response.json()));
 
