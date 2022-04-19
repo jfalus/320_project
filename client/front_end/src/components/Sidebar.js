@@ -6,7 +6,18 @@ import TrainingRequest from "./Task/TrainingRequest.js";
 import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
 
+import { useNavigate } from "react-router-dom";
+
 function Sidebar() {
+
+  function handleClick(e) {
+    e.preventDefault();
+    console.log("Hello World!!!!")
+    
+    naviagte("/ptoTasks");
+  }
+
+  let naviagte = useNavigate();
 
   const [data, setData] = React.useState(null);
 
@@ -42,7 +53,7 @@ function Sidebar() {
         <br></br>
 
         <body2>
-          <a href="#" className="notification">
+          <a href="#" className="notification" onClick={handleClick}>
             <span>PTO Requests</span>
             <p>{!data ? "hello world" : data}</p>
             <span className="badge">3</span>
