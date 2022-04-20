@@ -60,9 +60,8 @@ function Sidebar() {
           <a href="#" className="notification">
             <span>PTO Requests</span>
           </a>
-            <p>{!ptoData ? "loading PTOs" : ptoData}</p>
-            <span className="badge">3</span>
-          </a>
+          <p>{!ptoData ? "loading PTOs" : ptoData}</p>
+          <span className="badge">3</span>
           <br></br>
 
           <a href="#" className="notification">
