@@ -29,29 +29,16 @@ function Sidebar() {
         <h2>
           <b>Categories</b>
         </h2>
-        <br></br>
-        <br></br>
-
         <body2>
           <a href="#" className="notification">
             <span>PTO Requests</span>
-            <span className="badge">3</span>
           </a>
-          <br></br>
-          <br></br>
-
           <a href="#" className="notification">
             <span>Performance Reviews</span>
-            <span className="badge">1</span>
           </a>
-          <br></br>
-          <br></br>
-
           <a href="#" className="notification">
             <span>Trainings</span>
-            <span className="badge">4</span>
           </a>
-          <br></br>
         </body2>
       </li>
 
