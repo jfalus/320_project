@@ -34,11 +34,15 @@ function Sidebar() {
       .then((genData) => setGenData(genData.message));
   }, []);
 
-  function ptoClick(e) {
+  async function ptoClick(e) {
     e.preventDefault();
     console.log("Clicked!");
-    //This needs to update the Home.js state tasks with JUST the PTO Tasks
-    console.log();
+    // This needs to update the Home.js state tasks with JUST the PTO Tasks
+    // This will need to call methods from the parent, need to on those functions to be finished first because currently
+    // they do not exist in this branch
+    await fetch('/api/empTasks/ptoRequests', {method: 'GET', redirect: 'error'})
+    .then(res => res.json())
+    .then(data => console.log(data));
   }
 
   return (
