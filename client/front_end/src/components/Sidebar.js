@@ -7,13 +7,10 @@ import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
 
 function Sidebar() {
-
-  function handleClick(e) {
-    e.preventDefault();
-    console.log("Hello!");
-  }
-
-  const [data, setData] = React.useState(null);
+  const [ptoData, setPtoData] = React.useState(null);
+  const [prData, setPrData] = React.useState(null);
+  const [trainData, setTrainData] = React.useState(null);
+  const [genData, setGenData] = React.useState(null);
 
   return (
     <div className="sidebar">
@@ -37,13 +34,11 @@ function Sidebar() {
         <h2>
           <b>Categories</b>
         </h2>
-        <br></br>
-        <br></br>
-
         <body2>
           <a href="#" className="notification" onClick={handleClick}>
             <span>PTO Requests</span>
-            <p>{!data ? "hello world" : data}</p>
+          </a>
+            <p>{!ptoData ? "loading PTOs" : ptoData}</p>
             <span className="badge">3</span>
           </a>
           <br></br>
@@ -58,6 +53,13 @@ function Sidebar() {
 
           <a href="#" className="notification">
             <span>Trainings</span>
+            <span className="badge">4</span>
+          </a>
+          <br></br>
+
+          <a href="#" className="notification">
+            <span>General Tasks</span>
+            <p>{!genData ? "loading general tasks" : genData}</p>
             <span className="badge">4</span>
           </a>
           <br></br>
