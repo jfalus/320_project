@@ -10,9 +10,8 @@ function Sidebar() {
 
   function handleClick(e) {
     e.preventDefault();
+    console.log("Hello!");
   }
-  
-  let naviagte = useNavigate();
 
   const [data, setData] = React.useState(null);
 
