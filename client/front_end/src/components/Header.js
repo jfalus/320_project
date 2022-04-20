@@ -11,8 +11,17 @@ const Header = () => {
             <img src={logo} alt="UKG Logo" />
           </div>
         </div>
-        <input className="search" type="text" placeholder="search" />
-        <button class="sortby">Sort</button>
+        <div class="search-container">
+          <form action="/home">
+            <input className="search" type="text" placeholder="search"/>
+            <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+        <div sortby-container>
+          <form action="/home">
+            <button class="sortby">Sort</button>
+          </form>
+        </div>
       </nav>
     </div>
   );
