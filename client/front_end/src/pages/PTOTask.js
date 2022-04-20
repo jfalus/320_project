@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import "../index.css";
 import React from "react";
 
-function Home() {
+function PTOTask() {
   const styles = {
     contentDiv: {
       display: "flex",
@@ -33,11 +33,28 @@ function Home() {
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
-    React.useEffect(() => {
-      fetch("http://localhost:5000/api/empTasks/ptoRequests", requestOptions)
-        .then(res => res.json())
-        .then(data => console.log(data));
-    }, []);
+    
+  const [data, setData] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch("http://localhost:5000/api/empTasks/ptoRequests", requestOptions)
+      .then(res => res.json())
+      .then(res => setData(res));
+  }, []);
+  console.log(data);
+
+  const numbers = [1, 2, 3, 4, 5];
+  const listItems = numbers.map((number) => 
+    <li>{number}</li>
+  );
+
+  // const listItems = data.map((task) =>
+  //   <li>{task.title}</li>
+  // );
+
+  // console.log(listItems)
+
+  console.log(data);
 
   return (
     <>
@@ -61,7 +78,12 @@ function Home() {
           />
         </div>
       </div>
+      <div>
+        <ul>
+          {listItems}
+        </ul>
+      </div>
     </>
   );
 }
-export default Home;
+export default PTOTask;

@@ -21,8 +21,7 @@ function Sidebar() {
   React.useEffect(() => {
     fetch("http://localhost:5000/api/empTasks/ptoRequests")
       .then((res) => res.json())
-      .then(data => console.log(data))
-      // .then((data) => setData(data.message));
+      .then((data) => setData(data.message));
   }, []);
 
   return (
