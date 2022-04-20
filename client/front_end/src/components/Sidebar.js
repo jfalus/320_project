@@ -35,9 +35,8 @@ function Sidebar() {
           <b>Categories</b>
         </h2>
         <body2>
-          <a href="#" className="notification" onClick={handleClick}>
+          <a href="#" className="notification">
             <span>PTO Requests</span>
-          </a>
             <p>{!ptoData ? "loading PTOs" : ptoData}</p>
             <span className="badge">3</span>
           </a>
