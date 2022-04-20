@@ -17,13 +17,13 @@ function Home() {
 
   // Accesses a GET endpoint, returns array of JSON objects
   // ex: getKind("assignedTrainings", 43, {method:'GET', redirect:'follow'})
-  async function getKind(url_kind, employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async function getKind(url_kind, assigned_to, request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     var ret;
-    await fetch("/api/empTasks/" + url_kind + "?EID=" + employee_id, request_options)
+    await fetch("/api/empTasks/" + url_kind + "?ASTO=" + assigned_to, request_options)
     .then(response => response.json())
     .then(result => {
-      if(debug) {console.log(url_kind + " for employee " + employee_id + ":\n"); result.forEach(t => console.log(t));}
+      if(debug) {console.log(url_kind + " assigned to employee " + assigned_to + ":\n"); result.forEach(t => console.log(t));}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -32,13 +32,13 @@ function Home() {
 
   // Accesses all task GET endpoints, returns object: {assigned_trainings:[JSON objects], performance_reviews:[JSON objects], pto_requests:[JSON objects], general_tasks:[JSON objects]}
   // ex: getAllTasks(43, {method:'GET', redirect:'follow'})
-  async function getAllTasks(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async function getAllTasks(assigned_to, request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     const ret = {};
-    const tasks = await Promise.all([getKind("assignedTrainings", employee_id, request_options, debug),
-                                     getKind("performanceReviews", employee_id, request_options, debug),
-                                     getKind("ptoRequests", employee_id, request_options, debug),
-                                     getKind("generalTasks", employee_id, request_options, debug)]);
+    const tasks = await Promise.all([getKind("assignedTrainings", assigned_to, request_options, debug),
+                                     getKind("performanceReviews", assigned_to, request_options, debug),
+                                     getKind("ptoRequests", assigned_to, request_options, debug),
+                                     getKind("generalTasks", assigned_to, request_options, debug)]);
     ret.assigned_trainings = tasks[0] || [];
     ret.performance_reviews = tasks[1] || [];
     ret.pto_requests = tasks[2] || [];
@@ -48,10 +48,10 @@ function Home() {
 
   // Accesses all task GET endpoints, returns singular array of JSON objects
   // ex: getAllTasksSmooth(43, undefined, undefined, true)
-  async function getAllTasksSmooth(employee_id, request_options={method: 'GET', redirect: 'error'}, debug=false, category_strings=false)
+  async function getAllTasksSmooth(assigned_to, request_options={method: 'GET', redirect: 'error'}, debug=false, category_strings=false)
   {
     var ret = [];
-    const tasks = await getAllTasks(employee_id, request_options, debug);
+    const tasks = await getAllTasks(assigned_to, request_options, debug);
     tasks.assigned_trainings.forEach(e => {if(category_strings){e.category = "Assigned Training";} ret.push(e);});
     tasks.performance_reviews.forEach(e => {if(category_strings){e.category = "Performance Review";} ret.push(e);});
     tasks.pto_requests.forEach(e => {if(category_strings){e.category = "PTO Request";} ret.push(e);});
@@ -91,6 +91,40 @@ function Home() {
     return ret;
   }
 
+  const UPDATE_ASSIGNED_TRAINING = "AssignedTraining";
+  const UPDATE_GENERAL_TASK = "GeneralTask";
+  const UPDATE_PERFORMANCE_REVIEW = "PerformanceReview";
+  const UPDATE_PTO_REQUEST = "PtoRequest";
+
+  // Accesses an UPDATE endpoint, returns boolean
+  // See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields
+  // Syntax:
+  //    var myHeaders = new Headers();
+  //    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  //    var urlencoded = new URLSearchParams();
+  //    urlencoded.append("bodyParam1Name", bodyParam1Val);
+  //    urlencoded.append("bodyParam2Name", "bodyParam2Val");
+  //    //etc.                              value or "value"; either one works
+  //    var requestOptions = {
+  //      method: 'PUT',
+  //      headers: myHeaders,
+  //      body: urlencoded,
+  //      redirect: 'error'
+  //    };
+  //    updateTask(UPDATE_GENERAL_TASK, requestOptions, true)
+  async function updateTask(url_kind, request_options, debug=false)
+  {
+    var ret;
+    await fetch("/api/empTasks/update" + url_kind, request_options)
+    .then(response => response.text())
+    .then(result => {
+      if(debug) {console.log("Update " + url_kind + ":\n" + result);}
+      ret = result === "true";
+    })
+    .catch(error => console.log('error', error));
+    return ret;
+  }
+
   // Filters tasks according to some field of the json, such as progress or category
   // Inputs: tasks json array, field to filter by, array of values to filter by
   // ex: filterTasks(tasks, "category", ["Assigned Training", "PTO Request"])
@@ -118,11 +152,6 @@ function Home() {
     }
   }
 
-  var requestOptions = {
-    method: 'GET',
-    redirect: 'error'
-  };
-
   var tasks;
   getAllTasksSmooth(43, undefined, true, true).then(a => tasks = a);
     // THIS IS ASYNC!!!!!!!!
@@ -131,6 +160,19 @@ function Home() {
   
   getAllTasksSmooth(31, undefined, true, true).then(a => tasks = a);
   getAllTasksSmooth(9, undefined, true, true).then(a => tasks = a);
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("task_id", "15");
+  urlencoded.append("progress", "Completed");
+  var requestOptions = {
+    method: 'PUT',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'error'
+  };
+  updateTask(UPDATE_GENERAL_TASK, requestOptions, true);
   
 
   return (

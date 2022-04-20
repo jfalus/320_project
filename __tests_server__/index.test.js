@@ -267,9 +267,8 @@ describe('Test new PTO Request', () => {
         expect(response.text).toBe()
         done()
       })
-    })
   })
-});
+})
 
 describe("Get Endpoint Testing", done => {
   test("Gets assigned trainings of user with employee id 17", done => {
