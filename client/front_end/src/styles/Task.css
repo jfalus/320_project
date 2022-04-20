@@ -13,6 +13,9 @@
   font-weight: bold;
 }
 
+.link { color: #095757;}
+.link:hover { color: #32cdbd;}
+
 .task-feedback {
   width: 30%;
 }

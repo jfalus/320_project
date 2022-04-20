@@ -26,14 +26,13 @@ body {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 244px;
+  width: 284px;
+  padding: 1rem;
 }
 
 .sidebar li {
   list-style: none;
-  padding: 1rem 2rem;
-  /* border-bottom: solid rgba(255,255,255,0.671); */
-  /* display:flex; */
+  padding: 1rem;
   align-items: center;
   gap: 1rem;
   font-weight: 300;
@@ -131,10 +130,11 @@ h2 {
   background-color: 005150;
   color: white;
   text-decoration: none;
-  padding: 15px 26px;
+  padding: 16px 8px 16px 8px;
   position: relative;
   display: inline-block;
   border-radius: 2px;
+  width: 100%
 }
 
 .notification:hover {
