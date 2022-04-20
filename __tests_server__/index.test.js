@@ -101,7 +101,7 @@ describe("Test getting ALL employees below user", () => {
           })
       })
   })
-});
+})
 
 describe("Test assigned trainings endpoints", () => {
   test("Gets assigned trainings of user with employeeId: 43", done => {
