@@ -268,7 +268,7 @@ describe('Test new PTO Request', () => {
         done()
       })
   })
-});
+})
 
 describe("Get Endpoint Testing", done => {
   test("Gets assigned trainings of user with employee id 17", done => {
