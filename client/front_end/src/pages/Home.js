@@ -5,7 +5,6 @@ import "../index.css";
 import React, { Component } from 'react'
 
 class Home extends Component {
-
   constructor() {
     super()
     this.state = {
@@ -48,6 +47,10 @@ class Home extends Component {
     ret.performance_reviews = tasks[1] || [];
     ret.pto_requests = tasks[2] || [];
     ret.general_tasks = tasks[3] || [];
+    // ret.assignedTrainings = await getKind("assignedTrainings", employee_id, request_options, debug);
+    // ret.performance_reviews = await getKind("performanceReviews", employee_id, request_options, debug);
+    // ret.pto_requests = await getKind("ptoRequests", employee_id, request_options, debug);
+    // ret.general_tasks = await getKind("generalTasks", employee_id, request_options, debug);
     return ret;
   }
 
