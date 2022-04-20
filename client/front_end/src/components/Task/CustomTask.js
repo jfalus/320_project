@@ -20,7 +20,6 @@ function CustomTask(props) {
       let res = await fetch("/api/empTasks/newGeneralTask", {
         method: "POST",
         body: JSON.stringify({
-          e_id: 85,
           title: title,
           assigned_to: assignee,
           date_due: dueDate,
