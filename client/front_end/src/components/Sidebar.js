@@ -34,6 +34,13 @@ function Sidebar() {
       .then((genData) => setGenData(genData.message));
   }, []);
 
+  function ptoClick(e) {
+    e.preventDefault();
+    console.log("Clicked!");
+    //This needs to update the Home.js state tasks with JUST the PTO Tasks
+    console.log();
+  }
+
   return (
     <div className="sidebar">
       <li>
@@ -57,11 +64,11 @@ function Sidebar() {
           <b>Categories</b>
         </h2>
         <body2>
-          <a href="#" className="notification">
+          <a href="#" className="notification" onClick={ptoClick}>
             <span>PTO Requests</span>
+            <p>{!ptoData ? "loading PTOs" : ptoData}</p>
+            <span className="badge">3</span>
           </a>
-          <p>{!ptoData ? "loading PTOs" : ptoData}</p>
-          <span className="badge">3</span>
           <br></br>
 
           <a href="#" className="notification">
