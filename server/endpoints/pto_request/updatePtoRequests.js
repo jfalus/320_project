@@ -5,11 +5,12 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 // Updates pto request with ptoid. Returns number of fields updated (should be 2) or -1 if error.
 //                                                   progress <- prog,
 //                                                   approved <- appr
-async function updatePTORequest(db, ptoid, prog, appr){
+async function updatePTORequest(db, request, ptoid, prog, appr){
   try{
     return await db.update(
       {progress: prog, approved: appr},
       {where: {
+        assigned_to: request.user.e_id,
         pto_id: ptoid,
         }
       },
@@ -27,10 +28,7 @@ function updatePtoRequest(app){
   app.put('/api/empTasks/updatePtoRequest',
   checkLoggedIn,
   async (req, res) => {
-    if(!(req.user.e_id === req.query.EID || isManagerOf(req.user.e_id, req.query.EID))){
-      return res.json({Error:"No permission"});
-    }
-    res.send((await updatePTORequest(models.pto_request, parseInt(req.body.pto_id), req.body.progress, req.body.approved === "true"))[0] === 2);
+    res.send((await updatePTORequest(models.pto_request, req, parseInt(req.body.pto_id), req.body.progress, req.body.approved === "true"))[0] === 2);
   });
 }
 

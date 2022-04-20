@@ -4,11 +4,12 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 
 // Updates assigned training with atid. Returns number of fields updated (should be 1) or
 // -1 if error.                                           progress <- prog
-async function updateTraining(db, atid, prog){
+async function updateTraining(db, request, atid, prog){
   try{
     return await db.update(
       {progress: prog},
       {where: {
+        assigned_to: request.user.e_id,
         at_id: atid,
         }
       },
@@ -26,10 +27,7 @@ function updateAssignedTraining(app){
   app.put('/api/empTasks/updateAssignedTraining',
   checkLoggedIn,
   async (req, res) => {
-    if(!(req.user.e_id === req.query.EID || isManagerOf(req.user.e_id, req.query.EID))){
-      return res.json({Error:"No permission"});
-    }
-    res.send((await updateTraining(models.assigned_training, parseInt(req.body.at_id), req.body.progress))[0] === 1);
+    res.send((await updateTraining(models.assigned_training, req, parseInt(req.body.at_id), req.body.progress))[0] === 1);
   });                                                                                                         // Sequelize update returns array,
 }
 

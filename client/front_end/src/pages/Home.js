@@ -17,13 +17,19 @@ function Home() {
 
   // Accesses a GET endpoint, returns array of JSON objects
   // ex: getKind("assignedTrainings", 43, {method:'GET', redirect:'follow'})
-  async function getKind(url_kind, assigned_to, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async function getKind(url_kind, request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     var ret;
-    await fetch("/api/empTasks/" + url_kind + "?ASTO=" + assigned_to, request_options)
+    await fetch("/api/empTasks/" + url_kind, request_options)
+    .then(res => {
+      if (res.redirected) {
+        window.location.href = res.url;
+      }
+      return res;
+    })
     .then(response => response.json())
     .then(result => {
-      if(debug) {console.log(url_kind + " assigned to employee " + assigned_to + ":\n"); result.forEach(t => console.log(t));}
+      if(debug) {console.log(url_kind + " assigned to self:\n"); result.forEach(t => console.log(t));}
       ret = result;
     })
     .catch(error => console.log('error', error));
@@ -32,13 +38,13 @@ function Home() {
 
   // Accesses all task GET endpoints, returns object: {assigned_trainings:[JSON objects], performance_reviews:[JSON objects], pto_requests:[JSON objects], general_tasks:[JSON objects]}
   // ex: getAllTasks(43, {method:'GET', redirect:'follow'})
-  async function getAllTasks(assigned_to, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async function getAllTasks(request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     const ret = {};
-    const tasks = await Promise.all([getKind("assignedTrainings", assigned_to, request_options, debug),
-                                     getKind("performanceReviews", assigned_to, request_options, debug),
-                                     getKind("ptoRequests", assigned_to, request_options, debug),
-                                     getKind("generalTasks", assigned_to, request_options, debug)]);
+    const tasks = await Promise.all([getKind("assignedTrainings", request_options, debug),
+                                     getKind("performanceReviews", request_options, debug),
+                                     getKind("ptoRequests", request_options, debug),
+                                     getKind("generalTasks", request_options, debug)]);
     ret.assigned_trainings = tasks[0] || [];
     ret.performance_reviews = tasks[1] || [];
     ret.pto_requests = tasks[2] || [];
@@ -66,6 +72,12 @@ function Home() {
   {
     var ret;
     await fetch("/api/directManagedEmployees", request_options)
+    .then(res => {
+      if (res.redirected) {
+        window.location.href = res.url;
+      }
+      return res;
+    })
     .then(response => response.json())
     .then(result => {
       if(debug) {console.log("Direct Subordinate Employees:\n"); result.forEach(t => console.log(t));}
@@ -75,13 +87,18 @@ function Home() {
     return ret;
   }
 
-  // MAY NOT BE ABLE TO TEST THIS YET (login doesn't seem to work properly yet)
   // Accesses allManagedEmployees endpoint (gets all subordinates of current user), returns array of JSON objects
   // ex: getAllSubordinateEmployees()
   async function getAllSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     var ret;
     await fetch("/api/allManagedEmployees", request_options)
+    .then(res => {
+      if (res.redirected) {
+        window.location.href = res.url;
+      }
+      return res;
+    })
     .then(response => response.json())
     .then(result => {
       if(debug) {console.log("All Subordinate Employees:\n"); result.forEach(t => console.log(t));}
@@ -116,6 +133,12 @@ function Home() {
   {
     var ret;
     await fetch("/api/empTasks/update" + url_kind, request_options)
+    .then(res => {
+      if (res.redirected) {
+        window.location.href = res.url;
+      }
+      return res;
+    })
     .then(response => response.text())
     .then(result => {
       if(debug) {console.log("Update " + url_kind + ":\n" + result);}
@@ -153,13 +176,13 @@ function Home() {
   }
 
   var tasks;
-  getAllTasksSmooth(43, undefined, true, true).then(a => tasks = a);
+  getAllTasksSmooth(undefined, true, true).then(a => tasks = a);
     // THIS IS ASYNC!!!!!!!!
     // If possible, make Home() async and just await the line above this one.
     // Otherwise, need to have the .then() update the return.
   
-  getAllTasksSmooth(31, undefined, true, true).then(a => tasks = a);
-  getAllTasksSmooth(9, undefined, true, true).then(a => tasks = a);
+  getAllTasksSmooth(undefined, true, true).then(a => tasks = a);
+  getAllTasksSmooth(undefined, true, true).then(a => tasks = a);
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
