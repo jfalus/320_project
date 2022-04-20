@@ -1,4 +1,5 @@
 const checkLoggedIn = require('../authentication/checkLoggedIn');
+const isManagerOf = require('../employee/isManagerOf');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
 // Updates assigned training with atid assigned to employee with eid. Returns number of fields updated (should be 1) or
@@ -24,7 +25,12 @@ async function updateTraining(db, eid, atid, prog){
 // /api/empTasks/updateAssignedTraining?EID=int&ATID=int&PROGRESS=string
 // Passes true if updated successfully, false otherwise
 function updateAssignedTraining(app){
-  app.put('/api/empTasks/updateAssignedTraining', checkLoggedIn, async (req, res) => {
+  app.put('/api/empTasks/updateAssignedTraining',
+  checkLoggedIn,
+  async (req, res) => {
+    if(!(req.user.e_id === req.query.EID || isManagerOf(req.user.e_id, req.query.EID))){
+      return res.json({Error:"No permission"});
+    }
     res.send((await updateTraining(models.assigned_training, req.query.EID, req.query.ATID, req.query.PROGRESS))[0] === 1);
   });                                                                                                         // Sequelize update returns array,
                                                                                                             // first element is number of updated values

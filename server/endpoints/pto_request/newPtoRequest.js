@@ -1,3 +1,5 @@
+const checkLoggedIn = require('../authentication/checkLoggedIn');
+const isManagerOf = require('../employee/isManagerOf');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
 function isValidPto(e_id, title, desc, start_date, end_date, date_due) {
@@ -14,8 +16,12 @@ function isValidPto(e_id, title, desc, start_date, end_date, date_due) {
 }
 
 function newPtoRequest(app){
-  app.post('/api/empTasks/newPtoRequest', async(req,res) => {
-    console.log(req.body)
+  app.post('/api/empTasks/newPtoRequest',
+  checkLoggedIn,
+  async(req,res) => {
+    if(!isManagerOf(req.body.e_id, req.user.e_id)){
+      return res.json({Error:"No permission"});
+    }
     if (isValidPto(req.body.e_id, req.body.title, req.body.description, req.body.start_date, req.body.end_date, req.body.date_due)) {
       const data = {e_id: req.body.e_id, title: req.body.title, description: req.body.description, start_date: req.body.start_date, end_date: req.body.end_date, date_due: req.body.date_due, progress: 'Not-started'}
       const x = await models.pto_request.create(data)
