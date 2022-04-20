@@ -35,7 +35,7 @@ const schema = {
         type: DataTypes.STRING,
     },
     startDate : {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
     },
     isManager : {
         type: DataTypes.BOOLEAN,

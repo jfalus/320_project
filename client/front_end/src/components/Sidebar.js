@@ -5,8 +5,35 @@ import PTORequest from "./Task/PTORequest.js";
 import TrainingRequest from "./Task/TrainingRequest.js";
 import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
+import { get } from "superagent";
 
 function Sidebar() {
+  const [ptoData, setPtoData] = React.useState(null);
+  const [prData, setPrData] = React.useState(null);
+  const [trainData, setTrainData] = React.useState(null);
+  const [genData, setGenData] = React.useState(null);
+
+  React.useEffect(() => {
+    get("/api/empTasks/ptoRequests")
+      .then((res) => res.json())
+      .then((ptoData) => setPtoData(ptoData.message));
+  }, []);
+  React.useEffect(() => {
+    get("/api/empTasks/performanceReviews")
+      .then((res) => res.json())
+      .then((prData) => setPrData(prData.message));
+  }, []);
+  React.useEffect(() => {
+    get("/api/empTasks/assignedTrainings")
+      .then((res) => res.json())
+      .then((trainData) => setTrainData(trainData.message));
+  }, []);
+  React.useEffect(() => {
+    get("/api/empTasks/generalTasks")
+      .then((res) => res.json())
+      .then((genData) => setGenData(genData.message));
+  }, []);
+
   return (
     <div className="sidebar">
       <li>
@@ -29,26 +56,32 @@ function Sidebar() {
         <h2>
           <b>Categories</b>
         </h2>
-        <br></br>
-        <br></br>
-
         <body2>
           <a href="#" className="notification">
             <span>PTO Requests</span>
+          </a>
+            <p>{!ptoData ? "loading PTOs" : ptoData}</p>
             <span className="badge">3</span>
           </a>
-          <br></br>
           <br></br>
 
           <a href="#" className="notification">
             <span>Performance Reviews</span>
+            <p>{!prData ? "loading PRs" : prData}</p>
             <span className="badge">1</span>
           </a>
-          <br></br>
           <br></br>
 
           <a href="#" className="notification">
             <span>Trainings</span>
+            <p>{!trainData ? "loading trainings" : trainData}</p>
+            <span className="badge">4</span>
+          </a>
+          <br></br>
+
+          <a href="#" className="notification">
+            <span>General Tasks</span>
+            <p>{!genData ? "loading general tasks" : genData}</p>
             <span className="badge">4</span>
           </a>
           <br></br>

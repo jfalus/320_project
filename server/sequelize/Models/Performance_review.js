@@ -12,7 +12,7 @@ const schema = {
     title : {
         type: DataTypes.STRING,
     },
-    overall_comments: {
+    overall_comments : {
         type: DataTypes.STRING,
     },
     growth_feedback : {
@@ -27,6 +27,9 @@ const schema = {
     date_created : {
         type: DataTypes.DATEONLY,
         defaultValue: Sequelize.NOW,
+    },
+    date_due : {
+        type: DataTypes.DATEONLY,
     },
     progress : {
         type: DataTypes.STRING,
