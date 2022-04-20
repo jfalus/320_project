@@ -5,24 +5,16 @@ import PTORequest from "./Task/PTORequest.js";
 import TrainingRequest from "./Task/TrainingRequest.js";
 import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
 
   function handleClick(e) {
     e.preventDefault();
-    naviagte("/ptoTasks");
   }
   
   let naviagte = useNavigate();
 
   const [data, setData] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("http://localhost:5000/api/empTasks/ptoRequests")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
 
   return (
     <div className="sidebar">

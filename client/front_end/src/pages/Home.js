@@ -173,7 +173,6 @@ function Home() {
     redirect: 'error'
   };
   updateTask(UPDATE_GENERAL_TASK, requestOptions, true);
-  
 
   return (
     <>
