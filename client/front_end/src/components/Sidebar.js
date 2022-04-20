@@ -57,39 +57,34 @@ function Sidebar() {
         <h2>
           <b>Categories</b>
         </h2>
-        <body2>
           <a href="#" className="notification">
             <span>PTO Requests</span>
           </a>
-            <p>{!ptoData ? "loading PTOs" : ptoData}</p>
-            <span className="badge">3</span>
-          </a>
-          <br></br>
+          <p>{!ptoData ? "loading PTOs" : ptoData}</p>
+          <span className="badge">3</span>
+        <br></br>
 
-          <a href="#" className="notification">
-            <span>Performance Reviews</span>
-            <p>{!prData ? "loading PRs" : prData}</p>
-            <span className="badge">1</span>
-          </a>
-          <br></br>
+        <a href="#" className="notification">
+          <span>Performance Reviews</span>
+          <p>{!prData ? "loading PRs" : prData}</p>
+          <span className="badge">1</span>
+        </a>
+        <br></br>
 
-          <a href="#" className="notification">
-            <span>Trainings</span>
-            <p>{!trainData ? "loading trainings" : trainData}</p>
-            <span className="badge">4</span>
-          </a>
-          <br></br>
+        <a href="#" className="notification">
+          <span>Trainings</span>
+          <p>{!trainData ? "loading trainings" : trainData}</p>
+          <span className="badge">4</span>
+        </a>
+        <br></br>
 
-          <a href="#" className="notification">
-            <span>General Tasks</span>
-            <p>{!genData ? "loading general tasks" : genData}</p>
-            <span className="badge">4</span>
-          </a>
-          <br></br>
-        </body2>
-      </li>
-
-      <li>
+        <a href="#" className="notification">
+          <span>General Tasks</span>
+          <p>{!genData ? "loading general tasks" : genData}</p>
+          <span className="badge">4</span>
+        </a>
+        <br></br>
+    </li><li>
         <div className="dropdown">
           <button className="dropbtn">
             Filters <i className="fa fa-caret-down" aria-hidden="true"></i>
@@ -107,9 +102,7 @@ function Sidebar() {
             </a>
           </div>
         </div>
-      </li>
-
-      <div id="settings">
+      </li><div id="settings">
         SETTINGS{" "}
         <a href="google.com">
           <i className="fa fa-cog fa-3x" aria-hidden="true"></i>
@@ -117,7 +110,7 @@ function Sidebar() {
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;
 
