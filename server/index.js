@@ -97,6 +97,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //This is a terrible way of doing this. Replace with require-all later.
+const {manager} = require('./endpoints/employee/manager')
+
 const endpoints = [
   require('./endpoints/assigned_training/assignedTrainings'),
   require('./endpoints/assigned_training/newAssignedTraining'),
@@ -104,6 +106,8 @@ const endpoints = [
   require('./endpoints/authentication/logout'),
   require('./endpoints/employee/allManagedEmployees'),
   require('./endpoints/employee/directManagedEmployees'),
+  manager,
+  require('./endpoints/employee/findEmployee'),
   require('./endpoints/general_task/generalTasks'),
   require('./endpoints/general_task/newGeneralTask'),
   require('./endpoints/general_task/updateGeneralTask'),

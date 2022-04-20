@@ -1,3 +1,5 @@
+const checkLoggedIn = require('../authentication/checkLoggedIn');
+const isManagerOf = require('../employee/isManagerOf');
 const { models } = require('../../sequelize/sequelizeConstructor')
 
 function isValidAT(e_id, title, desc, link, date_due) {
@@ -11,8 +13,12 @@ function isValidAT(e_id, title, desc, link, date_due) {
 }
 
 function newAssignedTraining(app) {
-  app.post('/api/empTasks/newAssignedTraining', async(req,res) => {
-    console.log(req.body)
+  app.post('/api/empTasks/newAssignedTraining',
+  checkLoggedIn,
+  async(req,res) => {
+    if(!isManagerOf(req.user.e_id, req.body.e_id)){
+      return res.json({Error:"No permission"});
+    }
     if (isValidAT(req.body.e_id, req.body.title, req.body.description, req.body.link, req.body.date_due)) {
       const data = {e_id: req.body.e_id, title: req.body.title, description: req.body.description, link: req.body.link, date_due: req.body.date_due, progress: 'Not-started'}
       const x = await models.assigned_training.create(data)
