@@ -3,15 +3,23 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const expressSession = require('express-session')
 const {models} = require('./sequelize/sequelizeConstructor');
-// var jsonMerger = require("json-merger");
+const path = require("path");
+require('dotenv').config()
 
 const app = express()
+
+app.use(express.static(path.join(__dirname, "../client/front_end/build")));
+app.use(express.static(path.join(__dirname, "../client/front_end/public")));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use(express.json({
+  type: ['application/json', 'text/plain']
+}))
 
 const session = {
   secret: process.env.SECRET || 'SECRET',
@@ -55,13 +63,13 @@ const strategy = new LocalStrategy(
     //await for user
     const user = await findUser(models.employees, email);
     if (user === null) {
-      return done(null, false);
+      return done(null, false, {message: "Email not found"});
     }
     //add function to check credentials
     checkCred(models.employees, email, password).then(async function(result){
       if (!result) {
         await new Promise((r) => setTimeout(r, 200));
-        return done(null, false);
+        return done(null, false, {message: "Incorrect password"});
       }
       return done(null, {e_id:user.e_id, employeeId:user.employeeId, companyId:user.companyId, firstName:user.firstName, 
         lastName:user.lastName, email:user.email, companyName:user.companyName, managerId:user.managerId, 
@@ -89,6 +97,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //This is a terrible way of doing this. Replace with require-all later.
+const {manager} = require('./endpoints/employee/manager')
+
 const endpoints = [
   require('./endpoints/assigned_training/assignedTrainings'),
   require('./endpoints/assigned_training/newAssignedTraining'),
@@ -96,6 +106,8 @@ const endpoints = [
   require('./endpoints/authentication/logout'),
   require('./endpoints/employee/allManagedEmployees'),
   require('./endpoints/employee/directManagedEmployees'),
+  manager,
+  require('./endpoints/employee/findEmployee'),
   require('./endpoints/general_task/generalTasks'),
   require('./endpoints/general_task/newGeneralTask'),
   require('./endpoints/general_task/updateGeneralTask'),
@@ -113,9 +125,28 @@ for(const endpoint of endpoints){
 
 require('./endpoints/authentication/login')(app, passport)
 
-//I don't know what this does but others use it
+// app.use((req, res, next) => {
+//   res.status(302).sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
+// });
+
+app.get('/hello', async (req, res) => {
+  res.send("Hello, World!");
+})
+
+// app.get('/hello', (req, res) => {
+//   res.send("Hello, World!");
+// })
+
+// I don't know what this does but others use it
+
+// app.get('/home', (req, res, next) => {
+//   console.log("AEWRTEWAT")
+//   // res.sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
+//   next()
+// })
+
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, "../client/front_end/public/index.html"));
 })
 
 module.exports = app;
