@@ -8,7 +8,6 @@ import { Dropdown } from "react-bootstrap";
 import { get } from "superagent";
 
 function Sidebar() {
-
   const [ptoData, setPtoData] = React.useState(null);
   const [prData, setPrData] = React.useState(null);
   const [trainData, setTrainData] = React.useState(null);
@@ -88,7 +87,6 @@ function Sidebar() {
             <span className="badge">4</span>
           </a>
           <br></br>
-          
         </body2>
       </li>
 
@@ -123,4 +121,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-

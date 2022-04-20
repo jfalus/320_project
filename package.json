@@ -18,7 +18,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "concurrently": "^7.0.0",
+    "concurrently": "^7.1.0",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
     "superagent": "^7.1.2",
