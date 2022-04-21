@@ -10,7 +10,10 @@ class Home extends Component {
     this.state = {
       tasks: []
     }
-    getAllTasksSmooth(true, undefined, undefined).then(r => this.setState({tasks : r}));
+  }
+
+  async componentDidMount() {
+    this.getAllTasksSmooth(true, undefined, undefined);
   }
 
   // Accesses a GET endpoint for the current user, returns array of JSON objects
@@ -39,10 +42,10 @@ class Home extends Component {
   async getAllTasks(request_options={method: 'GET', redirect: 'error'}, debug=false)
   {
     const ret = {};
-    const tasks = await Promise.all([getKind("assignedTrainings", request_options, debug),
-                                     getKind("performanceReviews", request_options, debug),
-                                     getKind("ptoRequests", request_options, debug),
-                                     getKind("generalTasks", request_options, debug)]);
+    const tasks = await Promise.all([this.getKind("assignedTrainings", request_options, debug),
+                                     this.getKind("performanceReviews", request_options, debug),
+                                     this.getKind("ptoRequests", request_options, debug),
+                                     this.getKind("generalTasks", request_options, debug)]);
     ret.assigned_trainings = tasks[0] || [];
     ret.performance_reviews = tasks[1] || [];
     ret.pto_requests = tasks[2] || [];
@@ -182,10 +185,20 @@ class Home extends Component {
 
   render()
   {
+
     return (
       <>
         <Header />
-        <div style={styles.contentDiv}>
+        <div style={{
+          contentDiv: {
+            display: "flex",
+          },
+          contentMargin: {
+            marginLeft: "0px",
+            width: "100%",
+            backgroundColor: "005151",
+          },
+        }.contentDiv}>
           <Sidebar />
           <div className="Main-section">
             {this.state.tasks.map(e => {
