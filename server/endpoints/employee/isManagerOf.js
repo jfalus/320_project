@@ -1,18 +1,23 @@
 const {getManager} = require('./manager');
+const {models} = require('../../sequelize/sequelizeConstructor');
 
-//req is manager of e_id?
-async function isManagerOf(req, e_id){
-  while(e_id != null){
-    const manager = await getManager(e_id)
-    if(!manager){
-      return false
+
+async function isManagerOf(assigner, assigned_to, bool_at) {
+  const arr = []
+  for (let i = 0; i < assigned_to.length; i++) {
+    arr[i] = await models.employees.findOne({where: {email: assigned_to[i]}})
+    if (bool_at) {
+      if (arr[i].companyId !== assigner.companyId || arr[i].managerId !== assigner.employeeId) {
+        return false
+      }
+    } else if (!bool_at) {
+      if (arr[i].companyId !== assigner.companyId || arr[i].employeeId !== assigner.managerId) {
+        return false
+      }
     }
-    if(manager.e_id == req){
-      return true
-    }
-    e_id = manager
+    
   }
-  return false
+  return true
 }
 
 module.exports = isManagerOf;

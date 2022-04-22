@@ -195,135 +195,158 @@ const COMPLETE = 'Complete'
 //   })
 // })
 
-jest.setTimeout(20000);
+jest.setTimeout(10000);
 
 
-describe('Test new assigned training', () => {
-  test('sample', (done) => {
-    request(app)
-      .post('/api/empTasks/newAssignedTraining')
-      .send({
-        e_id: 5, 
-        title: 'hi', 
-        description: 'hi',
-        link: 'hi',
-        date_due: '2022-05-16'
-      })
-      .then((response) => {
-        expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"at_id\":\"34\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"link\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\"}")
-        done()
-      })
-  }) 
-})
+// describe('Test new assigned training', () => {
+//   test('sample', (done) => {
+//     let agent = request.agent(app)
+//     agent.post('/api/login').send({
+//       username: 'Hans_Barton@atlastechnology.com',
+//       password: 'bartonha',
+//     }).end(function(err, res) {
+//       agent.post('/api/empTasks/newAssignedTraining')
+//       .send({
+//         title: 'oh', 
+//         description: 'hello',
+//         link: 'hi',
+//         date_due: '2022-05-16',
+//         //assigned_to: ['Eldridge_Chavez@atlastechnology.com']
+//         assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
+//       })
+//       .then((response) => {
+//         expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
+//         done()
+//       })
+//     })
+//   }) 
+// })
 
-describe('Test new general task', () => {
-  test('sample', (done) => {
-    request(app)
-      .post('/api/empTasks/newGeneralTask')
-      .send({
-        e_id: 5, 
-        title: 'hi', 
-        description: 'hi',
-        date_due: '2022-05-16',
-        assigned_to: 1
-      })
-      .then((response) => {
-        expect(response).toBe()
-        done()
-      })
-  }) 
-})
+// describe('Test new general task', () => {
+//   test('sample', (done) => {
+//     let agent = request.agent(app)
+//     agent.post('/api/login').send({
+//       username: 'Charlene_Gilbert@atlastechnology.com',
+//       password: 'gilbertch',
+//     }).end(function(err, res) {
+//       agent.post('/api/empTasks/newGeneralTask')
+//       .send({
+//         title: 'hi', 
+//         description: 'hi',
+//         date_due: '2022-05-16',
+//         assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
+//         //assigned_to: ['Mose_Gibson@atlastechnology.com']
+//       })
+//       .then((response) => {
+//         expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
+//         done()
+//       })
+//     })
+//   }) 
+// })
 
-describe('Test new performance review', () => {
-  test('sample', (done) => {
-    request(app)
-      .post('/api/empTasks/newPerformanceReview')
-      .send({
-        e_id: 1, 
-        title: 'hi', 
-        assigned_to: 2,
-        date_due: '2022-05-16'
-      })
-      .then((response) => {
-        expect(response).toBe()
-        done()
-      })
-  }) 
-})
+// describe('Test new performance review', () => {
+//   test('sample', (done) => {
+//     let agent = request.agent(app)
+//     agent.post('/api/login').send({
+//       username: 'Charlene_Gilbert@atlastechnology.com',
+//       password: 'gilbertch',
+//     }).end(function(err, res) {
+//       agent.post('/api/empTasks/newPerformanceReview')
+//       .send({
+//         title: 'hi', 
+//         description: 'hi',
+//         date_due: '2022-05-16',
+//         assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
+//       })
+//       .then((response) => {
+//         expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
+//         done()
+//       })
+//     })
+//   }) 
+// })
+
 
 describe('Test new PTO Request', () => {
   test('sample', (done) => {
-    request(app)
-      .post('/api/empTasks/newPtoRequest')
+    let agent = request.agent(app)
+    agent.post('/api/login').send({
+      username: 'Charlene_Gilbert@atlastechnology.com',
+      password: 'gilbertch',
+    }).end(function(err, res) {
+      agent.post('/api/empTasks/newPtoRequest')
       .send({
-        e_id: 5, 
         title: 'hi', 
         description: 'hi',
         start_date: '2022-04-22',
         end_date: '2022-06-21',
-        date_due: '2022-05-16'
+        date_due: '2022-05-16',
+        assigned_to: ['Eldridge_Chavez@atlastechnology.com']
+        //assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
       })
       .then((response) => {
-        expect(response.text).toBe()
+        expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
         done()
       })
-  })
+    })
+  }) 
 })
 
-describe("Get Endpoint Testing", done => {
-  test("Gets assigned trainings of user with employee id 17", done => {
-    let agent = request.agent(app);
-    agent.post("/api/login")
-    .send({username:"Morgan_Bernard@atlastechnology.com", password:"bernardmo"})
-    .end(function(err, res){
-      agent
-      .get("/api/empTasks/assignedTrainings?EID=17")
-      .then(res => {
-        expect(res.text).toBe('[{"title":"sexual harassment","description":"POOPY","link":"Centree.com","date_created":"2016-04-18","date_due":"2021-03-06","progress":"Complete"},{"title":"sexual harassment","description":"YAY","link":"Maineland.com","date_created":"2019-08-26","date_due":"2021-09-16","progress":"Complete"},{"title":"sexual harassment","description":"UH OHHHH STINKY","link":"Insource.com","date_created":"2014-07-29","date_due":"2020-07-28","progress":"Not-started"}]');
-        done();
-      })
-    })
-  });
+// describe("Get Endpoint Testing", done => {
+//   test("Gets assigned trainings of user with employee id 17", done => {
+//     let agent = request.agent(app);
+//     agent.post("/api/login")
+//     .send({username:"Morgan_Bernard@atlastechnology.com", password:"bernardmo"})
+//     .end(function(err, res){
+//       agent
+//       .get("/api/empTasks/assignedTrainings?EID=17")
+//       .then(res => {
+//         expect(res.text).toBe('[{"title":"sexual harassment","description":"POOPY","link":"Centree.com","date_created":"2016-04-18","date_due":"2021-03-06","progress":"Complete"},{"title":"sexual harassment","description":"YAY","link":"Maineland.com","date_created":"2019-08-26","date_due":"2021-09-16","progress":"Complete"},{"title":"sexual harassment","description":"UH OHHHH STINKY","link":"Insource.com","date_created":"2014-07-29","date_due":"2020-07-28","progress":"Not-started"}]');
+//         done();
+//       })
+//     })
+//   });
 
-  it("Gets general task of user with employee id 6", done => {
-    let agent = request.agent(app);
-    agent.post("/api/login")
-    .send({username:"Aisha_Willis@atlastechnology.com", password:"willisai"})
-    .end(function(err, res){
-      agent
-      .get("/api/empTasks/generalTasks?EID=6")
-      .then(res => {
-        expect(res.text).toBe('[{"title":"manager meeting","description":"POOPY","date_created":"2016-12-20","date_due":"2020-11-08","progress":"To-do","assigned_to":"3"},{"title":"team meeting","description":"YAY","date_created":"2016-09-09","date_due":"2021-02-05","progress":"Not-started","assigned_to":"6"},{"title":"team meeting","description":"UH OHHHH STINKY","date_created":"2016-09-02","date_due":"2020-03-17","progress":"Complete","assigned_to":"38"},{"title":"manager meeting","description":"UH OHHHH STINKY","date_created":"2018-11-07","date_due":"2020-08-23","progress":"Not-started","assigned_to":"18"}]');
-        done();
-      })
-    })
-  });
+//   it("Gets general task of user with employee id 6", done => {
+//     let agent = request.agent(app);
+//     agent.post("/api/login")
+//     .send({username:"Aisha_Willis@atlastechnology.com", password:"willisai"})
+//     .end(function(err, res){
+//       agent
+//       .get("/api/empTasks/generalTasks?EID=6")
+//       .then(res => {
+//         expect(res.text).toBe('[{"title":"manager meeting","description":"POOPY","date_created":"2016-12-20","date_due":"2020-11-08","progress":"To-do","assigned_to":"3"},{"title":"team meeting","description":"YAY","date_created":"2016-09-09","date_due":"2021-02-05","progress":"Not-started","assigned_to":"6"},{"title":"team meeting","description":"UH OHHHH STINKY","date_created":"2016-09-02","date_due":"2020-03-17","progress":"Complete","assigned_to":"38"},{"title":"manager meeting","description":"UH OHHHH STINKY","date_created":"2018-11-07","date_due":"2020-08-23","progress":"Not-started","assigned_to":"18"}]');
+//         done();
+//       })
+//     })
+//   });
 
-  it("Gets performance reviews of user with employee id 6", done => {
-    let agent = request.agent(app);
-    agent.post("/api/login")
-    .send({username:"Aisha_Willis@atlastechnology.com", password:"willisai"})
-    .end(function(err, res){
-      agent
-      .get("/api/empTasks/performanceReviews?EID=6")
-      .then(res => {
-        expect(res.text).toBe('[{"title":"Satisfactory performance","overall_comments":"POOPY","growth_feedback":4,"kindness_feedback":4,"delivery_feedback":1,"date_created":"2018-04-09","progress":"Complete","assigned_to":"12"},{"title":"Satisfactory performance","overall_comments":"YAY","growth_feedback":2,"kindness_feedback":1,"delivery_feedback":1,"date_created":"2014-08-29","progress":"To-do","assigned_to":"20"}]');
-        done();
-      })
-    })
-  });
+//   it("Gets performance reviews of user with employee id 6", done => {
+//     let agent = request.agent(app);
+//     agent.post("/api/login")
+//     .send({username:"Aisha_Willis@atlastechnology.com", password:"willisai"})
+//     .end(function(err, res){
+//       agent
+//       .get("/api/empTasks/performanceReviews?EID=6")
+//       .then(res => {
+//         expect(res.text).toBe('[{"title":"Satisfactory performance","overall_comments":"POOPY","growth_feedback":4,"kindness_feedback":4,"delivery_feedback":1,"date_created":"2018-04-09","progress":"Complete","assigned_to":"12"},{"title":"Satisfactory performance","overall_comments":"YAY","growth_feedback":2,"kindness_feedback":1,"delivery_feedback":1,"date_created":"2014-08-29","progress":"To-do","assigned_to":"20"}]');
+//         done();
+//       })
+//     })
+//   });
 
-  it("Gets pto requests of user with employee id 6", done => {
-    let agent = request.agent(app);
-    agent.post("/api/login")
-    .send({username:"Aisha_Willis@atlastechnology.com", password:"willisai"})
-    .end(function(err, res){
-      agent
-      .get("/api/empTasks/ptoRequests?EID=6")
-      .then(res => {
-        expect(res.text).toBe('[{"title":"Vacation","description":"YAY","start_date":"2015-08-02","end_date":"2020-07-01","date_created":"2014-12-01","date_due":"2021-11-04","progress":"Complete","approved":false,"assigned_to":"30"}]');
-        done();
-      })
-    })
-  });
-});
+//   it("Gets pto requests of user with employee id 6", done => {
+//     let agent = request.agent(app);
+//     agent.post("/api/login")
+//     .send({username:"Aisha_Willis@atlastechnology.com", password:"willisai"})
+//     .end(function(err, res){
+//       agent
+//       .get("/api/empTasks/ptoRequests?EID=6")
+//       .then(res => {
+//         expect(res.text).toBe('[{"title":"Vacation","description":"YAY","start_date":"2015-08-02","end_date":"2020-07-01","date_created":"2014-12-01","date_due":"2021-11-04","progress":"Complete","approved":false,"assigned_to":"30"}]');
+//         done();
+//       })
+//     })
+//   });
+// });
