@@ -199,7 +199,9 @@ class Home extends Component {
     if (this.state.category.length > 0) {
       console.log("Filtering by category");
       console.log(this.state.category);
+      console.log("Tasks before filtering: ", this.state.tasks);
       filteredTasks = this.filterTasks(filteredTasks, "category", this.state.category);
+      console.log("Tasks after filtering: ", filteredTasks);
     }
     if (this.state.progress.length > 0) {
       console.log("Filtering by progress");
@@ -218,7 +220,9 @@ class Home extends Component {
   }
 
   updateCategory(categories) {
-    this.setState({ category: categories });
+    this.setState((state) => {
+      return {category: categories};
+    });
   }
 
   render()

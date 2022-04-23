@@ -37,7 +37,7 @@ function Sidebar(props) {
 
   async function ptoClick(e) {
     e.preventDefault();
-    updateCategory(["PTO Request"]);
+    updateCategory(["Paid Time Off Request"]);
   }
 
   return (
