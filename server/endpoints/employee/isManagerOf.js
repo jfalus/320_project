@@ -1,9 +1,9 @@
-const {findEmployeeById} = require('./findEmployee');
+const {employeeById} = require('./findEmployee');
 
 //req is manager of e_id?
 async function isManagerOf(manager_employeeId, employeeId, companyId){
   while(employeeId != null){
-    const employee = await findEmployeeById({companyId:companyId}, {employeeId:employeeId})
+    const employee = await employeeById({companyId:companyId}, {employeeId:employeeId})
     if(!employee){
       return false
     }
