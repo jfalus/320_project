@@ -16,6 +16,7 @@ class Home extends Component {
       },
       sort: "",
     }
+  this.handleSearchChange = this.handleSearchChange.bind(this)
   }
 
   async componentDidMount() {
@@ -162,6 +163,11 @@ class Home extends Component {
     return ret;
   }
 
+  handleSearchChange(event) {
+    console.log("The search did change bro")
+    this.setState({search: event.target.value});
+  }
+
   // Filters tasks according to some field of the json, such as progress or category
   // Inputs: tasks json array, field to filter by, array of values to filter by
   // ex: filterTasks(tasks, "category", ["Assigned Training", "PTO Request"])
@@ -217,7 +223,7 @@ class Home extends Component {
     let filteredTasks = this.applyFilters();
     return (
         <>
-          <Header />
+          <Header handler={this.handleSearchChange}/>
           <div style={{
             contentDiv: {
               display: "flex",
