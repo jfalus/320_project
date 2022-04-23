@@ -8,7 +8,13 @@ class Home extends Component {
   constructor() {
     super()
     this.state = {
-      tasks: []
+      tasks: [],
+      search: "",
+      filter: {
+        category: [],
+        progress: [],
+      },
+      sort: "",
     }
   }
 
@@ -22,18 +28,18 @@ class Home extends Component {
   {
     var ret;
     await fetch("/api/empTasks/" + url_kind, request_options)
-    .then(res => {
-      if (res.redirected) {
-        window.location.href = res.url;
-      }
-      return res;
-    })
-    .then(response => response.json())
-    .then(result => {
-      if(debug) {console.log(url_kind + " assigned to self:\n"); result.forEach(t => console.log(t));}
-      ret = result;
-    })
-    .catch(error => console.log('error', error));
+        .then(res => {
+          if (res.redirected) {
+            window.location.href = res.url;
+          }
+          return res;
+        })
+        .then(response => response.json())
+        .then(result => {
+          if(debug) {console.log(url_kind + " assigned to self:\n"); result.forEach(t => console.log(t));}
+          ret = result;
+        })
+        .catch(error => console.log('error', error));
     return ret;
   }
 
@@ -43,9 +49,9 @@ class Home extends Component {
   {
     const ret = {};
     const tasks = await Promise.all([this.getKind("assignedTrainings", request_options, debug),
-                                     this.getKind("performanceReviews", request_options, debug),
-                                     this.getKind("ptoRequests", request_options, debug),
-                                     this.getKind("generalTasks", request_options, debug)]);
+      this.getKind("performanceReviews", request_options, debug),
+      this.getKind("ptoRequests", request_options, debug),
+      this.getKind("generalTasks", request_options, debug)]);
     ret.assigned_trainings = tasks[0] || [];
     ret.performance_reviews = tasks[1] || [];
     ret.pto_requests = tasks[2] || [];
@@ -58,9 +64,9 @@ class Home extends Component {
   }
 
   pushtask(ret) {
-      this.setState({
-        tasks: this.state.tasks.concat(ret)
-      }, () => console.log(this.state.tasks))
+    this.setState({
+      tasks: this.state.tasks.concat(ret)
+    }, () => console.log(this.state.tasks))
   }
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
@@ -80,18 +86,18 @@ class Home extends Component {
   {
     var ret;
     await fetch("/api/directManagedEmployees", request_options)
-    .then(res => {
-      if (res.redirected) {
-        window.location.href = res.url;
-      }
-      return res;
-    })
-    .then(response => response.json())
-    .then(result => {
-      if(debug) {console.log("Direct Subordinate Employees:\n"); result.forEach(t => console.log(t));}
-      ret = result;
-    })
-    .catch(error => console.log('error', error));
+        .then(res => {
+          if (res.redirected) {
+            window.location.href = res.url;
+          }
+          return res;
+        })
+        .then(response => response.json())
+        .then(result => {
+          if(debug) {console.log("Direct Subordinate Employees:\n"); result.forEach(t => console.log(t));}
+          ret = result;
+        })
+        .catch(error => console.log('error', error));
     return ret;
   }
 
@@ -101,18 +107,18 @@ class Home extends Component {
   {
     var ret;
     await fetch("/api/allManagedEmployees", request_options)
-    .then(res => {
-      if (res.redirected) {
-        window.location.href = res.url;
-      }
-      return res;
-    })
-    .then(response => response.json())
-    .then(result => {
-      if(debug) {console.log("All Subordinate Employees:\n"); result.forEach(t => console.log(t));}
-      ret = result;
-    })
-    .catch(error => console.log('error', error));
+        .then(res => {
+          if (res.redirected) {
+            window.location.href = res.url;
+          }
+          return res;
+        })
+        .then(response => response.json())
+        .then(result => {
+          if(debug) {console.log("All Subordinate Employees:\n"); result.forEach(t => console.log(t));}
+          ret = result;
+        })
+        .catch(error => console.log('error', error));
     return ret;
   }
 
@@ -141,18 +147,18 @@ class Home extends Component {
   {
     var ret;
     await fetch("/api/empTasks/update" + url_kind, request_options)
-    .then(res => {
-      if (res.redirected) {
-        window.location.href = res.url;
-      }
-      return res;
-    })
-    .then(response => response.text())
-    .then(result => {
-      if(debug) {console.log("Update " + url_kind + ":\n" + result);}
-      ret = result === "true";
-    })
-    .catch(error => console.log('error', error));
+        .then(res => {
+          if (res.redirected) {
+            window.location.href = res.url;
+          }
+          return res;
+        })
+        .then(response => response.text())
+        .then(result => {
+          if(debug) {console.log("Update " + url_kind + ":\n" + result);}
+          ret = result === "true";
+        })
+        .catch(error => console.log('error', error));
     return ret;
   }
 
@@ -160,102 +166,125 @@ class Home extends Component {
   // Inputs: tasks json array, field to filter by, array of values to filter by
   // ex: filterTasks(tasks, "category", ["Assigned Training", "PTO Request"])
   filterTasks(tasks, key, values) {
-    return tasks.filter(e => values.include(e[key]));
+    return tasks.filter(e => values.includes(e[key]));
   }
 
   // Filters tasks if any of its fields contains query as substring
   // Inputs: tasks json array, query string
-  // ex: filterTasks(tasks, "sick")
+  // ex: searchTasks(tasks, "sick")
   searchTasks(tasks, query) {
-    return tasks.filter(e => Object.keys(e).some(k => e[k].toLowerCase().includes(query.toLowerCase())));
+    return tasks.filter(e => Object.keys(e).some(k => e[k].toString().toLowerCase().includes(query.toLowerCase())));
   }
 
   // Sorts tasks according to some field of the json
   // Inputs: tasks json array, field to sort by
   // ex: sortTasks(tasks, "category")
   sortTasks(tasks, key) {
-    if (tasks.all(e => Number.isFinite(e[key]))) {
+    if (tasks.every(e => Number.isFinite(e[key]))) {
       return tasks.sort((a, b) => a[key] - b[key]);
-    } else if (tasks.all(e => !Number.isNaN(Date.parse(e[key])))) {
+    } else if (tasks.every(e => !Number.isNaN(Date.parse(e[key])))) {
       return tasks.sort((a, b) => Date.parse(a[key]) - Date.parse(b[key]));
     } else {
       return tasks.sort((a, b) => a[key].localeCompare(b[key]));
     }
   }
 
+  applyFilters() {
+    let filteredTasks = this.state.tasks;
+    if (this.state.filter.category.length > 0) {
+      console.log("Filtering by category");
+      console.log(this.state.filter.category);
+      filteredTasks = this.filterTasks(filteredTasks, "category", this.state.filter.category);
+    }
+    if (this.state.filter.progress.length > 0) {
+      console.log("Filtering by progress");
+      console.log(this.state.filter.progress);
+      filteredTasks = this.filterTasks(filteredTasks, "progress", this.state.filter.progress);
+    }
+    if (this.state.search !== "") {
+      console.log("Searching for " + this.state.search);
+      filteredTasks = this.searchTasks(filteredTasks, this.state.search);
+    }
+    if (this.state.sort !== "") {
+      console.log("Sorting by " + this.state.sort);
+      filteredTasks = this.sortTasks(filteredTasks, this.state.sort);
+    }
+    return filteredTasks;
+  }
+
   render()
   {
-
+    let filteredTasks = this.applyFilters();
     return (
-      <>
-        <Header />
-        <div style={{
-          contentDiv: {
-            display: "flex",
-          },
-          contentMargin: {
-            marginLeft: "0px",
-            width: "100%",
-            backgroundColor: "005151",
-          },
-        }.contentDiv}>
-          <Sidebar />
-          <div className="Main-section">
-            {this.state.tasks.map(e => {
-              if (e.category === "General Task") {
-                return (<Section
-                  category={e.category}
-                  title={e.title}
-                  dueDate={e.date_due}
-                  assignedto={e.assigned_to}
-                  description={e.description}
-                  createdDate={e.date_created}
-                  progress={e.progress}
-                />);
-              }
-              else if (e.category === "Assigned Training") {
-                return (<Section
-                  category={e.category}
-                  title={e.title}
-                  dueDate={e.date_due}
-                  link={e.link}
-                  createdDate={e.date_created}
-                  description={e.description}
-                  progress={e.progress}
-                />);
-              }
-              else if (e.category === "Performance Review") {
-                return (<Section
-                  category={e.category}
-                  title={e.title}
-                  dueDate={e.date_due}
-                  assignedto={e.assigned_to}
-                  createdDate={e.date_created}
-                  overallcomments={e.overall_comments}
-                  growth_feedback={e.growth_feedback}
-                  kindness_feedback={e.kindness_feedback}
-                  delivery_feedback={e.delivery_feedback}
-                  progress={e.progress}
-                />);
-              }
-              else if (e.category === "Paid Time Off Request") {
-                return (<Section
-                  category={e.category}
-                  title={e.title}
-                  dueDate={e.date_due}
-                  assignedto={e.assigned_to}
-                  createdDate={e.date_created}
-                  start_date={e.start_date}
-                  end_date={e.end_date}
-                  description={e.description}
-                  approval={e.approval}
-                  progress={e.progress}
-                />);
-              }
-            })}
+        <>
+          <Header />
+          <div style={{
+            contentDiv: {
+              display: "flex",
+            },
+            contentMargin: {
+              marginLeft: "0px",
+              width: "100%",
+              backgroundColor: "005151",
+            },
+          }.contentDiv}>
+            <Sidebar />
+            <div className="Main-section">
+              {filteredTasks.map(e => {
+                if (e.category === "General Task") {
+                  return (<Section
+                      category={e.category}
+                      title={e.title}
+                      dueDate={e.date_due}
+                      assignedto={e.assigned_to}
+                      description={e.description}
+                      createdDate={e.date_created}
+                      progress={e.progress}
+                  />);
+                }
+                else if (e.category === "Assigned Training") {
+                  return (<Section
+                      category={e.category}
+                      title={e.title}
+                      dueDate={e.date_due}
+                      link={e.link}
+                      createdDate={e.date_created}
+                      description={e.description}
+                      progress={e.progress}
+                  />);
+                }
+                else if (e.category === "Performance Review") {
+                  return (<Section
+                      category={e.category}
+                      title={e.title}
+                      dueDate={e.date_due}
+                      assignedto={e.assigned_to}
+                      createdDate={e.date_created}
+                      overallcomments={e.overall_comments}
+                      growth_feedback={e.growth_feedback}
+                      kindness_feedback={e.kindness_feedback}
+                      delivery_feedback={e.delivery_feedback}
+                      progress={e.progress}
+                  />);
+                }
+                else if (e.category === "Paid Time Off Request") {
+                  return (<Section
+                      category={e.category}
+                      title={e.title}
+                      dueDate={e.date_due}
+                      assignedto={e.assigned_to}
+                      createdDate={e.date_created}
+                      start_date={e.start_date}
+                      end_date={e.end_date}
+                      description={e.description}
+                      approval={e.approval}
+                      progress={e.progress}
+                  />);
+                }
+              })}
+            </div>
           </div>
-        </div>
-      </>
+        </>
     );
   }
 }
