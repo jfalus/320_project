@@ -7,11 +7,12 @@ import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
 import { get } from "superagent";
 
-function Sidebar() {
+function Sidebar(props) {
   const [ptoData, setPtoData] = React.useState(null);
   const [prData, setPrData] = React.useState(null);
   const [trainData, setTrainData] = React.useState(null);
   const [genData, setGenData] = React.useState(null);
+  const {updateCategory} = props;
 
   React.useEffect(() => {
     get("/api/empTasks/ptoRequests")
@@ -36,13 +37,7 @@ function Sidebar() {
 
   async function ptoClick(e) {
     e.preventDefault();
-    console.log("Clicked!");
-    // This needs to update the Home.js state tasks with JUST the PTO Tasks
-    // This will need to call methods from the parent, need to on those functions to be finished first because currently
-    // they do not exist in this branch
-    await fetch('/api/empTasks/ptoRequests', {method: 'GET', redirect: 'error'})
-    .then(res => res.json())
-    .then(data => console.log(data));
+    updateCategory(["PTO Request"]);
   }
 
   return (

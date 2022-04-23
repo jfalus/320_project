@@ -10,13 +10,12 @@ class Home extends Component {
     this.state = {
       tasks: [],
       search: "",
-      filter: {
-        category: [],
-        progress: [],
-      },
+      category: [],
+      progress: [],
       sort: "",
     }
   this.handleSearchChange = this.handleSearchChange.bind(this)
+  this.updateCategory = this.updateCategory.bind(this);
   }
 
   async componentDidMount() {
@@ -197,15 +196,15 @@ class Home extends Component {
 
   applyFilters() {
     let filteredTasks = this.state.tasks;
-    if (this.state.filter.category.length > 0) {
+    if (this.state.category.length > 0) {
       console.log("Filtering by category");
-      console.log(this.state.filter.category);
-      filteredTasks = this.filterTasks(filteredTasks, "category", this.state.filter.category);
+      console.log(this.state.category);
+      filteredTasks = this.filterTasks(filteredTasks, "category", this.state.category);
     }
-    if (this.state.filter.progress.length > 0) {
+    if (this.state.progress.length > 0) {
       console.log("Filtering by progress");
-      console.log(this.state.filter.progress);
-      filteredTasks = this.filterTasks(filteredTasks, "progress", this.state.filter.progress);
+      console.log(this.state.progress);
+      filteredTasks = this.filterTasks(filteredTasks, "progress", this.state.progress);
     }
     if (this.state.search !== "") {
       console.log("Searching for " + this.state.search);
@@ -216,6 +215,10 @@ class Home extends Component {
       filteredTasks = this.sortTasks(filteredTasks, this.state.sort);
     }
     return filteredTasks;
+  }
+
+  updateCategory(categories) {
+    this.setState({ category: categories });
   }
 
   render()
@@ -234,7 +237,7 @@ class Home extends Component {
               backgroundColor: "005151",
             },
           }.contentDiv}>
-            <Sidebar />
+            <Sidebar updateCategory={this.updateCategory}/>
             <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {
