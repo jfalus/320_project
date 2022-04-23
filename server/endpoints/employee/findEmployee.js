@@ -43,4 +43,4 @@ function findEmployeeById(app){
   );
 }
 
-module.exports = {findEmployeeByEmail, findEmployeeById};
+module.exports = {findEmployeeByEmail, findEmployeeById, employeeById};
