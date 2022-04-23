@@ -5,7 +5,7 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 async function getManager(db, user){
   try{
     return await db.findOne({
-      attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'],
+      attributes: {exclude: ['password']},
       where: {
         companyId: user.companyId,
         employeeId: user.managerId,

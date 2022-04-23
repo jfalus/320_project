@@ -32,7 +32,7 @@ function Section(props) {
               createdDate={props.createdDate}
               link={props.link}
               description={props.description}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
             />
           </div>
         </div>
@@ -61,7 +61,7 @@ function Section(props) {
               createdDate={props.createdDate}
               link={props.link}
               description={props.description}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
             />
           </div>
         </div>
@@ -93,7 +93,7 @@ function Section(props) {
               growth_feedback={props.growth_feedback}
               kindness_feedback={props.kindness_feedback}
               delivery_feedback={props.delivery_feedback}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
             />
           </div>
         </div>
@@ -128,7 +128,7 @@ function Section(props) {
               kindness_feedback={props.kindness_feedback}
               delivery_feedback={props.delivery_feedback}
               approval = {props.approval}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
           />
           </div>
         </div>

@@ -70,9 +70,9 @@ function Sidebar() {
         <body2>
           <a href="#" className="notification" onClick={ptoClick}>
             <span>PTO Requests</span>
-            <p>{!ptoData ? "loading PTOs" : ptoData}</p>
-            <span className="badge">3</span>
           </a>
+          <p>{!ptoData ? "loading PTOs" : ptoData}</p>
+          <span className="badge">3</span>
           <br></br>
 
           <a href="#" className="notification">
