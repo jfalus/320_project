@@ -207,9 +207,9 @@ jest.setTimeout(10000);
 //     }).end(function(err, res) {
 //       agent.post('/api/empTasks/newAssignedTraining')
 //       .send({
-//         title: 'oh', 
-//         description: 'hello',
-//         link: 'hi',
+//         title: 'this', 
+//         description: 'is',
+//         link: 'test',
 //         date_due: '2022-05-16',
 //         //assigned_to: ['Eldridge_Chavez@atlastechnology.com']
 //         assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
@@ -277,12 +277,12 @@ describe('Test new PTO Request', () => {
     }).end(function(err, res) {
       agent.post('/api/empTasks/newPtoRequest')
       .send({
-        title: 'hi', 
-        description: 'hi',
+        title: 'test', 
+        description: '3',
         start_date: '2022-04-22',
         end_date: '2022-06-21',
         date_due: '2022-05-16',
-        assigned_to: ['Eldridge_Chavez@atlastechnology.com']
+        assigned_to: ['Hans_Barton@atlastechnology.com', 'Eldridge_Chavez@atlastechnology.com']
         //assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
       })
       .then((response) => {

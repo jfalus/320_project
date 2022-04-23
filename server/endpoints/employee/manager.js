@@ -3,16 +3,14 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 
 
 async function getManager(db, user){
-  const hello = user.assigned_to[0]
   try{
-    // return await db.findOne({
-    //   attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'],
-    //   where: {
-    //     companyId: user.companyId,
-    //     employeeId: user.managerId,
-    //   }
-    // });
-    return await db.findOne({where: {companyId: user.companyId, employeeId: user.managerId, }})
+    return await db.findOne({
+      attributes: {exclude: ['password']},
+      where: {
+        companyId: user.companyId,
+        employeeId: user.managerId,
+      }
+    });
   }catch(error){
     console.log(error);
     return null;

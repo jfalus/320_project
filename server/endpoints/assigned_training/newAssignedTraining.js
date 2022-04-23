@@ -17,10 +17,6 @@ function newAssignedTraining(app) {
   app.post('/api/empTasks/newAssignedTraining', checkLoggedIn, async(req,res) => {
     console.log(req.body)
     const e_id = parseInt(req.user.e_id)
-    const bool = isManagerOf(req.user, req.body.assigned_to, true)
-    if(!(await bool)){
-      res.send({Error:'No permission'});
-    }
     if (isValidAT(e_id, req.body.title, req.body.description, req.body.link, req.body.date_due, req.body.assigned_to)) {
       const arr = []
       for (let i = 0; i < req.body.assigned_to.length; i++) {
@@ -29,11 +25,16 @@ function newAssignedTraining(app) {
           where: {email: req.body.assigned_to[i]}
         })
         const assigned_id = parseInt(emp.e_id)
+        const bool = await isManagerOf(req.user, assigned_id)
+        if (!bool) {
+          res.status(400)
+          res.send({Error: 'No Permission'});
+          break;
+        }
         const data = {e_id: e_id, title: req.body.title, description: req.body.description, link: req.body.link, date_due: req.body.date_due, progress: 'Not-started', assigned_to: assigned_id}
-        console.log(data)
-        const x = await models.assigned_training.create(data)
-        arr[i] = x.toJSON()
+        arr[i] = data
       }
+      const x = await models.assigned_training.bulkCreate(arr)
       res.send(arr)
     } else {
       res.status(400)

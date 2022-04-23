@@ -1,6 +1,6 @@
 const {models} = require('../../sequelize/sequelizeConstructor');
 const checkLoggedIn = require('../authentication/checkLoggedIn');
-const isManagerOf = require('../employee/isManagerOf');
+const isManagedBy = require('../employee/isManagedBy');
 
 function isValidPto(e_id, title, desc, start_date, end_date, date_due, assigned_to) {
   let valid = false
@@ -19,10 +19,6 @@ function newPtoRequest(app){
   app.post('/api/empTasks/newPtoRequest', checkLoggedIn, async(req,res) => {
     console.log(req.body)
     const e_id = parseInt(req.user.e_id)
-    const bool = isManagerOf(req.user, req.body.assigned_to, false)
-    if(!(await bool)){
-      res.send({Error:'No permission'});
-    }
     if (isValidPto(e_id, req.body.title, req.body.description, req.body.start_date, req.body.end_date, req.body.date_due, req.body.assigned_to)) {
       const arr = []
       for (let i = 0; i < req.body.assigned_to.length; i++) {
@@ -31,10 +27,17 @@ function newPtoRequest(app){
           where: {email: req.body.assigned_to[i]}
         })
         const assigned_id = parseInt(emp.e_id)
+        const bool = await isManagedBy(req.user, assigned_id)
+        console.log(bool)
+        if (!bool) {
+          res.status(400)
+          res.send({Error: 'No Permission'});
+          break;
+        }
         const data = {e_id: e_id, title: req.body.title, description: req.body.description, start_date: req.body.start_date, end_date: req.body.end_date, date_due: req.body.date_due, progress: "Not-started", approved: null, assigned_to: assigned_id}
-        const x = await models.pto_request.create(data)
-        arr[i] = x.toJSON()
+        arr[i] = data
       }
+      const x = await models.pto_request.bulkCreate(arr)
       res.send(arr)
     } else {
       res.status(400)
