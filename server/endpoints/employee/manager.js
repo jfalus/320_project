@@ -2,13 +2,13 @@ const checkLoggedIn = require('../authentication/checkLoggedIn');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
 
-async function getManager(db, user){
+async function getManager(managerId, companyId){
   try{
-    return await db.findOne({
-      attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'],
+    return await models.employees.findOne({
+      attributes: ['e_id', 'firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'],
       where: {
-        companyId: user.companyId,
-        employeeId: user.managerId,
+        companyId: companyId,
+        employeeId: managerId
       }
     });
   }catch(error){
@@ -21,7 +21,7 @@ function manager(app){
   app.get('/api/manager', 
     checkLoggedIn,
     async (req, res) => {
-      const result = await getManager(models.employees, req.user);
+      const result = await getManager(req.user.managerId, req.user.companyId);
       res.send(JSON.parse(JSON.stringify(result)));
     }
   );
