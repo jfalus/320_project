@@ -1,16 +1,16 @@
 const checkLoggedIn = require('../authentication/checkLoggedIn');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
-// GET /api/empTasks/generalTasks?EID=aBigInt
-// Passes a json file with the employee's general tasks
+// GET /api/empTasks/generalTasks
+// Passes a json file with the current user's general tasks
 function generalTasks(app){
   app.get('/api/empTasks/generalTasks',
   checkLoggedIn,
   async (req, res) => {
     const general_tasks = await models.general_task.findAll({
-      attributes: ['title', 'description', 'date_created', 'date_due', 'progress', 'assigned_to'],
+      attributes: ['task_id', 'title', 'description', 'date_created', 'date_due', 'progress'],
       where: {
-        e_id: req.query.EID
+        assigned_to: req.user.e_id
       }
     });
     res.json(general_tasks)

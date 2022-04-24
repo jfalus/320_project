@@ -1,15 +1,20 @@
 const checkLoggedIn = require('../authentication/checkLoggedIn');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
-// Updates general task with taskid assigned to employee with eid. Returns number of fields updated (should be 2) or
-// -1 if error.                                                                      progress <- prog,
-//                                                                                   description <- desc
+const SAME = "#SAME";
+
+// Updates general task with taskid of user with eid. Returns number of fields updated (should be 1 or 2) or
+// -1 if error.                                                         progress <- prog,
+//                                                                      description <- desc
 async function updateTask(db, eid, taskid, prog, desc){
   try{
+    up = {};
+    if(prog !== SAME) {up.progress = prog;}
+    if(desc !== SAME) {up.description = desc;}
     return await db.update(
-      {progress: prog, description: desc},
+      up,
       {where: {
-        e_id: eid,
+        assigned_to: eid,
         task_id: taskid,
         }
       },
@@ -21,12 +26,50 @@ async function updateTask(db, eid, taskid, prog, desc){
   }
 }
 
-// request must have query params EID (employeeId matching training task's e_id), TASKID (task's task_id), PROGRESS (String: Not-started, To-do, OR Complete), and DESCRIPTION (String)
-// /api/empTasks/updateGeneralTask?EID=int&TASKID=int&PROGRESS=string&DESCRIPTION=stringInURLFormat
+const PROGRESSES = ["Not-started", "To-do", "Complete"];
+
+// Updates a general task assigned to current user
+// request must have body param task_id (BigInt: task's task_id)
+// request must have one or both of body params progress (String: Not-started, To-do, OR Complete) and/or description (String)
 // Passes true if updated successfully, false otherwise
 function updateGeneralTask(app){
   app.put('/api/empTasks/updateGeneralTask', checkLoggedIn, async (req, res) => {
-    res.send((await updateTask(models.general_task, req.query.EID, req.query.TASKID, req.query.PROGRESS, req.query.DESCRIPTION))[0] === 2);
+    var t_in = false;
+    var hit = 0;
+    const pars = [SAME, SAME];
+    var flunked = false;
+    if('task_id' in req.body) { t_in = true; }
+    if('progress' in req.body)
+    {
+      if(!PROGRESSES.includes(req.body.progress)) {flunked = true;}
+      hit += 1;
+      pars[0] = req.body.progress;
+    }
+    if('description' in req.body)
+    {
+      hit += 1;
+      pars[1] = req.body.description;
+    }
+
+    if(!t_in)
+    {
+      res.status(500).send({
+        message: "Error: No task_id"
+      });
+    }
+    else if(hit === 0)
+    {
+      res.status(500).send({
+        message: "Error: No parameters to update task with."
+      });
+    }
+    else if(flunked)
+    {
+      res.status(500).send({
+        message: "Error: Invalid progress String."
+      });
+    }
+    else {res.send((await updateTask(models.general_task, req.user.e_id, parseInt(req.body.task_id), pars[0], pars[1]))[0] === hit);}
   });
 }
 
