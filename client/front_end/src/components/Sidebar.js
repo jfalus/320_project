@@ -7,11 +7,12 @@ import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
 import { get } from "superagent";
 
-function Sidebar() {
+function Sidebar(props) {
   const [ptoData, setPtoData] = React.useState(null);
   const [prData, setPrData] = React.useState(null);
   const [trainData, setTrainData] = React.useState(null);
   const [genData, setGenData] = React.useState(null);
+  const {updateCategory} = props;
 
   React.useEffect(() => {
     get("/api/empTasks/ptoRequests")
@@ -33,6 +34,11 @@ function Sidebar() {
       .then((res) => res.json())
       .then((genData) => setGenData(genData.message));
   }, []);
+
+  async function ptoClick(e) {
+    e.preventDefault();
+    updateCategory(["Paid Time Off Request"]);
+  }
 
   return (
     <div className="sidebar">
@@ -57,7 +63,7 @@ function Sidebar() {
           <b>Categories</b>
         </h2>
         <body2>
-          <a href="#" className="notification">
+          <a href="#" className="notification" onClick={ptoClick}>
             <span>PTO Requests</span>
           </a>
           <p>{!ptoData ? "loading PTOs" : ptoData}</p>
