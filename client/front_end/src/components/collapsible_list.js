@@ -1,5 +1,5 @@
 import useCollapse from "react-collapsed";
-import {Task, PTOTask, PRTask, TrainingTask} from "./Task.js";
+import {GeneralTask, PTOTask, PRTask, TrainingTask} from "./Task.js";
 import "./../styles/MainContent.css";
 
 function Section(props) {
@@ -26,20 +26,20 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <Task
+            <GeneralTask
               dueDate={props.dueDate}
-              assigner={props.assigner}
+              assignedto={props.assignedto}
               createdDate={props.createdDate}
               link={props.link}
               description={props.description}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
             />
           </div>
         </div>
       </div>
     );
   }
-  else if (category === "Training Request") {
+  else if (category === "Assigned Training") {
     return (
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
@@ -61,14 +61,14 @@ function Section(props) {
               createdDate={props.createdDate}
               link={props.link}
               description={props.description}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
             />
           </div>
         </div>
       </div>
     );
   }
-  else if (category === "Performance Review Request") {
+  else if (category === "Performance Review") {
     return (
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
@@ -87,13 +87,13 @@ function Section(props) {
             {props.children}
             <PRTask
               dueDate={props.dueDate}
-              assigner={props.assigner}
+              assignedto={props.assignedto}
               createdDate={props.createdDate}
               overallcomments={props.overallcomments}
               growth_feedback={props.growth_feedback}
               kindness_feedback={props.kindness_feedback}
               delivery_feedback={props.delivery_feedback}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
             />
           </div>
         </div>
@@ -119,7 +119,7 @@ function Section(props) {
             {props.children}
             <PTOTask
               dueDate={props.dueDate}
-              assigner={props.assigner}
+              assignedto={props.assignedto}
               createdDate={props.createdDate}
               start_date={props.start_date}
               end_date={props.end_date}
@@ -128,7 +128,7 @@ function Section(props) {
               kindness_feedback={props.kindness_feedback}
               delivery_feedback={props.delivery_feedback}
               approval = {props.approval}
-              progress = {props.progress}
+              progress = {props.progress.toUpperCase()}
           />
           </div>
         </div>

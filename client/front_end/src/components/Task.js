@@ -1,7 +1,7 @@
 import "../styles/Task.css";
 import React, { Component } from 'react';
 
-class Task extends Component {
+class GeneralTask extends Component {
   render() {
     return (
       <div className="task">
@@ -113,4 +113,4 @@ class PTOTask extends Component {
 }
 
 // either make one super task, or somehow call for the desired task
-export {Task, PTOTask, PRTask, TrainingTask};
+export {GeneralTask, PTOTask, PRTask, TrainingTask};

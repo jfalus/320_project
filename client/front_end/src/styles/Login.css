@@ -78,10 +78,9 @@ input {
   background-color: white;
 }
 
-#email-invalid {
-  box-shadow: inset 2px 2px 6px var(--invalid-email-shadow),
-    3px 3px 8px var(--invalid-email-shadow-outer),
-    -3px -3px 10px var(--highlight);
+#err-msg {
+  color: rgb(246, 72, 72);
+  font-size: 0.9rem;
 }
 
 label {
