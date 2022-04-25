@@ -76,7 +76,7 @@ function Sidebar(props) {
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => categoryClick("Training")}>
+          <a href="#" className="notification" onClick={() => categoryClick("Assigned Training")}>
             <span>Trainings</span>
             <p>{!trainData ? "loading trainings" : trainData}</p>
             <span className="badge">4</span>
