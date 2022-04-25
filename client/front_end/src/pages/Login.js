@@ -22,9 +22,12 @@ const Login = () => {
         }
         return res;
       })
-      .then(res => res.text())
-      .then(data => { console.log(data) 
-        setErrorMessage({error: true, message: data}); })
+      .then(res => res.json())
+      .then(data => {
+        if(data.error){
+          setErrorMessage({error: true, message: data.error})
+        }
+      })
    
     setPassword("");
   }

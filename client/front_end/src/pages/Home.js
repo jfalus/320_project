@@ -24,7 +24,7 @@ class Home extends Component {
 
   // Accesses a GET endpoint for the current user, returns array of JSON objects
   // ex: getKind("assignedTrainings")
-  async getKind(url_kind, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getKind(url_kind, request_options={method: 'GET'}, debug=false)
   {
     var ret;
     await fetch("/api/empTasks/" + url_kind, request_options)
@@ -45,7 +45,7 @@ class Home extends Component {
 
   // Accesses all task GET endpoints for the current user, returns object: {assigned_trainings:[JSON objects], performance_reviews:[JSON objects], pto_requests:[JSON objects], general_tasks:[JSON objects]}
   // ex: getAllTasks()
-  async getAllTasks(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getAllTasks(request_options={method: 'GET'}, debug=false)
   {
     const ret = {};
     const tasks = await Promise.all([this.getKind("assignedTrainings", request_options, debug),
@@ -71,7 +71,7 @@ class Home extends Component {
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
   // ex: getAllTasksSmooth()
-  async getAllTasksSmooth(category_strings=false, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getAllTasksSmooth(category_strings=false, request_options={method: 'GET'}, debug=false)
   {
     const tasks = await this.getAllTasks(request_options, debug=true);
     tasks.assigned_trainings.forEach(e => {if(category_strings){e.category = "Assigned Training";} this.pushtask(e)});
@@ -82,7 +82,7 @@ class Home extends Component {
 
   // Accesses directManagedEmployees endpoint (gets direct subordinates of current user), returns array of JSON objects
   // ex: getDirectSubordinateEmployees()
-  async getDirectSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getDirectSubordinateEmployees(request_options={method: 'GET'}, debug=false)
   {
     var ret;
     await fetch("/api/directManagedEmployees", request_options)
@@ -103,7 +103,7 @@ class Home extends Component {
 
   // Accesses allManagedEmployees endpoint (gets all subordinates of current user), returns array of JSON objects
   // ex: getAllSubordinateEmployees()
-  async getAllSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getAllSubordinateEmployees(request_options={method: 'GET'}, debug=false)
   {
     var ret;
     await fetch("/api/allManagedEmployees", request_options)
