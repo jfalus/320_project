@@ -9,7 +9,6 @@ import { get } from "superagent";
 
 function Sidebar(props) {
   const {updateCategory, updateFilter, counts} = props;
-  console.log(counts);
 
   async function categoryClick(category) {
     updateCategory(category);

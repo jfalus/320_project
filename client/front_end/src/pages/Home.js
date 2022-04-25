@@ -213,23 +213,23 @@ class Home extends Component {
   applyFilters() {
     let filteredTasks = this.state.tasks;
     if (this.state.category.length > 0) {
-      console.log("Filtering by category");
-      console.log(this.state.category);
-      console.log("Tasks before filtering: ", this.state.tasks);
+      // console.log("Filtering by category");
+      // console.log(this.state.category);
+      // console.log("Tasks before filtering: ", this.state.tasks);
       filteredTasks = this.filterTasks(filteredTasks, "category", this.state.category);
-      console.log("Tasks after filtering: ", filteredTasks);
+      // console.log("Tasks after filtering: ", filteredTasks);
     }
     if (this.state.progress.length > 0) {
-      console.log("Filtering by progress");
-      console.log(this.state.progress);
+      // console.log("Filtering by progress");
+      // console.log(this.state.progress);
       filteredTasks = this.filterTasks(filteredTasks, "progress", this.state.progress);
     }
     if (this.state.search !== "") {
-      console.log("Searching for " + this.state.search);
+      // console.log("Searching for " + this.state.search);
       filteredTasks = this.searchTasks(filteredTasks, this.state.search);
     }
     if (this.state.sort !== "") {
-      console.log("Sorting by " + this.state.sort);
+      // console.log("Sorting by " + this.state.sort);
       filteredTasks = this.sortTasks(filteredTasks, this.state.sort);
     }
     return filteredTasks;
