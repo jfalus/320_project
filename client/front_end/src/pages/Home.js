@@ -142,25 +142,27 @@ class Home extends Component {
   UPDATE_PTO_REQUEST = "PtoRequest";
 
   // Accesses an UPDATE endpoint, returns boolean
-  // See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields
-  // Syntax:
-  //    var myHeaders = new Headers();
-  //    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-  //    var urlencoded = new URLSearchParams();
-  //    urlencoded.append("bodyParam1Name", bodyParam1Val);
-  //    urlencoded.append("bodyParam2Name", "bodyParam2Val");
-  //    //etc.                              value or "value"; either one works
-  //    var requestOptions = {
-  //      method: 'PUT',
-  //      headers: myHeaders,
-  //      body: urlencoded,
-  //      redirect: 'error'
-  //    };
-  //    updateTask(UPDATE_GENERAL_TASK, requestOptions, true)
-  async updateTask(url_kind, request_options, debug=false)
+  // ##################################################################################################################
+  // IMPORTANT: See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields for <taskType>
+  // ##################################################################################################################
+  // task_kind should be one of the above Strings.
+  // bodyFields should be an array. Each element is another array of length 2, where element 0 is the name of the body field (String) and element 1 is the value of that body field.
+  async updateTask(task_kind, bodyFields, debug=false)
   {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    var urlencoded = new URLSearchParams();
+    bodyFields.forEach(f => {
+      urlencoded.append(f[0], f[1]);
+    })
+    var request_options = {
+      method: 'PUT',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'error'
+    };
     var ret;
-    await fetch("/api/empTasks/update" + url_kind, request_options)
+    await fetch("/api/empTasks/update" + task_kind, request_options)
         .then(res => {
           if (res.redirected) {
             window.location.href = res.url;
@@ -169,7 +171,7 @@ class Home extends Component {
         })
         .then(response => response.text())
         .then(result => {
-          if(debug) {console.log("Update " + url_kind + ":\n" + result);}
+          if(debug) {console.log("Update " + task_kind + ":\n" + result);}
           ret = result === "true";
         })
         .catch(error => console.log('error', error));
