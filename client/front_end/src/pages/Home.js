@@ -10,8 +10,8 @@ class Home extends Component {
     this.state = {
       tasks: [],
       search: "",
-      category: [],
-      progress: [],
+      category: "",
+      progress: "",
       sort: "",
     }
   this.handleSearchChange = this.handleSearchChange.bind(this)
