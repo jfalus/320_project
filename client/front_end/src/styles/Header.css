@@ -67,6 +67,10 @@ nav img {
   margin: 0px;
 }
 
+.form {
+  display: flex;
+}
+
 .search:focus {
   border-style: solid;
   border-color: rgb(118, 187, 183);

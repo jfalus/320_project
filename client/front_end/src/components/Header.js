@@ -12,7 +12,7 @@ const Header = (props) => {
           </div>
         </div>
         <div class="search-container">
-          <form action="/home">
+          <form action="/home" class="form">
             <input onChange={props.handler} className="search" type="text" placeholder="search"/>
             <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
           </form>
