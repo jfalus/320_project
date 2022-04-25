@@ -65,9 +65,9 @@ function Sidebar(props) {
         <body2>
           <a href="#" className="notification" onClick={ptoClick}>
             <span>PTO Requests</span>
-          </a>
           <p>{!ptoData ? "loading PTOs" : ptoData}</p>
           <span className="badge">3</span>
+          </a>
           <br></br>
 
           <a href="#" className="notification">
