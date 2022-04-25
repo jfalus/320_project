@@ -71,7 +71,7 @@ function updatePtoRequest(app){
           title: 'PTO Request Updated', 
           description: 'Your PTO request for ' + req.body.start_date + ' to ' + req.body.end_date + ' has been ' + stat + '.',
           date_due: today,
-          progress: "Complete",
+          progress: "Not-Started",
           assigned_to: req.body.creator
         })
       }
