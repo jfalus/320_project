@@ -20,6 +20,20 @@ class Home extends Component {
 
   async componentDidMount() {
     this.getAllTasksSmooth(true, undefined, undefined);
+    if (false) {
+      this.pushtask({
+        "category":"Paid Time Off Request",
+        "title":"[Sick Time Off] Covid-19 Quarantine",
+        "date_due":"04-10-2022",
+        "assigned_to":"Bossman",
+        "date_created":"04-09-2022",
+        "start_date":"04-11-2022",
+        "end_date":"04-18-2022",
+        "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
+        "approval":"True",
+        "progress":"COMPLETED"
+      });
+    }
   }
 
   // Accesses a GET endpoint for the current user, returns array of JSON objects
