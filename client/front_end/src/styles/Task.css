@@ -23,3 +23,33 @@
 .task-timeframe {
   text-align: right;
 }
+
+.notstarted{
+  background-color: #DB4437;
+  color: #DB4437;
+}
+
+.reject{
+  background-color: #DB4437;
+  color: white;
+}
+
+.todo {
+  background-color: #F4B400;
+  color: #F4B400;
+}
+
+.completed{
+  background-color: #0F9D58;
+  color: #0F9D58;
+}
+
+.accept{
+  background-color: #0F9D58;
+  color: white;
+}
+
+.task-button:hover {
+  background: #d8d7d7;
+  color: #d8d7d7;
+}
