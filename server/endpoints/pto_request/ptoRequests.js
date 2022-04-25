@@ -9,7 +9,7 @@ function ptoRequests(app){
   checkLoggedIn,
   async (req, res) => {
     const pto_requests = await models.pto_request.findAll({
-      attributes: ['pto_id', 'title', 'description', 'start_date', 'end_date', 'date_created', 'date_due', 'progress', 'approved'],
+      attributes: ['pto_id', 'title', 'description', 'start_date', 'end_date', 'date_created', 'date_due', 'progress', 'approved', 'e_id'],
       where: {
         assigned_to: req.user.e_id
       }
