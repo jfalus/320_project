@@ -32,6 +32,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build --prefix client/front_end/",
     "re-dev": "npm run build && npm run dev",
-    "test-server": "jest __tests_server__/index.test.js --detectOpenHandles"
+    "test-server": "jest __tests_server__/index.test.js --detectOpenHandles",
+    "heroku-postbuild": "npm run build && npm run dev"
   }
 }

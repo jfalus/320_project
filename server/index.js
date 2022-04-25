@@ -9,7 +9,7 @@ require('dotenv').config()
 const app = express()
 
 app.use(express.static(path.join(__dirname, "../client/front_end/build")));
-app.use(express.static(path.join(__dirname, "../client/front_end/public")));
+// app.use(express.static(path.join(__dirname, "../client/front_end/public")));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -144,10 +144,15 @@ app.get('/hello', async (req, res) => {
 //   // res.sendFile(path.join(__dirname, "../client/front_end/build/index.html"));
 //   next()
 // })
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname,  "build", "index.html"));
+  });
+}
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/front_end/public/index.html"));
-})
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/front_end/public/index.html"));
+// })
 
 module.exports = app;
 
