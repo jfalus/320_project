@@ -35,9 +35,8 @@ function Sidebar(props) {
       .then((genData) => setGenData(genData.message));
   }, []);
 
-  async function ptoClick(e) {
-    e.preventDefault();
-    updateCategory(["Paid Time Off Request"]);
+  async function categoryClick(category) {
+    updateCategory(category);
   }
 
   return (
@@ -63,28 +62,28 @@ function Sidebar(props) {
           <b>Categories</b>
         </h2>
         <body2>
-          <a href="#" className="notification" onClick={ptoClick}>
+          <a href="#" className="notification" onClick={() => categoryClick("Paid Time Off Request")}>
             <span>PTO Requests</span>
             <p>{!ptoData ? "loading PTOs" : ptoData}</p>
             <span className="badge">3</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification">
+          <a href="#" className="notification" onClick={() => categoryClick("Performance Review")}>
             <span>Performance Reviews</span>
             <p>{!prData ? "loading PRs" : prData}</p>
             <span className="badge">1</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification">
+          <a href="#" className="notification" onClick={() => categoryClick("Assigned Training")}>
             <span>Trainings</span>
             <p>{!trainData ? "loading trainings" : trainData}</p>
             <span className="badge">4</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification">
+          <a href="#" className="notification" onClick={() => categoryClick("General Task")}>
             <span>General Tasks</span>
             <p>{!genData ? "loading general tasks" : genData}</p>
             <span className="badge">4</span>
