@@ -5,7 +5,6 @@ import PTORequest from "./Task/PTORequest.js";
 import TrainingRequest from "./Task/TrainingRequest.js";
 import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
-import { get } from "superagent";
 
 function Sidebar(props) {
   const [ptoData, setPtoData] = React.useState(null);
