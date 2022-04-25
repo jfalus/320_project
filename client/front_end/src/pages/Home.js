@@ -234,9 +234,16 @@ class Home extends Component {
   }
 
   updateCategory(categories) {
-    this.setState((state) => {
-      return {category: categories};
-    });
+    if (this.state.category == categories) {
+      this.setState((state) => {
+        return {category: ""};
+      });
+    }
+    else {
+      this.setState((state) => {
+        return {category: categories};
+      });
+    }
   }
 
   render()
