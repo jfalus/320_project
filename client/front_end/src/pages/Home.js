@@ -16,6 +16,7 @@ class Home extends Component {
     }
   this.handleSearchChange = this.handleSearchChange.bind(this)
   this.updateCategory = this.updateCategory.bind(this);
+  this.updateFilter = this.updateFilter.bind(this);
   }
 
   async componentDidMount() {
@@ -233,18 +234,31 @@ class Home extends Component {
     return filteredTasks;
   }
 
-  updateCategory(categories) {
-    if (this.state.category == categories) {
+  updateCategory(category) {
+    if (this.state.category == category) {
       this.setState((state) => {
         return {category: ""};
       });
     }
     else {
       this.setState((state) => {
-        return {category: categories};
+        return {category: category};
       });
     }
   }
+
+  updateFilter(filter) {
+    if (this.state.progress == filter) {
+      this.setState((state) => {
+        return {progress: ""};
+      });
+    }
+    else {
+      this.setState((state) => {
+        return {progress: filter};
+      });
+    }
+  } 
 
   render()
   {
@@ -262,7 +276,7 @@ class Home extends Component {
               backgroundColor: "005151",
             },
           }.contentDiv}>
-            <Sidebar updateCategory={this.updateCategory}/>
+            <Sidebar updateCategory={this.updateCategory} updateFilter={this.updateFilter}/>
             <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {
