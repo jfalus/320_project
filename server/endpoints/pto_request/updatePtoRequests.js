@@ -58,8 +58,8 @@ function updatePtoRequest(app){
       const succ = (await updatePTORequest(models.pto_request, req.user.e_id, parseInt(req.body.pto_id), req.body.progress, req.body.approved === "true"))[0] === 2;
       if(succ)
       {
-        var not = "";
-        if(!(req.body.approved === "true")){not = 'not ';}
+        var stat = 'DENIED';
+        if(req.body.approved === "true"){stat = 'APPROVED';}
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -69,7 +69,7 @@ function updatePtoRequest(app){
         models.general_task.create({
           e_id: req.user.employeeId,
           title: 'PTO Request Updated', 
-          description: 'Your PTO request for ' + req.body.start_date + ' to ' + req.body.end_date + ' has ' + not + 'been approved.',
+          description: 'Your PTO request for ' + req.body.start_date + ' to ' + req.body.end_date + ' has been ' + stat + '.',
           date_due: today,
           progress: "Complete",
           assigned_to: req.body.creator
