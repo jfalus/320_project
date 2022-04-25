@@ -241,8 +241,8 @@ class Home extends Component {
               backgroundColor: "005151",
             },
           }.contentDiv}>
+            <div class="Main-section">
             <Sidebar updateCategory={this.updateCategory}/>
-            <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {
                   return (<Section

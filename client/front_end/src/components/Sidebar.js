@@ -112,13 +112,6 @@ function Sidebar(props) {
           </div>
         </div>
       </li>
-
-      <div id="settings">
-        SETTINGS{" "}
-        <a href="google.com">
-          <i className="fa fa-cog fa-3x" aria-hidden="true"></i>
-        </a>
-      </div>
     </div>
   );
 }

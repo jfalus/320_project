@@ -13,6 +13,7 @@
 
 .header {
   display: flex;
+  position: fixed;
   height: var(--header-height);
   background-color: #f4f4f4;
   width: 100%;
@@ -40,14 +41,6 @@ nav img {
   margin: 0px 10px;
 }
 
-/*
-.searchbar {
-  width: 50%;
-  height: 40px;
-  margin: 4px;
-}
-*/
-
 .text {
   color: #f4f4f4;
   margin-left: 10px;
@@ -66,6 +59,7 @@ nav img {
   border-bottom-left-radius: 10px;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
+  border-color: transparent;
   overflow: hidden;
   color: #f4f4f4;
   -ms-transform: translateY(-50%);

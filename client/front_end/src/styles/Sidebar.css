@@ -27,15 +27,16 @@ body {
   left: 0;
   height: 100vh;
   width: 284px;
-  padding: 1rem;
+  padding: 16px;
+  align-items: center;
 }
 
 .sidebar li {
   list-style: none;
-  padding: 1rem;
   align-items: center;
   gap: 1rem;
   font-weight: 300;
+  padding: 1rem;
 }
 
 button {
@@ -108,7 +109,6 @@ button {
 }
 
 h2 {
-  width: 80%;
   text-align: center;
   display: inline-block;
 }

@@ -8,10 +8,14 @@
   background-attachment: fixed;
   border-style: solid;
   border-color: black;
+  border-bottom: none;
+  border-right: none;
   border-width: 1px;
   margin-left: "2px";
   width: 100%;
   font-family: "Open Sans", sans-serif;
+  position: fixed;
+  top: 64px;
 }
 
 .body {
