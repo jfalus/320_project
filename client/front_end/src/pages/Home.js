@@ -10,8 +10,8 @@ class Home extends Component {
     this.state = {
       tasks: [],
       search: "",
-      category: [],
-      progress: [],
+      category: "",
+      progress: "",
       sort: "",
     }
   this.handleSearchChange = this.handleSearchChange.bind(this)
@@ -177,7 +177,6 @@ class Home extends Component {
   }
 
   handleSearchChange(event) {
-    console.log("The search did change bro")
     this.setState({search: event.target.value});
   }
 
