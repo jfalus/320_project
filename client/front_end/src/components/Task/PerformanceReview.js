@@ -4,8 +4,9 @@ import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
 function PerformanceReview(props) {
+  const assignee = [];
   const [title, setTitle] = useState("");
-  const [assignee, setAssignee] = useState("");
+  const setAssignee = useState("");
   const [dueDate, setDueDate] = useState("");
   const [overall_comments, setComment] = useState("");
   const [growth_feedback, setGrowth] = useState("");

@@ -4,8 +4,9 @@ import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
 function PTORequest(props) {
+  const assignee = [];
   const [title, setTitle] = useState("");
-  const [assignee, setAssignee] = useState("");
+  const setAssignee = useState("");
   const [dueDate, setDueDate] = useState("");
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
