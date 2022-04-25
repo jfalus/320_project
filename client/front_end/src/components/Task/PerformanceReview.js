@@ -57,6 +57,13 @@ function PerformanceReview(props) {
     assignee.push(item);
   };
 
+  const onItemDelete = (item) => {
+    var index = assignee.indexOf(item);
+    if (index !== -1) {
+      assignee.splice(index, 1);
+    }
+  };
+
   return (
     <>
       <button variant="primary" onClick={handleShow} className="createTask">
@@ -83,9 +90,7 @@ function PerformanceReview(props) {
             <MultipleValueTextInput
               className="assignee"
               onItemAdded={onItemAdd}
-              onItemDeleted={(item, allItems) =>
-                console.log(`Item removed: ${item}`)
-              }
+              onItemDeleted={onItemDelete}
               label="Assignee"
               name="assignee"
               placeholder="Enter assignee email(s); separate them with COMMA or ENTER."

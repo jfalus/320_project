@@ -49,10 +49,12 @@ function CustomTask(props) {
     assignee.push(item);
   };
 
-  // const onItemDelete = () => {
-  //   assignee.pop();
-  //   console.log(assignee);
-  // };
+  const onItemDelete = (item) => {
+    var index = assignee.indexOf(item);
+    if (index !== -1) {
+      assignee.splice(index, 1);
+    }
+  };
 
   return (
     <>
@@ -80,9 +82,7 @@ function CustomTask(props) {
             <MultipleValueTextInput
               className="assignee"
               onItemAdded={onItemAdd}
-              onItemDeleted={(item, allItems) =>
-                console.log(`Item removed: ${item}`)
-              }
+              onItemDeleted={onItemDelete}
               label="Assignee"
               name="assignee"
               placeholder="Enter assignee email(s); separate them with COMMA or ENTER."
