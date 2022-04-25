@@ -277,7 +277,7 @@ class Home extends Component {
               backgroundColor: "005151",
             },
           }.contentDiv}>
-            <Sidebar updateCategory={this.updateCategory} updateFilter={this.updateFilter}/>
+            <Sidebar updateCategory={this.updateCategory} updateFilter={this.updateFilter} counts = {["Paid Time Off Request", "Performance Review", "Assigned Training", "General Task"].map(e => (this.filterTasks(filteredTasks, "category", e).length))}/>
             <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {
