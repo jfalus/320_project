@@ -17,16 +17,18 @@ function TrainingRequest(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const url = "/api/empTasks/newAssignedTraining";
+
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("/api/empTasks/newAssignedTraining", {
+      let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
           title: title,
           assigned_to: assignee,
           date_due: dueDate,
-          desc: description,
+          description: description,
           link: link,
         }),
       });

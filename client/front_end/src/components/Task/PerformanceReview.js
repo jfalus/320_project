@@ -19,10 +19,12 @@ function PerformanceReview(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const url = "/api/empTasks/newPerformanceReview";
+
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("/api/empTasks/newPerformanceReview", {
+      let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
           title: title,

@@ -16,19 +16,21 @@ function CustomTask(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const url = "/api/empTasks/newGeneralTask";
+
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("/api/empTasks/newGeneralTask", {
+      let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
           title: title,
           assigned_to: assignee,
           date_due: dueDate,
-          desc: description,
+          description: description,
         }),
       });
-      let resJson = await res.json();
+      console.log(res);
       if (res.status === 200) {
         setTitle("");
         setAssignee(assignee);

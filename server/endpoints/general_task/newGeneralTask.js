@@ -28,6 +28,7 @@ function newGeneralTask(app) {
   app.post("/api/empTasks/newGeneralTask", checkLoggedIn, async (req, res) => {
     console.log(req.body);
     const e_id = parseInt(req.user.e_id);
+    console.log(e_id);
     if (
       isValidGT(
         e_id,

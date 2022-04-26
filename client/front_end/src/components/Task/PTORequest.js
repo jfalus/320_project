@@ -18,21 +18,22 @@ function PTORequest(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const url = "/api/empTasks/newPtoRequest";
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("/api/empTasks/newPtoRequest", {
+      let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
           title: title,
           assigned_to: assignee,
           date_due: dueDate,
-          desc: description,
+          description: description,
           start_date: start_date,
           end_date: end_date,
         }),
       });
-      let resJson = await res.json();
+      console.log(res);
       if (res.status === 200) {
         setTitle("");
         setAssignee(assignee);
