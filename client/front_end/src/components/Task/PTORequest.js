@@ -4,16 +4,16 @@ import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
 function PTORequest(props) {
-  const assignee = [];
+  // const assignee = [];
   const [title, setTitle] = useState("");
-  const setAssignee = useState("");
+  const [assignee, setAssignee] = useState([]);
   const [dueDate, setDueDate] = useState("");
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
 
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,6 +22,7 @@ function PTORequest(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setAssignee([]); //potential fix?
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -36,7 +37,7 @@ function PTORequest(props) {
       console.log(res);
       if (res.status === 200) {
         setTitle("");
-        setAssignee(assignee);
+        setAssignee([]);
         setDueDate("");
         setDescription("");
         setStartDate("");
@@ -53,16 +54,11 @@ function PTORequest(props) {
   };
 
   const onItemAdd = (item) => {
-    console.log(item + ' added')
-    assignee.push(item);
+    setAssignee((assignee) => [...assignee, item]);
   };
 
   const onItemDelete = (item) => {
-    var index = assignee.indexOf(item);
-    if (index !== -1) {
-      assignee.splice(index, 1);
-    }
-    console.log(item + ' removed')
+    setAssignee((assignee) => assignee.filter((key) => key !== item));
   };
 
   return (
