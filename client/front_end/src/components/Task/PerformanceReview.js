@@ -9,9 +9,6 @@ function PerformanceReview(props) {
   const setAssignee = useState("");
   const [dueDate, setDueDate] = useState("");
   const [overall_comments, setComment] = useState("");
-  const [growth_feedback, setGrowth] = useState("");
-  const [delivery_feedback, setDelivery] = useState("");
-  const [kindness_feedback, setKindness] = useState("");
   const [message, setMessage] = useState("");
 
   const [show, setShow] = useState(false);

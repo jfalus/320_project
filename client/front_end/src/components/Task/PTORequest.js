@@ -22,6 +22,7 @@ function PTORequest(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setAssignee([]);
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -57,10 +58,7 @@ function PTORequest(props) {
   };
 
   const onItemDelete = (item) => {
-    var index = assignee.indexOf(item);
-    if (index !== -1) {
-      assignee.splice(index, 1);
-    }
+    setAssignee((assignee) => assignee.filter((key) => key !== item));
   };
 
   return (
