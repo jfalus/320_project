@@ -30,10 +30,6 @@ function PerformanceReview(props) {
           title: title,
           assigned_to: assignee,
           date_due: dueDate,
-          overall_comments: overall_comments,
-          growth_feedback: growth_feedback,
-          kindness_feedback: kindness_feedback,
-          delivery_feedback: delivery_feedback,
         }),
       });
       let resJson = await res.json();
@@ -41,9 +37,6 @@ function PerformanceReview(props) {
         setTitle("");
         setAssignee(assignee);
         setDueDate("");
-        setGrowth("");
-        setDelivery("");
-        setKindness("");
         setComment("");
         setMessage("User created successfully");
       } else {
@@ -107,71 +100,12 @@ function PerformanceReview(props) {
                 onChange={(e) => setDueDate(e.target.value)}
               />
             </Form.Group>
-            <Form.Group>
-              <Form.Label className="label">Growth Feedback</Form.Label>
-              <Form.Control
-                as="select"
-                value={growth_feedback}
-                onChange={(e) => setGrowth(e.target.value)}
-              >
-                <option>Choose from...</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label className="label">Kindness Feedback</Form.Label>
-              <Form.Control
-                as="select"
-                value={kindness_feedback}
-                onChange={(e) => setKindness(e.target.value)}
-              >
-                <option>Choose from...</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </Form.Control>
-              <Form.Group>
-                <Form.Label className="label">Delivery Feedback</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={delivery_feedback}
-                  onChange={(e) => setDelivery(e.target.value)}
-                >
-                  <option>Choose from...</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                </Form.Control>
-              </Form.Group>
-            </Form.Group>
+
             <Form.Group className="mb-3" controlId="description">
               <Form.Label className="label">Overall Comments</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={3}
+                rows={8}
                 value={overall_comments}
                 onChange={(e) => setComment(e.target.value)}
               />
