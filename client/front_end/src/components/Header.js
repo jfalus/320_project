@@ -3,6 +3,18 @@ import "../styles/Header.css";
 import logo from "../images/ukglogo.png";
 
 const Header = (props) => {
+
+  const clickLogout = (e) => {
+    e.preventDefault();
+
+    fetch('/api/logout', {
+      method: 'DELETE'
+    }).then((res) => {
+      window.location.href = '/';
+    })
+      .catch(e => { throw e; });
+  };
+
   return (
     <div className="header">
       <nav>
@@ -13,7 +25,7 @@ const Header = (props) => {
         </div>
         <div class="search-container">
           <form action="/home">
-            <input onChange={props.handler} className="search" type="text" placeholder="search"/>
+            <input onChange={props.handler} className="search" type="text" placeholder="Search" />
             <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
           </form>
         </div>
@@ -21,6 +33,14 @@ const Header = (props) => {
           <form action="/home">
             <button class="sortby">Sort</button>
           </form>
+        </div>
+        <div logout>
+          <button
+            id="logout-button"
+            onClick={clickLogout}
+          >
+            Log Out
+          </button>
         </div>
       </nav>
     </div>

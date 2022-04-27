@@ -1,5 +1,5 @@
 :root {
-  --header-height: 64px;
+  --header-height: 66px;
 }
 
 #header-label {
@@ -30,7 +30,7 @@ nav {
 nav img {
   height: 40px;
   margin-bottom: 0px;
-  margin-top: 5px;
+  margin-top: 6px;
   margin-right: 10px;
 }
 
@@ -59,7 +59,7 @@ nav img {
 }
 
 .search {
-  height: 52px;
+  height: 53px;
   width: 600px;
   background-color: rgb(32, 80, 80);
   border-top-left-radius: 10px;
@@ -67,10 +67,22 @@ nav img {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   overflow: hidden;
+  color: #f4f4f4;  
+  margin-top: 6px;
+  margin-left: 100px;
+}
+
+#logout-button {
+
+  height: 50px;
+  width: 120px;
+  background-color: rgb(226, 69, 44);
+  border-radius: 5px;
   color: #f4f4f4;
-  -ms-transform: translateY(-50%);
-  transform: translateY(11%);
-  margin: 0px;
+  margin-top: 6px;
+  margin-right: 7px;
+  font-size: 19px;
+  box-shadow: 0px 3px 10px var(--darkest-shadow); 
 }
 
 .search:focus {
@@ -89,24 +101,22 @@ nav img {
 }
 
 .sortby {
-  height: 52px;
-  width: 62px;
+  height: 50px;
+  width: 66px;
   background-color: rgb(32, 80, 80);
   border-radius: 10px;
   color: #f4f4f4;
-  -ms-transform: translateY(-50%);
-  transform: translateY(11%);
-  margin-right: 7px;
+  margin-left: -220px;
   font-size: 20px;
+  margin-top: 6px;
 }
 
 .search-button {
   width: 52px;
-  height: 52px;
+  height: 51px;
   color: rgb(32, 80, 80);
   background-color: rgb(118, 187, 183);
-  -ms-transform: translateX(-50%);
-  transform: translateY(11%);
+  margin-top: 6px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
