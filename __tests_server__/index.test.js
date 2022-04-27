@@ -277,14 +277,16 @@ describe('Test new PTO Request', () => {
     }).end(function(err, res) {
       agent.post('/api/empTasks/newPtoRequest')
       .send({
-        title: 'test', 
-        description: '3',
-        start_date: '2022-04-22',
+        title: 'Maternity Leave', 
+        description: 'this is filler text for maternity leave',
+        start_date: '2022-04-29',
         end_date: '2022-06-21',
-        date_due: '2022-05-16',
-        assigned_to: ['Hans_Barton@atlastechnology.com', 'Eldridge_Chavez@atlastechnology.com']
-        //assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
+        date_due: '2022-04-28',
+        assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com']
       })
+      //assigned_to: ['Hans_Barton@atlastechnology.com', 'Eldridge_Chavez@atlastechnology.com']
+        //assigned_to: ['Mose_Gibson@atlastechnology.com','cans', 'Rowena_Washington@atlastechnology.com', 'hans']
+        //assigned_to:['hans']
       .then((response) => {
         expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
         done()

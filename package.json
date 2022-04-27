@@ -7,7 +7,7 @@
     "json-merger": "^1.1.7",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
-    "pg": "^8.7.3",
+    "pg": "^8.7.3", 
     "react-bootstrap": "^2.2.3",
     "react-collapsed": "^3.3.0",
     "react-router-dom": "^6.3.0",

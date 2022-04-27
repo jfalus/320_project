@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "../../styles/CreateTask.css";
+import MultipleValueTextInput from "react-multivalue-text-input";
 
 function TrainingRequest(props) {
+  const assignee = [];
   const [title, setTitle] = useState("");
-  const [assignee, setAssignee] = useState("");
+  const setAssignee = useState("");
   const [dueDate, setDueDate] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
@@ -15,24 +17,25 @@ function TrainingRequest(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const url = "/api/empTasks/newAssignedTraining";
+
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("/api/empTasks/newAssignedTraining", {
+      let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          e_id: 85,
           title: title,
           assigned_to: assignee,
           date_due: dueDate,
-          desc: description,
+          description: description,
           link: link,
         }),
       });
       let resJson = await res.json();
       if (res.status === 200) {
         setTitle("");
-        setAssignee("");
+        setAssignee(assignee);
         setDueDate("");
         setDescription("");
         setLink("");
@@ -45,6 +48,17 @@ function TrainingRequest(props) {
     }
 
     handleClose();
+  };
+
+  const onItemAdd = (item) => {
+    assignee.push(item);
+  };
+
+  const onItemDelete = (item) => {
+    var index = assignee.indexOf(item);
+    if (index !== -1) {
+      assignee.splice(index, 1);
+    }
   };
 
   return (
@@ -70,15 +84,14 @@ function TrainingRequest(props) {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formAssignee">
-              <Form.Label className="label">Assignee</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter task assignee email"
-                value={assignee}
-                onChange={(e) => setAssignee(e.target.value)}
-              />
-            </Form.Group>
+            <MultipleValueTextInput
+              className="assignee"
+              onItemAdded={onItemAdd}
+              onItemDeleted={onItemDelete}
+              label="Assignee"
+              name="assignee"
+              placeholder="Enter assignee email(s); separate them with COMMA or ENTER."
+            />
             <Form.Group className="mb-3" controlId="formStartDate">
               <Form.Label className="label">Due Date</Form.Label>
               <Form.Control
