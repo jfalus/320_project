@@ -6,6 +6,7 @@
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "json-merger": "^1.1.7",
+    "nodemon": "^2.0.15",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
@@ -22,7 +23,6 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^27.5.1",
-    "nodemon": "^2.0.15",
     "superagent": "^7.1.2",
     "supertest": "^6.2.2"
   },
