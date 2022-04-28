@@ -29,11 +29,6 @@
   color: #DB4437;
 }
 
-.reject{
-  background-color: #DB4437;
-  color: white;
-}
-
 .todo {
   background-color: #F4B400;
   color: #F4B400;
@@ -44,12 +39,38 @@
   color: #0F9D58;
 }
 
+.reject{
+  background-color: #DB4437;
+  color: white;
+}
+
 .accept{
   background-color: #0F9D58;
   color: white;
 }
 
+.task-button {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  font-size: smaller;
+}
+
 .task-button:hover {
   background: #d8d7d7;
-  color: #d8d7d7;
+  color: black;
+  font-size: small;
+}
+
+.approval-button {
+  display: inline-block;
+  width: 75px;
+  text-align: center;
+  font-size: smaller;
+}
+
+.approval-button:hover {
+  background: #d8d7d7;
+  color: black;
+  font-size: small;
 }

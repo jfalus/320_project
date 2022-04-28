@@ -26,15 +26,19 @@ class Home extends Component {
         "category":"Paid Time Off Request",
         "title":"[Sick Time Off] Covid-19 Quarantine",
         "date_due":"04-10-2022",
-        "assigned_to":"Bossman",
+        "pto_id":"-1",
         "date_created":"04-09-2022",
         "start_date":"04-11-2022",
         "end_date":"04-18-2022",
         "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
         "approval":"True",
-        "progress":"COMPLETED"
+        "progress":"completed"
       });
     }
+  }
+
+  async testing(){
+    return "test successful"
   }
 
   // Accesses a GET endpoint for the current user, returns array of JSON objects
@@ -236,7 +240,7 @@ class Home extends Component {
   }
 
   updateCategory(category) {
-    if (this.state.category == category) {
+    if (this.state.category === category) {
       this.setState((state) => {
         return {category: ""};
       });
@@ -249,7 +253,7 @@ class Home extends Component {
   }
 
   updateFilter(filter) {
-    if (this.state.progress == filter) {
+    if (this.state.progress === filter) {
       this.setState((state) => {
         return {progress: ""};
       });
@@ -285,7 +289,7 @@ class Home extends Component {
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
-                      assignedto={e.assigned_to}
+                      id={e.task_id}
                       description={e.description}
                       createdDate={e.date_created}
                       progress={e.progress}
@@ -296,6 +300,7 @@ class Home extends Component {
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
+                      id={e.at_id}
                       link={e.link}
                       createdDate={e.date_created}
                       description={e.description}
@@ -307,7 +312,7 @@ class Home extends Component {
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
-                      assignedto={e.assigned_to}
+                      id={e.pr_id}
                       createdDate={e.date_created}
                       overallcomments={e.overall_comments}
                       growth_feedback={e.growth_feedback}
@@ -318,10 +323,11 @@ class Home extends Component {
                 }
                 else if (e.category === "Paid Time Off Request") {
                   return (<Section
+                      pto_id={e.pto_id}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
-                      assignedto={e.assigned_to}
+                      id={e.pto_id}
                       createdDate={e.date_created}
                       start_date={e.start_date}
                       end_date={e.end_date}

@@ -1,5 +1,6 @@
 import "../styles/Task.css";
 import React, { Component } from 'react';
+import {Home} from "./../pages/Home.js";
 
 class GeneralTask extends Component {
   render() {
@@ -7,7 +8,7 @@ class GeneralTask extends Component {
       <div className="task">
         <div className="task-header">
           <nav>
-            <div id="task-assigner"><b>Assigner:</b> {this.props.assigner}</div>
+            <div id="task-assigner"><b>Task ID:</b> {this.props.id}</div>
             <div id="task-created-date"><b>Created date:</b> {this.props.createdDate}</div>
           </nav>
         </div>
@@ -23,14 +24,14 @@ class GeneralTask extends Component {
           <nav>
             <div></div>
             <div className="progress-buttons">
-              <a href="#" className="notstarted">
-                <span class="task-button">...</span>
+              <a href="#" className="notstarted" onClick={() => console.log("not started")}>
+                <span class="task-button">0%</span>
               </a>
-              <a href="#" className="todo">
-                <span class="task-button">...</span>
+              <a href="#" className="todo" onClick={() => console.log("to do")}>
+                <span class="task-button">50%</span>
               </a>
-              <a href="#" className="completed">
-                <span class="task-button">...</span>
+              <a href="#" className="completed" onClick={() => console.log("completed")}>
+                <span class="task-button">100%</span>
               </a>
             </div>
           </nav>
@@ -46,7 +47,7 @@ class TrainingTask extends Component {
       <div className="task">
         <div className="task-header">
           <nav>
-            <div id="task-assigner"><b>Assigner:</b> System</div>
+            <div id="task-assigner"><b>Task ID:</b> {this.props.id}</div>
             <div id="task-created-date"><b>Created date:</b> {this.props.createdDate}</div>
           </nav>
         </div>
@@ -63,14 +64,14 @@ class TrainingTask extends Component {
           <nav>
             <div></div>
             <div className="progress-buttons">
-              <a href="#" className="notstarted">
-                <span class="task-button">...</span>
+              <a href="#" className="notstarted" onClick={() => console.log("not started")}>
+                <span class="task-button">0%</span>
               </a>
-              <a href="#" className="todo">
-                <span class="task-button">...</span>
+              <a href="#" className="todo" onClick={() => console.log("to do")}>
+                <span class="task-button">50%</span>
               </a>
-              <a href="#" className="completed">
-                <span class="task-button">...</span>
+              <a href="#" className="completed" onClick={() => console.log("completed")}>
+                <span class="task-button">100%</span>
               </a>
             </div>
           </nav>
@@ -86,7 +87,7 @@ class PRTask extends Component {
       <div className="task">
         <div className="task-header">
           <nav>
-            <div id="task-assigner"><b>Assigner:</b> {this.props.assigner}</div>
+            <div id="task-assigner"><b>Task ID:</b> {this.props.id}</div>
             <div id="task-created-date"><b>Created Date:</b> {this.props.createdDate}</div>
           </nav>
         </div>
@@ -111,14 +112,14 @@ class PRTask extends Component {
           <nav>
             <div></div>
             <div className="progress-buttons">
-              <a href="#" className="notstarted">
-                <span class="task-button">...</span>
+              <a href="#" className="notstarted" onClick={() => console.log("not started")}>
+                <span class="task-button">0%</span>
               </a>
-              <a href="#" className="todo">
-                <span class="task-button">...</span>
+              <a href="#" className="todo" onClick={() => console.log("to do")}>
+                <span class="task-button">50%</span>
               </a>
-              <a href="#" className="completed">
-                <span class="task-button">...</span>
+              <a href="#" className="completed" onClick={() => console.log("completed")}>
+                <span class="task-button">100%</span>
               </a>
             </div>
           </nav>
@@ -134,7 +135,7 @@ class PTOTask extends Component {
       <div className="task">
         <div className="task-header">
           <nav>
-            <div id="task-assigner"><b>Assigner:</b> {this.props.assigner}</div>
+            <div id="task-assigner"><b>Task ID:</b> {this.props.id}</div>
             <div className="task-timeframe">
               <div><b>Start Date:</b> {this.props.start_date}</div>
               <div><b>End Date:</b> {this.props.end_date}</div>
@@ -154,23 +155,23 @@ class PTOTask extends Component {
         </div>
         <div className="task-toes">
           <nav>
-            <div className="approve-buttons">
-              <a href="#" className="reject">
-                <span class="task-button">reject</span>
+            <div>
+              <a href="#" className="reject" onClick={() => console.log("rejected")}>
+                <span class="approval-button">reject</span>
               </a>
-              <a href="#" className="accept">
-                <span class="task-button">accept</span>
+              <a href="#" className="accept" onClick={() => console.log("accepted")}>
+                <span class="approval-button">accept</span>
               </a>
             </div>
             <div className="progress-buttons">
-              <a href="#" className="notstarted">
-                <span class="task-button">...</span>
+              <a href="#" className="notstarted" onClick={() => console.log("not started")}>
+                <span class="task-button">0%</span>
               </a>
-              <a href="#" className="todo">
-                <span class="task-button">...</span>
+              <a href="#" className="todo" onClick={() => console.log("to do")}>
+                <span class="task-button">50%</span>
               </a>
-              <a href="#" className="completed">
-                <span class="task-button">...</span>
+              <a href="#" className="completed" onClick={() => console.log("completed")}>
+                <span class="task-button">100%</span>
               </a>
             </div>
           </nav>
