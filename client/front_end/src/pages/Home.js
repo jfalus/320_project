@@ -267,12 +267,14 @@ class Home extends Component {
   }
 
   updateSort(sort) {
-    if (this.state.progress === sort) {
+    if (this.state.sort === sort) {
+      console.log("setting sort to none")
       this.setState((state) => {
         return {sort: ""};
       });
     }
     else {
+      console.log("setting sort to " + sort);
       this.setState((state) => {
         return {sort: sort};
       });

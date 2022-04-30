@@ -4,7 +4,7 @@ import logo from "../images/ukglogo.png";
 
 const Header = (props) => {
 
-  const fields = ['category', 'title', 'date_due', 'progress']
+  const fields = ['category', 'title', 'date_created', 'date_due', 'progress']
   const clickLogout = (e) => {
     e.preventDefault();
 
