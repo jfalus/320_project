@@ -4,6 +4,7 @@ import logo from "../images/ukglogo.png";
 
 const Header = (props) => {
 
+  const fields = ['category', 'title', 'date_due', 'progress']
   const clickLogout = (e) => {
     e.preventDefault();
 
@@ -23,16 +24,22 @@ const Header = (props) => {
             <img src={logo} alt="UKG Logo" />
           </div>
         </div>
-        <div class="search-container">
+        <div className="search-container">
           <form action="/home">
             <input onChange={props.handler} className="search" type="text" placeholder="Search" />
             <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
           </form>
         </div>
-        <div sortby-container>
-          <form action="/home">
-            <button class="sortby">Sort</button>
-          </form>
+        <div className="dropdown">
+            <button className="dropbtn">Sort</button>
+
+          <div className="dropdown-content">
+            {fields.map(e => {
+              return (
+                  <a href="#" onClick={() => props.sorter(e)}>{e}</a>
+              )
+            })}
+          </div>
         </div>
         <div logout>
           <button

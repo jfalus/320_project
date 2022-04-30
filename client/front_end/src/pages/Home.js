@@ -17,24 +17,25 @@ class Home extends Component {
   this.handleSearchChange = this.handleSearchChange.bind(this)
   this.updateCategory = this.updateCategory.bind(this);
   this.updateFilter = this.updateFilter.bind(this);
+  this.updateSort = this.updateSort.bind(this);
   }
 
   async componentDidMount() {
     this.getAllTasksSmooth(true, undefined, undefined);
-    if (false) {
-      this.pushtask({
-        "category":"Paid Time Off Request",
-        "title":"[Sick Time Off] Covid-19 Quarantine",
-        "date_due":"04-10-2022",
-        "pto_id":"-1",
-        "date_created":"04-09-2022",
-        "start_date":"04-11-2022",
-        "end_date":"04-18-2022",
-        "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
-        "approval":"True",
-        "progress":"completed"
-      });
-    }
+    // if (false) {
+    //   this.pushtask({
+    //     "category":"Paid Time Off Request",
+    //     "title":"[Sick Time Off] Covid-19 Quarantine",
+    //     "date_due":"04-10-2022",
+    //     "pto_id":"-1",
+    //     "date_created":"04-09-2022",
+    //     "start_date":"04-11-2022",
+    //     "end_date":"04-18-2022",
+    //     "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
+    //     "approval":"True",
+    //     "progress":"completed"
+    //   });
+    // }
   }
 
   async testing(){
@@ -85,7 +86,7 @@ class Home extends Component {
   pushtask(ret) {
     this.setState({
       tasks: this.state.tasks.concat(ret)
-    }, () => console.log(this.state.tasks))
+    })//, () => console.log(this.state.tasks))
   }
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
@@ -263,14 +264,27 @@ class Home extends Component {
         return {progress: filter};
       });
     }
-  } 
+  }
+
+  updateSort(sort) {
+    if (this.state.progress === sort) {
+      this.setState((state) => {
+        return {sort: ""};
+      });
+    }
+    else {
+      this.setState((state) => {
+        return {sort: sort};
+      });
+    }
+  }
 
   render()
   {
     let filteredTasks = this.applyFilters();
     return (
         <>
-          <Header handler={this.handleSearchChange}/>
+          <Header handler={this.handleSearchChange} sorter={this.updateSort}/>
           <div style={{
             contentDiv: {
               display: "flex",
@@ -323,7 +337,6 @@ class Home extends Component {
                 }
                 else if (e.category === "Paid Time Off Request") {
                   return (<Section
-                      pto_id={e.pto_id}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
