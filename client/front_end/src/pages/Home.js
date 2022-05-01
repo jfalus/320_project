@@ -10,22 +10,36 @@ class Home extends Component {
     this.state = {
       tasks: [],
       search: "",
-      filter: {
-        category: [],
-        progress: [],
-      },
+      category: "",
+      progress: "",
       sort: "",
     }
   this.handleSearchChange = this.handleSearchChange.bind(this)
+  this.updateCategory = this.updateCategory.bind(this);
+  this.updateFilter = this.updateFilter.bind(this);
   }
 
   async componentDidMount() {
     this.getAllTasksSmooth(true, undefined, undefined);
+    if (false) {
+      this.pushtask({
+        "category":"Paid Time Off Request",
+        "title":"[Sick Time Off] Covid-19 Quarantine",
+        "date_due":"04-10-2022",
+        "assigned_to":"Bossman",
+        "date_created":"04-09-2022",
+        "start_date":"04-11-2022",
+        "end_date":"04-18-2022",
+        "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
+        "approval":"True",
+        "progress":"COMPLETED"
+      });
+    }
   }
 
   // Accesses a GET endpoint for the current user, returns array of JSON objects
   // ex: getKind("assignedTrainings")
-  async getKind(url_kind, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getKind(url_kind, request_options={method: 'GET'}, debug=false)
   {
     var ret;
     await fetch("/api/empTasks/" + url_kind, request_options)
@@ -46,7 +60,7 @@ class Home extends Component {
 
   // Accesses all task GET endpoints for the current user, returns object: {assigned_trainings:[JSON objects], performance_reviews:[JSON objects], pto_requests:[JSON objects], general_tasks:[JSON objects]}
   // ex: getAllTasks()
-  async getAllTasks(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getAllTasks(request_options={method: 'GET'}, debug=false)
   {
     const ret = {};
     const tasks = await Promise.all([this.getKind("assignedTrainings", request_options, debug),
@@ -72,7 +86,7 @@ class Home extends Component {
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
   // ex: getAllTasksSmooth()
-  async getAllTasksSmooth(category_strings=false, request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getAllTasksSmooth(category_strings=false, request_options={method: 'GET'}, debug=false)
   {
     const tasks = await this.getAllTasks(request_options, debug=true);
     tasks.assigned_trainings.forEach(e => {if(category_strings){e.category = "Assigned Training";} this.pushtask(e)});
@@ -83,7 +97,7 @@ class Home extends Component {
 
   // Accesses directManagedEmployees endpoint (gets direct subordinates of current user), returns array of JSON objects
   // ex: getDirectSubordinateEmployees()
-  async getDirectSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getDirectSubordinateEmployees(request_options={method: 'GET'}, debug=false)
   {
     var ret;
     await fetch("/api/directManagedEmployees", request_options)
@@ -104,7 +118,7 @@ class Home extends Component {
 
   // Accesses allManagedEmployees endpoint (gets all subordinates of current user), returns array of JSON objects
   // ex: getAllSubordinateEmployees()
-  async getAllSubordinateEmployees(request_options={method: 'GET', redirect: 'error'}, debug=false)
+  async getAllSubordinateEmployees(request_options={method: 'GET'}, debug=false)
   {
     var ret;
     await fetch("/api/allManagedEmployees", request_options)
@@ -129,25 +143,27 @@ class Home extends Component {
   UPDATE_PTO_REQUEST = "PtoRequest";
 
   // Accesses an UPDATE endpoint, returns boolean
-  // See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields
-  // Syntax:
-  //    var myHeaders = new Headers();
-  //    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-  //    var urlencoded = new URLSearchParams();
-  //    urlencoded.append("bodyParam1Name", bodyParam1Val);
-  //    urlencoded.append("bodyParam2Name", "bodyParam2Val");
-  //    //etc.                              value or "value"; either one works
-  //    var requestOptions = {
-  //      method: 'PUT',
-  //      headers: myHeaders,
-  //      body: urlencoded,
-  //      redirect: 'error'
-  //    };
-  //    updateTask(UPDATE_GENERAL_TASK, requestOptions, true)
-  async updateTask(url_kind, request_options, debug=false)
+  // ##################################################################################################################
+  // IMPORTANT: See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields for <taskType>
+  // ##################################################################################################################
+  // task_kind should be one of the above Strings.
+  // bodyFields should be an array. Each element is another array of length 2, where element 0 is the name of the body field (String) and element 1 is the value of that body field.
+  async updateTask(task_kind, bodyFields, debug=false)
   {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    var urlencoded = new URLSearchParams();
+    bodyFields.forEach(f => {
+      urlencoded.append(f[0], f[1]);
+    })
+    var request_options = {
+      method: 'PUT',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'error'
+    };
     var ret;
-    await fetch("/api/empTasks/update" + url_kind, request_options)
+    await fetch("/api/empTasks/update" + task_kind, request_options)
         .then(res => {
           if (res.redirected) {
             window.location.href = res.url;
@@ -156,7 +172,7 @@ class Home extends Component {
         })
         .then(response => response.text())
         .then(result => {
-          if(debug) {console.log("Update " + url_kind + ":\n" + result);}
+          if(debug) {console.log("Update " + task_kind + ":\n" + result);}
           ret = result === "true";
         })
         .catch(error => console.log('error', error));
@@ -164,7 +180,6 @@ class Home extends Component {
   }
 
   handleSearchChange(event) {
-    console.log("The search did change bro")
     this.setState({search: event.target.value});
   }
 
@@ -197,26 +212,54 @@ class Home extends Component {
 
   applyFilters() {
     let filteredTasks = this.state.tasks;
-    if (this.state.filter.category.length > 0) {
-      console.log("Filtering by category");
-      console.log(this.state.filter.category);
-      filteredTasks = this.filterTasks(filteredTasks, "category", this.state.filter.category);
+    if (this.state.category.length > 0) {
+      // console.log("Filtering by category");
+      // console.log(this.state.category);
+      // console.log("Tasks before filtering: ", this.state.tasks);
+      filteredTasks = this.filterTasks(filteredTasks, "category", this.state.category);
+      // console.log("Tasks after filtering: ", filteredTasks);
     }
-    if (this.state.filter.progress.length > 0) {
-      console.log("Filtering by progress");
-      console.log(this.state.filter.progress);
-      filteredTasks = this.filterTasks(filteredTasks, "progress", this.state.filter.progress);
+    if (this.state.progress.length > 0) {
+      // console.log("Filtering by progress");
+      // console.log(this.state.progress);
+      filteredTasks = this.filterTasks(filteredTasks, "progress", this.state.progress);
     }
     if (this.state.search !== "") {
-      console.log("Searching for " + this.state.search);
+      // console.log("Searching for " + this.state.search);
       filteredTasks = this.searchTasks(filteredTasks, this.state.search);
     }
     if (this.state.sort !== "") {
-      console.log("Sorting by " + this.state.sort);
+      // console.log("Sorting by " + this.state.sort);
       filteredTasks = this.sortTasks(filteredTasks, this.state.sort);
     }
     return filteredTasks;
   }
+
+  updateCategory(category) {
+    if (this.state.category == category) {
+      this.setState((state) => {
+        return {category: ""};
+      });
+    }
+    else {
+      this.setState((state) => {
+        return {category: category};
+      });
+    }
+  }
+
+  updateFilter(filter) {
+    if (this.state.progress == filter) {
+      this.setState((state) => {
+        return {progress: ""};
+      });
+    }
+    else {
+      this.setState((state) => {
+        return {progress: filter};
+      });
+    }
+  } 
 
   render()
   {
@@ -234,7 +277,7 @@ class Home extends Component {
               backgroundColor: "005151",
             },
           }.contentDiv}>
-            <Sidebar />
+            <Sidebar updateCategory={this.updateCategory} updateFilter={this.updateFilter} counts = {["Paid Time Off Request", "Performance Review", "Assigned Training", "General Task"].map(e => (this.filterTasks(filteredTasks, "category", e).length))}/>
             <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {
