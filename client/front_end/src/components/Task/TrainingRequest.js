@@ -4,9 +4,8 @@ import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
 function TrainingRequest(props) {
-  const assignee = [];
+  const [assignee, setAssignee] = useState([]);
   const [title, setTitle] = useState("");
-  const setAssignee = useState("");
   const [dueDate, setDueDate] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
@@ -22,6 +21,7 @@ function TrainingRequest(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setAssignee([]);
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -35,7 +35,7 @@ function TrainingRequest(props) {
       let resJson = await res.json();
       if (res.status === 200) {
         setTitle("");
-        setAssignee(assignee);
+        setAssignee([]);
         setDueDate("");
         setDescription("");
         setLink("");
@@ -51,14 +51,11 @@ function TrainingRequest(props) {
   };
 
   const onItemAdd = (item) => {
-    assignee.push(item);
+    setAssignee((assignee) => [...assignee, item]);
   };
 
   const onItemDelete = (item) => {
-    var index = assignee.indexOf(item);
-    if (index !== -1) {
-      assignee.splice(index, 1);
-    }
+    setAssignee((assignee) => assignee.filter((key) => key !== item));
   };
 
   return (

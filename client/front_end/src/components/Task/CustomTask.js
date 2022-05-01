@@ -4,9 +4,8 @@ import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
 function CustomTask(props) {
-  const assignee = [];
+  const [assignee, setAssignee] = useState([]);
   const [title, setTitle] = useState("");
-  const setAssignee = useState("");
   const [dueDate, setDueDate] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
@@ -21,6 +20,7 @@ function CustomTask(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setAssignee([]);
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -33,7 +33,7 @@ function CustomTask(props) {
       console.log(res);
       if (res.status === 200) {
         setTitle("");
-        setAssignee(assignee);
+        setAssignee([]);
         setDueDate("");
         setDescription("");
         setMessage("User created successfully");
@@ -48,14 +48,11 @@ function CustomTask(props) {
   };
 
   const onItemAdd = (item) => {
-    assignee.push(item);
+    setAssignee((assignee) => [...assignee, item]);
   };
 
   const onItemDelete = (item) => {
-    var index = assignee.indexOf(item);
-    if (index !== -1) {
-      assignee.splice(index, 1);
-    }
+    setAssignee((assignee) => assignee.filter((key) => key !== item));
   };
 
   return (
