@@ -66,6 +66,7 @@ function newPtoRequest(app) {
           console.log(bool);
           if (!bool) {
             res.status(400);
+            console.log("was here");
             console.log("Error: Violates Employee Hierarchy");
             res.send({ Error: "Violates Employee Hierarchy" });
             break;

@@ -10,7 +10,7 @@ function PTORequest(props) {
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [description, setDescription] = useState("");
-  const [message, setMessage] = useState("");
+  const [error_message, setErrorMessage] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -22,6 +22,7 @@ function PTORequest(props) {
     e.preventDefault();
     try {
       setAssignee([]);
+      setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -33,7 +34,6 @@ function PTORequest(props) {
           end_date: end_date,
         }),
       });
-      console.log(res);
       if (res.status === 200) {
         setTitle("");
         setAssignee([]);
@@ -41,9 +41,10 @@ function PTORequest(props) {
         setDescription("");
         setStartDate("");
         setEndDate("");
-        setMessage("User created successfully");
+        setErrorMessage("User created successfully");
       } else {
-        setMessage("Some error occured");
+        error_message = await res.json();
+        console.log(error_message);
       }
     } catch (err) {
       console.log(err);
