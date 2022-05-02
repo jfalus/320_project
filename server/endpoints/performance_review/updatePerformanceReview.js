@@ -3,12 +3,18 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 
 const SAME = "#SAME";
 
-// Updates performance review with prid of user with eid. Returns number of fields updated (should be [1-5] if called correctly
-// and no error) or -1 if error.                                            progress <- prog,
-//                                                                          growth_feedback <- growth,
-//                                                                          kindness_feedback <- kindness,
-//                                                                          delivery_feedback <- delivery,
-//                                                                          overall_comment <- comments
+/**
+ * Updates performance review with prid of user with eid 
+ * Returns number of fields updated 
+ * Should be [1-5] if called correctly and no error or -1 if error.   
+ * @param {int} eid employee ID
+ * @param {int} prid performancfe review ID
+ * @param {string} prog progress
+ * @param {string} growth employee's growth feedback
+ * @param {string} kindness employee's kindness feedback
+ * @param {string} delivery employee's delivery feedback
+ * @param {string} comments additional comments
+ */
 async function updateReview(db, eid, prid, prog, growth, kindness, delivery, comments){
   try{
     up = {};
@@ -34,10 +40,12 @@ async function updateReview(db, eid, prid, prog, growth, kindness, delivery, com
 
 const PROGRESSES = ["Not-started", "To-do", "Complete"];
 
-// Updates a performance review assigned to the current user
-// request must have body param pr_id (task's pr_id)
-// request must have at least one of body params progress (String: Not-started, To-do, OR Complete), growth (int), kindness (int), delivery (int), and/or comments (String)
-// Passes true if updated successfully, false otherwise
+/**
+ * Updates a performance review assigned to the current user
+ * request must have body param pr_id (task's pr_id)
+ * request must have at least one of body params progress (String: Not-started, To-do, OR Complete), growth (int), kindness (int), delivery (int), and/or comments (String)
+ * Passes true if updated successfully, false otherwise
+ */
 function updatePerformanceReview(app){
   app.put('/api/empTasks/updatePerformanceReview', checkLoggedIn, async (req, res) => {
     var pr_in = false;

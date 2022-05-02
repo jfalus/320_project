@@ -2,6 +2,15 @@ const { models } = require('../../sequelize/sequelizeConstructor')
 const checkLoggedIn = require('../authentication/checkLoggedIn');
 const isManagerOf = require('../employee/isManagerOf');
 
+/**
+ * Checks if assigned training is valid
+ * @param {int} e_id employee ID  
+ * @param {string} title title of training 
+ * @param {string} desc description
+ * @param {string} link link to training page
+ * @param {string} assigned_to employee who training is assigned to 
+ * 
+ */
 function isValidAT(e_id, title, desc, link, date_due, assigned_to) {
   let valid = false
   if (e_id !== null && title !== null && desc !== null && link !== null && date_due !== null && assigned_to.length > 0) {
@@ -13,6 +22,11 @@ function isValidAT(e_id, title, desc, link, date_due, assigned_to) {
   return valid
 }
 
+/**
+ * Creates new assigned training
+ * @param {Express} app  
+ * 
+ */
 function newAssignedTraining(app) {
   app.post('/api/empTasks/newAssignedTraining', checkLoggedIn, async(req,res) => {
     console.log(req.body)

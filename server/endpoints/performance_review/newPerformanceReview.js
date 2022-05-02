@@ -1,6 +1,13 @@
 const {models} = require('../../sequelize/sequelizeConstructor');
 const checkLoggedIn = require('../authentication/checkLoggedIn');
 
+/**
+ * Checks if performance review is valid
+ * @param {int} e_id employee ID
+ * @param {string} title title of performamce review
+ * @param {string} assigned_to employee that performance review is assigned to
+ * @param {string} date_due date that performance review is due
+ */
 function isValidPR(e_id, title, assigned_to, date_due) {
   let valid = false
   if (e_id !== null && title !== null && assigned_to.length > 0 && date_due !== null) {
@@ -12,6 +19,10 @@ function isValidPR(e_id, title, assigned_to, date_due) {
   return valid
 }
 
+/**
+ * Creates new performance review
+ * @param {Express} app
+ */
 function newPerformanceReview(app){
   app.post('/api/empTasks/newPerformanceReview', checkLoggedIn, async(req,res) => {
     console.log(req.body)
