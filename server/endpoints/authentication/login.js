@@ -5,7 +5,7 @@ function login(app, passport){
       if (err) { return next(err); }
       if (!user) { 
           res.status(401);
-          return res.end(info.message);
+          return res.json({error:info.message});
       }
       req.logIn(user, function(err){
         if (err) { return next(err); }

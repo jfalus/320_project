@@ -10,6 +10,7 @@
     "pg": "^8.7.3",
     "react-bootstrap": "^2.2.3",
     "react-collapsed": "^3.3.0",
+    "react-multivalue-text-input": "^1.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.0",
     "sequelize": "^6.17.0",
@@ -18,7 +19,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "concurrently": "^7.0.0",
+    "concurrently": "^7.1.0",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
     "superagent": "^7.1.2",

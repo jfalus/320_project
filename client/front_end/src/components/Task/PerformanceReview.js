@@ -1,12 +1,57 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "../../styles/CreateTask.css";
+import MultipleValueTextInput from "react-multivalue-text-input";
 
-function PTORequest(props) {
+function PerformanceReview(props) {
+  const [assignee, setAssignee] = useState([]);
+  const [title, setTitle] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [overall_comments, setComment] = useState("");
+  const [message, setMessage] = useState("");
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const url = "/api/empTasks/newPerformanceReview";
+
+  let handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setAssignee([]);
+      let res = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          title: title,
+          assigned_to: assignee,
+          date_due: dueDate,
+        }),
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        setTitle("");
+        setAssignee([]);
+        setDueDate("");
+        setMessage("User created successfully");
+      } else {
+        setMessage("Some error occured");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    handleClose();
+  };
+
+  const onItemAdd = (item) => {
+    setAssignee((assignee) => [...assignee, item]);
+  };
+
+  const onItemDelete = (item) => {
+    setAssignee((assignee) => assignee.filter((key) => key !== item));
+  };
 
   return (
     <>
@@ -20,74 +65,33 @@ function PTORequest(props) {
             New Performance Review Request
           </Modal.Title>
         </Modal.Header>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formBasicTitle">
               <Form.Label className="label">Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter task title" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formAssignee">
-              <Form.Label className="label">Assignee</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="Enter task assignee email"
+                type="text"
+                placeholder="Enter task title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
+            <MultipleValueTextInput
+              className="assignee"
+              onItemAdded={onItemAdd}
+              onItemDeleted={onItemDelete}
+              label="Assignee"
+              name="assignee"
+              placeholder="Enter assignee email(s); separate them with COMMA or ENTER."
+            />
             <Form.Group className="mb-3" controlId="formDueDate">
               <Form.Label className="label">Due Date</Form.Label>
-              <Form.Control type="date" placeholder="MM/DD/YYYY" />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label className="label">Growth Feedback</Form.Label>
-              <Form.Control as="select">
-                <option>Choose from...</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label className="label">Kindness Feedback</Form.Label>
-              <Form.Control as="select">
-                <option>Choose from...</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </Form.Control>
-              <Form.Group>
-                <Form.Label className="label">Delivery Feedback</Form.Label>
-                <Form.Control as="select">
-                  <option>Choose from...</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                </Form.Control>
-              </Form.Group>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="description">
-              <Form.Label className="label">Overall Comments</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+              <Form.Control
+                type="date"
+                placeholder="MM/DD/YYYY"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+              />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
@@ -101,4 +105,4 @@ function PTORequest(props) {
   );
 }
 
-export default PTORequest;
+export default PerformanceReview;

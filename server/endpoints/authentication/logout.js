@@ -1,5 +1,5 @@
 function logout(app){
-  app.get('/api/logout', (req, res) => {
+  app.delete('/api/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   });
