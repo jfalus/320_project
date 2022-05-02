@@ -10,6 +10,7 @@
     "pg": "^8.7.3",
     "react-bootstrap": "^2.2.3",
     "react-collapsed": "^3.3.0",
+    "react-multivalue-text-input": "^1.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.0",
     "sequelize": "^6.17.0",

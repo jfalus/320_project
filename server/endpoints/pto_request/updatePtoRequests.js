@@ -53,6 +53,12 @@ function updatePtoRequest(app){
         message: "Error: Invalid progress String."
       });
     }
+    else if(parseInt(models.employees.findOne({attributes: ['companyId'], where: {employeeId: req.body.creator}}).companyId) !== parseInt(req.user.companyId))
+    {
+      res.status(500).send({
+        message: "Error: Creator and recipient of PTO request not in same company."
+      });
+    }
     else
     {
       const succ = (await updatePTORequest(models.pto_request, req.user.e_id, parseInt(req.body.pto_id), req.body.progress, req.body.approved === "true"))[0] === 2;
