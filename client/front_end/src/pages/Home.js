@@ -38,10 +38,6 @@ class Home extends Component {
     // }
   }
 
-  async testing(){
-    return "test successful"
-  }
-
   // Accesses a GET endpoint for the current user, returns array of JSON objects
   // ex: getKind("assignedTrainings")
   async getKind(url_kind, request_options={method: 'GET'}, debug=false)
@@ -86,7 +82,7 @@ class Home extends Component {
   pushtask(ret) {
     this.setState({
       tasks: this.state.tasks.concat(ret)
-    })//, () => console.log(this.state.tasks))
+    }/*, () => console.log(this.state.tasks)*/)
   }
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
@@ -343,11 +339,11 @@ class Home extends Component {
                       title={e.title}
                       dueDate={e.date_due}
                       id={e.pto_id}
-                      createdDate={e.date_created}
+                      createdDate={(e.date_created!=null)?e.date_created:"2022-01-01"}
                       start_date={e.start_date}
                       end_date={e.end_date}
                       description={e.description}
-                      approval={e.approval}
+                      approved={(e.approved!=null)?e.approved:false}
                       progress={e.progress}
                   />);
                 }
