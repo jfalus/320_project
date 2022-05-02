@@ -28,11 +28,11 @@ function Section(props) {
             {props.children}
             <GeneralTask
               dueDate={props.dueDate}
-              assignedto={props.assignedto}
+              id={props.id}
               createdDate={props.createdDate}
               link={props.link}
               description={props.description}
-              progress = {props.progress.toUpperCase()}
+              progress = {props.progress}
             />
           </div>
         </div>
@@ -58,10 +58,11 @@ function Section(props) {
             {props.children}
             <TrainingTask
               dueDate={props.dueDate}
+              id={props.id}
               createdDate={props.createdDate}
               link={props.link}
               description={props.description}
-              progress = {props.progress.toUpperCase()}
+              progress = {props.progress}
             />
           </div>
         </div>
@@ -87,13 +88,13 @@ function Section(props) {
             {props.children}
             <PRTask
               dueDate={props.dueDate}
-              assignedto={props.assignedto}
+              id={props.id}
               createdDate={props.createdDate}
               overallcomments={props.overallcomments}
               growth_feedback={props.growth_feedback}
               kindness_feedback={props.kindness_feedback}
               delivery_feedback={props.delivery_feedback}
-              progress = {props.progress.toUpperCase()}
+              progress = {props.progress}
             />
           </div>
         </div>
@@ -119,7 +120,7 @@ function Section(props) {
             {props.children}
             <PTOTask
               dueDate={props.dueDate}
-              assignedto={props.assignedto}
+              id={props.id}
               createdDate={props.createdDate}
               start_date={props.start_date}
               end_date={props.end_date}
@@ -127,8 +128,8 @@ function Section(props) {
               growth_feedback={props.growth_feedback}
               kindness_feedback={props.kindness_feedback}
               delivery_feedback={props.delivery_feedback}
-              approval = {props.approval}
-              progress = {props.progress.toUpperCase()}
+              approved = {props.approved}
+              progress = {props.progress}
           />
           </div>
         </div>

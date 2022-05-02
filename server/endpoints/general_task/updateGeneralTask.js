@@ -3,9 +3,13 @@ const {models} = require('../../sequelize/sequelizeConstructor');
 
 const SAME = "#SAME";
 
-// Updates general task with taskid of user with eid. Returns number of fields updated (should be 1 or 2) or
-// -1 if error.                                                         progress <- prog,
-//                                                                      description <- desc
+/**
+ * general function to update task
+ * @param {int} eid employee ID
+ * @param {int} taskid task ID
+ * @param {string} prog progress
+ * @param {string} desc description
+ */
 async function updateTask(db, eid, taskid, prog, desc){
   try{
     up = {};
@@ -28,10 +32,13 @@ async function updateTask(db, eid, taskid, prog, desc){
 
 const PROGRESSES = ["Not-started", "To-do", "Complete"];
 
-// Updates a general task assigned to current user
-// request must have body param task_id (BigInt: task's task_id)
-// request must have one or both of body params progress (String: Not-started, To-do, OR Complete) and/or description (String)
-// Passes true if updated successfully, false otherwise
+/**
+ * Updates a general task assigned to current user
+ * request must have body param task_id (BigInt: task's task_id)
+ * request must have one or both of body params progress (String: Not-started, To-do, OR Complete) and/or description (String)
+ * Passes true if updated successfully, false otherwise
+ * @param {Express} app
+ */
 function updateGeneralTask(app){
   app.put('/api/empTasks/updateGeneralTask', checkLoggedIn, async (req, res) => {
     var t_in = false;

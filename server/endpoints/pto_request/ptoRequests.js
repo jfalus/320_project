@@ -2,8 +2,11 @@ const checkLoggedIn = require('../authentication/checkLoggedIn');
 const isManagerOf = require('../employee/isManagerOf');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
-// GET /api/empTasks/ptoRequests
-// Passes a json file with the current user's pto requests
+/**
+ * Passes a json file with the current user's pto requests
+ * @param {Express} app  
+ * 
+ */
 function ptoRequests(app){
   app.get('/api/empTasks/ptoRequests',
   checkLoggedIn,
