@@ -180,7 +180,6 @@ class Home extends Component {
   }
 
   handleSearchChange(event) {
-    console.log("The search did change bro")
     this.setState({search: event.target.value});
   }
 
@@ -214,23 +213,23 @@ class Home extends Component {
   applyFilters() {
     let filteredTasks = this.state.tasks;
     if (this.state.category.length > 0) {
-      console.log("Filtering by category");
-      console.log(this.state.category);
-      console.log("Tasks before filtering: ", this.state.tasks);
+      // console.log("Filtering by category");
+      // console.log(this.state.category);
+      // console.log("Tasks before filtering: ", this.state.tasks);
       filteredTasks = this.filterTasks(filteredTasks, "category", this.state.category);
-      console.log("Tasks after filtering: ", filteredTasks);
+      // console.log("Tasks after filtering: ", filteredTasks);
     }
     if (this.state.progress.length > 0) {
-      console.log("Filtering by progress");
-      console.log(this.state.progress);
+      // console.log("Filtering by progress");
+      // console.log(this.state.progress);
       filteredTasks = this.filterTasks(filteredTasks, "progress", this.state.progress);
     }
     if (this.state.search !== "") {
-      console.log("Searching for " + this.state.search);
+      // console.log("Searching for " + this.state.search);
       filteredTasks = this.searchTasks(filteredTasks, this.state.search);
     }
     if (this.state.sort !== "") {
-      console.log("Sorting by " + this.state.sort);
+      // console.log("Sorting by " + this.state.sort);
       filteredTasks = this.sortTasks(filteredTasks, this.state.sort);
     }
     return filteredTasks;
@@ -278,7 +277,7 @@ class Home extends Component {
               backgroundColor: "005151",
             },
           }.contentDiv}>
-            <Sidebar updateCategory={this.updateCategory} updateFilter={this.updateFilter}/>
+            <Sidebar updateCategory={this.updateCategory} updateFilter={this.updateFilter} counts = {["Paid Time Off Request", "Performance Review", "Assigned Training", "General Task"].map(e => (this.filterTasks(filteredTasks, "category", e).length))}/>
             <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {

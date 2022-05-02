@@ -1,25 +1,19 @@
-const checkLoggedIn = require('../authentication/checkLoggedIn');
-const {models} = require('../../sequelize/sequelizeConstructor');
+const { getManager } = require("./manager");
+const { models } = require("../../sequelize/sequelizeConstructor");
 
-async function employee(db, user, body){
-  return await db.findOne({
-    attributes: ['firstName', 'lastName', 'employeeId', 'companyId', 'email', 'positionTitle'],
-    where: {
-      companyId: user.companyId,
-      email: body.email
+async function isManagerOf(user, e_id) {
+  var managed = await models.employees.findOne({ where: { e_id: e_id } });
+  while (user != null) {
+    var manager = await getManager(models.employees, managed);
+    if (!manager) {
+      return false;
     }
-  })
+    if (manager.e_id == user.e_id) {
+      return true;
+    }
+    managed = manager;
+  }
+  return false;
 }
 
-//finds using email
-function findEmployee(app){
-  app.post('/api/findEmployee', 
-    checkLoggedIn,
-    async (req, res) => {
-      const result = await employee(models.employees, req.user, req.body);
-      res.send(JSON.parse(JSON.stringify(result)));
-    }
-  );
-}
-
-module.exports = findEmployee;
+module.exports = isManagerOf;
