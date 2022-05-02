@@ -43,6 +43,9 @@ const schema = {
     password : {
         type: DataTypes.STRING,
     },
+    isAdmin : {
+        type: DataTypes.BOOLEAN,
+    },
 };
 
 module.exports = ['employees',schema];
