@@ -130,6 +130,7 @@ function Section(props) {
               delivery_feedback={props.delivery_feedback}
               approved = {props.approved}
               progress = {props.progress}
+              e_id={props.e_id}
           />
           </div>
         </div>

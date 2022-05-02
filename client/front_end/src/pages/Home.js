@@ -345,6 +345,7 @@ class Home extends Component {
                       description={e.description}
                       approved={(e.approved!=null)?e.approved:false}
                       progress={e.progress}
+                      e_id={e.e_id}
                   />);
                 }
               })}
