@@ -68,23 +68,25 @@ function Sidebar(props) {
       </li>
 
       <li>
-        <div className="dropdown">
-          <button className="dropbtn">
-            Filters <i className="fa fa-caret-down" aria-hidden="true"></i>
-          </button>
+        <h2>
+          <b>Filters</b>
+        </h2>
+        <body2>
+          <a href="#" className="notification" onClick={() => filtersClick("Not Started")}>
+            <span>Not Started</span>
+          </a>
+          <br></br>
 
-          <div className="dropdown-content">
-            <a href="#" onClick={() => filtersClick("Not-started")}>
-              NOT STARTED
-            </a>
-            <a href="#" onClick={() => filtersClick("To-do")}>
-              TODO
-            </a>
-            <a href="#" onClick={() => filtersClick("Completed")}>
-              COMPLETED
-            </a>
-          </div>
-        </div>
+          <a href="#" className="notification" onClick={() => filtersClick("Todo")}>
+            <span>Todo</span>
+          </a>
+          <br></br>
+
+          <a href="#" className="notification" onClick={() => filtersClick("Completed")}>
+            <span>Completed</span>
+          </a>
+          <br></br>
+        </body2>
       </li>
 
       
