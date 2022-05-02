@@ -7,7 +7,7 @@ async function isManagedBy(user, manager_id){
     if (!user) {
       return false
     } 
-    if (user.e_id == manager_id) {
+    if (user.employeeId == manager_id) {
       return true
     }
     user = immediate_manager
