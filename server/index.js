@@ -107,7 +107,7 @@ const endpoints = [
   require('./endpoints/employee/allManagedEmployees'),
   require('./endpoints/employee/directManagedEmployees'),
   manager,
-  require('./endpoints/employee/findEmployee'),
+  /*require('./endpoints/employee/findEmployee'),*/
   require('./endpoints/general_task/generalTasks'),
   require('./endpoints/general_task/newGeneralTask'),
   require('./endpoints/general_task/updateGeneralTask'),
