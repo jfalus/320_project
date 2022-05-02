@@ -2,6 +2,7 @@ const { getManager } = require("./manager");
 const { models } = require("../../sequelize/sequelizeConstructor");
 
 async function isManagerOf(user, e_id) {
+  if(!e_id) {throw 'e_id is undefined';}
   var managed = await models.employees.findOne({ where: { e_id: e_id } });
   while (user != null) {
     var manager = await getManager(models.employees, managed);
