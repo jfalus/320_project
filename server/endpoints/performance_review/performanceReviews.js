@@ -1,8 +1,11 @@
 const checkLoggedIn = require('../authentication/checkLoggedIn');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
-// GET /api/empTasks/PerformanceReviews
-// Passes a json file with the current user's performance reviews
+/**
+ * Passes a json file with the current user's performance reviews
+ * @param {Express} app  
+ * 
+ */
 function performanceReview(app){
   app.get('/api/empTasks/performanceReviews',
   checkLoggedIn,

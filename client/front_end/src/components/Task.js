@@ -180,5 +180,4 @@ class PTOTask extends Component {
   }
 }
 
-// either make one super task, or somehow call for the desired task
 export {GeneralTask, PTOTask, PRTask, TrainingTask};

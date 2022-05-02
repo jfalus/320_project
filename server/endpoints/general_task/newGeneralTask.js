@@ -1,6 +1,15 @@
 const { models } = require("../../sequelize/sequelizeConstructor");
 const checkLoggedIn = require("../authentication/checkLoggedIn");
 
+/**
+ * Checks if general task is valid
+ * @param {int} e_id employee ID  
+ * @param {string} title title of training 
+ * @param {string} desc description
+ * @param {string} assigned_to employee who task is assigned to 
+ * @param {string} date_due due date of task
+ * 
+ */
 function isValidGT(e_id, title, desc, assigned_to, date_due) {
   let valid = false;
   if (
@@ -24,6 +33,11 @@ function isValidGT(e_id, title, desc, assigned_to, date_due) {
   return valid;
 }
 
+/**
+ * Creates new general task
+ * @param {Express} app  
+ * 
+ */
 function newGeneralTask(app) {
   app.post("/api/empTasks/newGeneralTask", checkLoggedIn, async (req, res) => {
     console.log(req.body);
