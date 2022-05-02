@@ -17,24 +17,29 @@ class Home extends Component {
   this.handleSearchChange = this.handleSearchChange.bind(this)
   this.updateCategory = this.updateCategory.bind(this);
   this.updateFilter = this.updateFilter.bind(this);
+  this.updateSort = this.updateSort.bind(this);
   }
 
   async componentDidMount() {
     this.getAllTasksSmooth(true, undefined, undefined);
-    if (false) {
-      this.pushtask({
-        "category":"Paid Time Off Request",
-        "title":"[Sick Time Off] Covid-19 Quarantine",
-        "date_due":"04-10-2022",
-        "assigned_to":"Bossman",
-        "date_created":"04-09-2022",
-        "start_date":"04-11-2022",
-        "end_date":"04-18-2022",
-        "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
-        "approval":"True",
-        "progress":"COMPLETED"
-      });
-    }
+    // if (false) {
+    //   this.pushtask({
+    //     "category":"Paid Time Off Request",
+    //     "title":"[Sick Time Off] Covid-19 Quarantine",
+    //     "date_due":"04-10-2022",
+    //     "pto_id":"-1",
+    //     "date_created":"04-09-2022",
+    //     "start_date":"04-11-2022",
+    //     "end_date":"04-18-2022",
+    //     "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
+    //     "approval":"True",
+    //     "progress":"completed"
+    //   });
+    // }
+  }
+
+  async testing(){
+    return "test successful"
   }
 
   // Accesses a GET endpoint for the current user, returns array of JSON objects
@@ -81,7 +86,7 @@ class Home extends Component {
   pushtask(ret) {
     this.setState({
       tasks: this.state.tasks.concat(ret)
-    }, () => console.log(this.state.tasks))
+    })//, () => console.log(this.state.tasks))
   }
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
@@ -236,7 +241,7 @@ class Home extends Component {
   }
 
   updateCategory(category) {
-    if (this.state.category == category) {
+    if (this.state.category === category) {
       this.setState((state) => {
         return {category: ""};
       });
@@ -249,7 +254,7 @@ class Home extends Component {
   }
 
   updateFilter(filter) {
-    if (this.state.progress == filter) {
+    if (this.state.progress === filter) {
       this.setState((state) => {
         return {progress: ""};
       });
@@ -259,14 +264,29 @@ class Home extends Component {
         return {progress: filter};
       });
     }
-  } 
+  }
+
+  updateSort(sort) {
+    if (this.state.sort === sort) {
+      console.log("setting sort to none")
+      this.setState((state) => {
+        return {sort: ""};
+      });
+    }
+    else {
+      console.log("setting sort to " + sort);
+      this.setState((state) => {
+        return {sort: sort};
+      });
+    }
+  }
 
   render()
   {
     let filteredTasks = this.applyFilters();
     return (
         <>
-          <Header handler={this.handleSearchChange}/>
+          <Header handler={this.handleSearchChange} sorter={this.updateSort}/>
           <div style={{
             contentDiv: {
               display: "flex",
@@ -285,7 +305,7 @@ class Home extends Component {
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
-                      assignedto={e.assigned_to}
+                      id={e.task_id}
                       description={e.description}
                       createdDate={e.date_created}
                       progress={e.progress}
@@ -296,6 +316,7 @@ class Home extends Component {
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
+                      id={e.at_id}
                       link={e.link}
                       createdDate={e.date_created}
                       description={e.description}
@@ -307,7 +328,7 @@ class Home extends Component {
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
-                      assignedto={e.assigned_to}
+                      id={e.pr_id}
                       createdDate={e.date_created}
                       overallcomments={e.overall_comments}
                       growth_feedback={e.growth_feedback}
@@ -321,7 +342,7 @@ class Home extends Component {
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
-                      assignedto={e.assigned_to}
+                      id={e.pto_id}
                       createdDate={e.date_created}
                       start_date={e.start_date}
                       end_date={e.end_date}
