@@ -196,16 +196,16 @@ class PTOTask extends Task {
             <div id="task-progress"><b>Progress:</b> {this.props.progress}</div>
           </nav>
         </div>
-        <div className="task-toes">
+          <div className="task-toes">
           <nav>
-            <div>
+              {(!this.props.approved) ?  (<div>
               <a href="#" className="reject" onClick={(e) => {e.preventDefault(); if(!this.updateTask(this.UPDATE_PTO_REQUEST, [['pto_id', this.props.id],['approved', false]], true)){ window.location.reload(false)}}}>
                 <span class="approval-button">reject</span>
               </a>
               <a href="#" className="accept" onClick={(e) => {e.preventDefault(); if(!this.updateTask(this.UPDATE_PTO_REQUEST, [['pto_id', this.props.id],['approved', true]], true)){ window.location.reload(false)}}}>
                 <span class="approval-button">accept</span>
               </a>
-            </div>
+            </div>): (<div/>)}
             <div className="progress-buttons">
               <a href="#" className="notstarted" onClick={(e) => {e.preventDefault(); if(!this.updateTask(this.UPDATE_PTO_REQUEST, [['pto_id', this.props.id],['progress', 'Not-started']], true)){ window.location.reload(false)}}}>
                 <span class="task-button">0%</span>
