@@ -40,7 +40,7 @@ function newAssignedTraining(app) {
         })
         const assigned_id = parseInt(emp.e_id)
         const bool = await isManagerOf(req.user, assigned_id)
-        if (!bool) {
+        if ((!bool) && (!req.user.isAdmin)) {
           res.status(400)
           res.send({Error: 'No Permission'});
           break;
