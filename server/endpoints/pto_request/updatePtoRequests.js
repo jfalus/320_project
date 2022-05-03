@@ -34,7 +34,7 @@ function updatePtoRequest(app){
     if('pto_id' in req.body) { hit += 1; }
     if('progress' in req.body)
     {
-      if(!(req.body.progress === "Completed")) {flunked = true;}
+      if(!(req.body.progress === "Complete")) {flunked = true;}
       hit += 1;
     }
     if('approved' in req.body) { hit += 1; }
