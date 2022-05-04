@@ -3,7 +3,8 @@ const isManagerOf = require('../employee/isManagerOf');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
 /**
- * Passes a json file with the current user's pto requests
+ * Passes a json file with the current user's pto requests, with the following attributes of each:
+ *  pto_id, title, description, start_date, end_date, date_created, date_due, progress (Not-started, To-do, Complete), approved (true, false), e_id (creator's e_id)
  * @param {Express} app  
  * 
  */

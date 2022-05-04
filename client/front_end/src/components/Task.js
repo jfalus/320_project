@@ -6,43 +6,6 @@ class Task extends Component {
   UPDATE_GENERAL_TASK = "GeneralTask";
   UPDATE_PERFORMANCE_REVIEW = "PerformanceReview";
   UPDATE_PTO_REQUEST = "PtoRequest";
-
-  // Accesses an UPDATE endpoint, returns boolean
-  // ##################################################################################################################
-  // IMPORTANT: See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields for <taskType>
-  // ##################################################################################################################
-  // task_kind should be one of the above Strings.
-  // bodyFields should be an array. Each element is another array of length 2, where element 0 is the name of the body field (String) and element 1 is the value of that body field.
-  async updateTask(task_kind, bodyFields, debug=false)
-  {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-      const urlencoded = new URLSearchParams();
-      bodyFields.forEach(f => {
-      urlencoded.append(f[0], f[1]);
-    })
-      const request_options = {
-          method: 'PUT',
-          headers: myHeaders,
-          body: urlencoded,
-          redirect: 'error'
-      };
-      let ret;
-      await fetch("/api/empTasks/update" + task_kind, request_options)
-        .then(res => {
-          if (res.redirected) {
-            window.location.href = res.url;
-          }
-          return res;
-        })
-        .then(response => response.text())
-        .then(result => {
-          if(debug) {console.log("Update " + task_kind + ":\n" + result);}
-          ret = result === "true";
-        })
-        .catch(error => console.log('error', error));
-    return ret;
-  }
 }
 
 class GeneralTask extends Task {
@@ -55,26 +18,26 @@ class GeneralTask extends Task {
             <div id="task-created-date"><b>Created date:</b> {this.props.createdDate}</div>
           </nav>
         </div>
-        <br/>
+        <br></br>
         <div className="task-body"><b>Description:</b> {this.props.description}</div>
         <div className="task-footer">
           <nav>
-            <div/>
+            <div></div>
             <div id="task-progress"><b>Progress:</b> {this.props.progress}</div>
           </nav>
         </div>
         <div className="task-toes">
           <nav>
-            <div/>
+            <div></div>
             <div className="progress-buttons">
-              <a href="#" className="notstarted" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_GENERAL_TASK, [['task_id', this.props.id],['progress', 'Not-started']], true)){ window.location.reload(false)}}}>
-                <span className="task-button">0%</span>
+              <a className="notstarted" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_GENERAL_TASK, [['task_id', this.props.id],['progress', 'Not-started']], true)}}>
+                <span class="task-button">0%</span>
               </a>
-              <a href="#" className="todo" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_GENERAL_TASK, [['task_id', this.props.id],['progress', 'To-do']], true)){ window.location.reload(false)}}}>
-                <span className="task-button">50%</span>
+              <a className="todo" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_GENERAL_TASK, [['task_id', this.props.id],['progress', 'To-do']], true)}}>
+                <span class="task-button">50%</span>
               </a>
-              <a href="#" className="completed" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_GENERAL_TASK, [['task_id', this.props.id],['progress', 'Complete']], true)){ window.location.reload(false)}}}>
-                <span className="task-button">100%</span>
+              <a className="completed" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_GENERAL_TASK, [['task_id', this.props.id],['progress', 'Complete']], true)}}>
+                <span class="task-button">100%</span>
               </a>
             </div>
           </nav>
@@ -95,26 +58,26 @@ class TrainingTask extends Task {
           </nav>
         </div>
         <div><b>Link:</b> <a className="link" href={this.props.link} target="_blank" rel="noopener noreferrer">{this.props.link}</a> </div>
-        <br/>
+        <br></br>
         <div className="task-body"><b>Description:</b> {this.props.description}</div>
         <div className="task-footer">
           <nav>
-            <div/>
+            <div></div>
             <div id="task-progress"><b>Progress:</b> {this.props.progress}</div>
           </nav>
         </div>
         <div className="task-toes">
           <nav>
-            <div/>
+            <div></div>
             <div className="progress-buttons">
-              <a href="#" className="notstarted" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_ASSIGNED_TRAINING, [['at_id', this.props.id],['progress', 'Not-started']], true)){ window.location.reload(false)}}}>
-                <span className="task-button">0%</span>
+              <a className="notstarted" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_ASSIGNED_TRAINING, [['at_id', this.props.id],['progress', 'Not-started']], true)}}>
+                <span class="task-button">0%</span>
               </a>
-              <a href="#" className="todo" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_ASSIGNED_TRAINING, [['at_id', this.props.id],['progress', 'To-do']], true)){ window.location.reload(false)}}}>
-                <span className="task-button">50%</span>
+              <a className="todo" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_ASSIGNED_TRAINING, [['at_id', this.props.id],['progress', 'To-do']], true)}}>
+                <span class="task-button">50%</span>
               </a>
-              <a href="#" className="completed" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_ASSIGNED_TRAINING, [['at_id', this.props.id],['progress', 'Complete']], true)){ window.location.reload(false)}}}>
-                <span className="task-button">100%</span>
+              <a className="completed" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_ASSIGNED_TRAINING, [['at_id', this.props.id],['progress', 'Complete']], true)}}>
+                <span class="task-button">100%</span>
               </a>
             </div>
           </nav>
@@ -134,10 +97,10 @@ class PRTask extends Task {
             <div id="task-created-date"><b>Created Date:</b> {this.props.createdDate}</div>
           </nav>
         </div>
-        <br/>
+        <br></br>
         <div className="task-body">
           <div><b>Overall Comments:</b> {this.props.overallcomments}</div>
-          <br/>
+          <br></br>
         </div>
         <div className="task-footer">
           <nav>
@@ -153,16 +116,16 @@ class PRTask extends Task {
         </div>
         <div className="task-toes">
           <nav>
-            <div/>
+            <div></div>
             <div className="progress-buttons">
-              <a href="#" className="notstarted" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'Not-started'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)){ window.location.reload(false)}}}>
-                <span className="task-button">0%</span>
+              <a className="notstarted" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'Not-started'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)}}>
+                <span class="task-button">0%</span>
               </a>
-              <a href="#" className="todo" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'To-do'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)){ window.location.reload(false)}}}>
-                <span className="task-button">50%</span>
+              <a className="todo" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'To-do'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)}}>
+                <span class="task-button">50%</span>
               </a>
-              <a href="#" className="completed" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'Complete'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)){ window.location.reload(false)}}}>
-                <span className="task-button">100%</span>
+              <a className="completed" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'Complete'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)}}>
+                <span class="task-button">100%</span>
               </a>
             </div>
           </nav>
@@ -189,17 +152,17 @@ class PTOTask extends Task {
         <div className="task-body">
           <div><b>Description:</b> {this.props.description}</div>
         </div>
-        <br/>
+        <br></br>
         <div className="task-footer">
           <nav>
-              {(this.props.progress !== "Complete") ?  (<div id="task-approval"><b>Approval: </b>
-              <a href="#" className="reject" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_PTO_REQUEST, [['pto_id', this.props.id],['progress', 'Complete'], ['approved', false], ['creator', this.props.e_id], ['start_date', this.start_date], ['end_date', this.end_date]], true)){ window.location.reload(false)}}}>
-                <span className="approval-button">reject</span>
+          {(this.props.progress !== "Complete") ?  (<div id="task-approval"><b>Approval: </b>
+              <a className="reject" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PTO_REQUEST, [['pto_id', this.props.id],['progress', 'Complete'], ['approved', false], ['creator', this.props.e_id], ['start_date', this.start_date], ['end_date', this.end_date]], true)}}>
+                <span class="approval-button">reject</span>
               </a>
-              <a href="#" className="accept" onClick={(e) => {e.preventDefault(); if(this.updateTask(this.UPDATE_PTO_REQUEST, [['pto_id', this.props.id],['progress', 'Complete'], ['approved', true], ['creator', this.props.e_id], ['start_date', this.start_date], ['end_date', this.end_date]], true)){ window.location.reload(false)}}}>
-                <span className="approval-button">accept</span>
+              <a className="accept" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PTO_REQUEST, [['pto_id', this.props.id],['progress', 'Complete'], ['approved', true], ['creator', this.props.e_id], ['start_date', this.start_date], ['end_date', this.end_date]], true)}}>
+                <span class="approval-button">accept</span>
               </a>
-            </div>): (<div/>)}
+              </div>): (this.props.approved)?(<div id="task-approval"><b>Approval: </b> Accepted</div>): (<div id="task-approval"><b>Approval: </b> Rejected</div>)}
             <div id="task-progress"><b>Progress:</b> {this.props.progress}</div>
           </nav>
         </div>

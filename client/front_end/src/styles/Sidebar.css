@@ -96,6 +96,11 @@ button {
 
 .dropdown-content a:hover {
   background-color: #d8d7d7;
+  cursor: pointer;
+}
+
+.dropdown-item a {
+  color: black;
 }
 
 /* show dropdown menu on hover */
@@ -140,6 +145,7 @@ h2 {
 .notification:hover {
   background: #d8d7d7;
   color: rgb(0, 0, 0);
+  cursor: pointer;
 }
 
 .notification .badge {
