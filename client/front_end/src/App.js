@@ -5,6 +5,7 @@ import {Home} from "./pages/Home";
 import NewItem from "./NewItem";
 import Settings from "./Settings";
 
+//main component
 const App = () => {
   return (
     <Router>

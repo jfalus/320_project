@@ -2,6 +2,10 @@ import React from "react";
 import "../styles/Header.css";
 import logo from "../images/ukglogo.png";
 
+/*
+ * Does log out with fetch authentication
+ * Redirects window upon logout
+ */
 const Header = (props) => {
 
   const fields = ['category', 'title', 'date_created', 'date_due', 'progress']
@@ -16,6 +20,7 @@ const Header = (props) => {
       .catch(e => { throw e; });
   };
 
+  //Header with logo and search bar
   return (
     <div className="header">
       <nav>
