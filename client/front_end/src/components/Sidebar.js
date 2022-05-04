@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Sidebar.css";
 import CustomTask from "./Task/CustomTask.js";
 import PTORequest from "./Task/PTORequest.js";
@@ -8,6 +8,8 @@ import { Dropdown } from "react-bootstrap";
 import { get } from "superagent";
 
 function Sidebar(props) {
+  let className = 'notification';
+
   const {updateCategory, updateFilter, counts} = props;
 
   async function categoryClick(category) {
@@ -72,13 +74,13 @@ function Sidebar(props) {
           <b>Filters</b>
         </h2>
         <body2>
-          <a href="#" className="notification" onClick={() => filtersClick("Not Started")}>
+        <a href="#" className="notification" onClick={() => filtersClick("Not-started")}>
             <span>Not Started</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => filtersClick("Todo")}>
-            <span>Todo</span>
+          <a href="#" className="notification" onClick={() => filtersClick("To-do")}>
+            <span>To Do</span>
           </a>
           <br></br>
 
@@ -86,6 +88,9 @@ function Sidebar(props) {
             <span>Completed</span>
           </a>
           <br></br>
+          <a href="#" className="notification" onClick={() => filtersClick("Completed")}>
+            <span>Clear Filter</span>
+          </a>
         </body2>
       </li>
 
