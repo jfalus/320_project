@@ -158,6 +158,7 @@ h2 {
   right: -8px;
   height: 20px;
   min-width: 20px;
+  font-weight: 20;
   border-radius: 50%;
   background: red;
   color: white;
