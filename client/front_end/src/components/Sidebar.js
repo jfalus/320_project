@@ -42,25 +42,25 @@ function Sidebar(props) {
           <b>Categories</b>
         </h2>
         <body2>
-          <a href="#" className="notification" onClick={() => categoryClick("Paid Time Off Request")}>
+          <a className="notification" onClick={() => categoryClick("Paid Time Off Request")}>
             <span>PTO Requests</span>
             <span className="badge" >{counts[0]}</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => categoryClick("Performance Review")}>
+          <a className="notification" onClick={() => categoryClick("Performance Review")}>
             <span>Performance Reviews</span>
             <span className="badge" >{counts[1]}</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => categoryClick("Assigned Training")}>
+          <a className="notification" onClick={() => categoryClick("Assigned Training")}>
             <span>Trainings</span>
             <span className="badge" >{counts[2]}</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => categoryClick("General Task")}>
+          <a className="notification" onClick={() => categoryClick("General Task")}>
             <span>General Tasks</span>
             <span className="badge" >{counts[3]}</span>
           </a>
@@ -75,13 +75,13 @@ function Sidebar(props) {
           </button>
 
           <div className="dropdown-content">
-            <a href="#" onClick={() => filtersClick("Not-started")}>
+            <a class="dropdown-item" onClick={() => filtersClick("Not-started")}>
               NOT STARTED
             </a>
-            <a href="#" onClick={() => filtersClick("To-do")}>
+            <a class="dropdown-item" onClick={() => filtersClick("To-do")}>
               TODO
             </a>
-            <a href="#" onClick={() => filtersClick("Completed")}>
+            <a class="dropdown-item" onClick={() => filtersClick("Completed")}>
               COMPLETED
             </a>
           </div>
