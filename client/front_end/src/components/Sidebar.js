@@ -10,21 +10,30 @@ import { get } from "superagent";
 function Sidebar(props) {
 
   const {updateCategory, updateFilter, counts} = props;
-  const [checkedFilter, setCheckedFilter] = useState(-1);
+  const [filtersClass, setFiltersClass] = useState(["notification", "notification", "notification"]);
+  const [currentFilter, setCurrentFilter] = useState("None");
 
   async function categoryClick(category) {
     updateCategory(category);
   }
 
-  async function filtersClick(e, filter) {
-    const target = e.currentTarget;
+  async function filtersClick(filter) {
     updateFilter(filter);
-    if(target.checked && checkedFilter == target.value) {
-      target.checked = false;
-      setCheckedFilter(-1);
+    if(filter == currentFilter) {
+      setFiltersClass(["notification", "notification", "notification"]);
+      setCurrentFilter("None");
     }
     else {
-      setCheckedFilter(target.value);
+      if(filter == "Not-started") {
+        setFiltersClass(["notificationClicked", "notification", "notification"]);
+      }
+      else if(filter == "To-do") {
+        setFiltersClass(["notification", "notificationClicked", "notification"]);
+      }
+      else if(filter == "Completed") {
+        setFiltersClass(["notification", "notification", "notificationClicked"]);
+      }
+      setCurrentFilter(filter);
     }
   }
 
@@ -77,38 +86,25 @@ function Sidebar(props) {
         </body2>
       </li>
 
-      
-
-      <li>
-        <div>
-          <input type="radio" value={0} onClick={(e) => filtersClick(e, "Not-started")}/> Not Started
-          <input type="radio" value={1} onClick={(e) => filtersClick(e, "To-do")}/> To-Do
-          <input type="radio" value={2} onClick={(e) => filtersClick(e, "Completed")}/> Completed
-        </div>
-      </li>
-
       <li>
         <h2>
           <b>Filters</b>
         </h2>
         <body2>
-        <a href="#" className="notification" onClick={() => filtersClick("Not-started")}>
+          <a href="#" className={filtersClass[0]} onClick={() => filtersClick("Not-started")}>
             <span>Not Started</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => filtersClick("To-do")}>
+          <a href="#" className={filtersClass[1]} onClick={() => filtersClick("To-do")}>
             <span>To Do</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => filtersClick("Completed")}>
+          <a href="#" className={filtersClass[2]} onClick={() => filtersClick("Completed")}>
             <span>Completed</span>
           </a>
           <br></br>
-          <a href="#" className="notification" onClick={() => filtersClick("Completed")}>
-            <span>Clear Filter</span>
-          </a>
         </body2>
       </li>
       
