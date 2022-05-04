@@ -23,7 +23,7 @@ async function updatePTORequest(db, eid, ptoid, prog, appr){
 }
 
 // Updates a PTO Request assigned to the current user
-// Request must have body params pto_id (task's pto_id), progress (String: Not-started, To-do, OR Complete), approved (Boolean), creator (employeeId of creator), start_date (Date), and end_date (date)
+// Request must have body params pto_id (task's pto_id), progress (String: Not-started, To-do, OR Complete), approved (Boolean), creator (e_id of creator of PTO Request), start_date (Date), and end_date (date)
 // Passes true if updated successfully, false otherwise
 function updatePtoRequest(app){
   app.put('/api/empTasks/updatePtoRequest',
@@ -34,7 +34,7 @@ function updatePtoRequest(app){
     if('pto_id' in req.body) { hit += 1; }
     if('progress' in req.body)
     {
-      if(!(req.body.progress === "Completed")) {flunked = true;}
+      if(!(req.body.progress === "Complete")) {flunked = true;}
       hit += 1;
     }
     if('approved' in req.body) { hit += 1; }
@@ -53,7 +53,7 @@ function updatePtoRequest(app){
         message: "Error: Invalid progress String."
       });
     }
-    else if(parseInt(models.employees.findOne({attributes: ['companyId'], where: {employeeId: req.body.creator}}).companyId) !== parseInt(req.user.companyId))
+    else if(!models.employees.findOne({attributes: ['e_id'], where: {e_id: parseInt(req.body.creator), companyId: parseInt(req.user.companyId)}}))
     {
       res.status(500).send({
         message: "Error: Creator and recipient of PTO request not in same company."
@@ -73,12 +73,12 @@ function updatePtoRequest(app){
         today = mm + '/' + dd + '/' + yyyy;
           // Date formatting taken from StackOverflow
         models.general_task.create({
-          e_id: req.user.employeeId,
+          e_id: parseInt(req.user.e_id),
           title: 'PTO Request Updated', 
           description: 'Your PTO request for ' + req.body.start_date + ' to ' + req.body.end_date + ' has been ' + stat + '.',
           date_due: today,
           progress: "Not-Started",
-          assigned_to: req.body.creator
+          assigned_to: parseInt(req.body.creator)
         })
       }
       res.send(succ);

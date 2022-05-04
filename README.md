@@ -27,6 +27,20 @@ From the 320_project folder, run the command:
 
 	npm run dev
 
+If the above command does not work, try the following:
+
+	npm run build
+	npm run dev
+
+If that does not work:
+
+	npm install
+	cd client\front_end
+	npm install
+	cd ../..
+	npm run build
+	npm run dev
+
 This will start up both the server and the react app.
 The client is at http://localhost:3000 and the server is at http://localhost:5000
 

@@ -14,14 +14,15 @@ class Home extends Component {
       progress: "",
       sort: "",
     }
-  this.handleSearchChange = this.handleSearchChange.bind(this)
+  this.getAllTasksSmooth = this.getAllTasksSmooth.bind(this);
+  this.handleSearchChange = this.handleSearchChange.bind(this);
   this.updateCategory = this.updateCategory.bind(this);
   this.updateFilter = this.updateFilter.bind(this);
   this.updateSort = this.updateSort.bind(this);
   }
 
   async componentDidMount() {
-    this.getAllTasksSmooth(true, undefined, undefined);
+    this.getAllTasksSmooth(true, undefined, false);
     // if (false) {
     //   this.pushtask({
     //     "category":"Paid Time Off Request",
@@ -79,16 +80,15 @@ class Home extends Component {
     return ret;
   }
 
-  pushtask(ret) {
-    this.setState({
-      tasks: this.state.tasks.concat(ret)
-    }/*, () => console.log(this.state.tasks)*/)
+  pushtask(element) {
+    this.setState({tasks: this.state.tasks.concat(element)})
   }
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
   // ex: getAllTasksSmooth()
   async getAllTasksSmooth(category_strings=false, request_options={method: 'GET'}, debug=false)
   {
+    this.setState({tasks: []})
     const tasks = await this.getAllTasks(request_options, debug=true);
     tasks.assigned_trainings.forEach(e => {if(category_strings){e.category = "Assigned Training";} this.pushtask(e)});
     tasks.performance_reviews.forEach(e => {if(category_strings){e.category = "Performance Review";} this.pushtask(e);});
@@ -177,6 +177,7 @@ class Home extends Component {
           ret = result === "true";
         })
         .catch(error => console.log('error', error));
+    this.getAllTasksSmooth(true, undefined, false);
     return ret;
   }
 
@@ -297,7 +298,7 @@ class Home extends Component {
             <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
@@ -308,7 +309,7 @@ class Home extends Component {
                   />);
                 }
                 else if (e.category === "Assigned Training") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
@@ -320,7 +321,7 @@ class Home extends Component {
                   />);
                 }
                 else if (e.category === "Performance Review") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
@@ -334,7 +335,7 @@ class Home extends Component {
                   />);
                 }
                 else if (e.category === "Paid Time Off Request") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
@@ -345,6 +346,7 @@ class Home extends Component {
                       description={e.description}
                       approved={(e.approved!=null)?e.approved:false}
                       progress={e.progress}
+                      e_id={e.e_id}
                   />);
                 }
               })}

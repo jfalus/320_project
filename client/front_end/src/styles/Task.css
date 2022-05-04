@@ -29,11 +29,13 @@
   color: #DB4437;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  cursor: pointer;
 }
 
 .todo {
   background-color: #F4B400;
   color: #F4B400;
+  cursor: pointer;
 }
 
 .completed{
@@ -41,6 +43,7 @@
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   color: #0F9D58;
+  cursor: pointer;
 }
 
 .reject{
@@ -74,7 +77,7 @@
   display: inline-block;
   width: 75px;
   text-align: center;
-  font-size: smaller;
+  font-size: small;
 }
 
 .approval-button:hover {

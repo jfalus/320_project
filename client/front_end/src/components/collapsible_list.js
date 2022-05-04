@@ -2,6 +2,13 @@ import useCollapse from "react-collapsed";
 import {GeneralTask, PTOTask, PRTask, TrainingTask} from "./Task.js";
 import "./../styles/MainContent.css";
 
+/*
+ * Creates collapsible list of fields for each category of task
+ * Fields for a general task are id, created date, due date, link, description, progress
+ * Fields for a training are id, created date, due date, link, description, progress
+ * Fields for a PR are id, created date, due date, overall comments, growth feedback, kindness feedback, delivery feedback, progress
+ * Fields for a PTO request are id, created date, start date, end date, approved, progress
+ */
 function Section(props) {
   const config = {
     defaultExpanded: props.defaultExpanded || false,
@@ -14,7 +21,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -26,7 +33,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <GeneralTask
+            <GeneralTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
@@ -44,7 +51,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -56,7 +63,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <TrainingTask
+            <TrainingTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
@@ -74,7 +81,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -86,7 +93,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <PRTask
+            <PRTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
@@ -106,7 +113,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -118,7 +125,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <PTOTask
+            <PTOTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
@@ -130,6 +137,7 @@ function Section(props) {
               delivery_feedback={props.delivery_feedback}
               approved = {props.approved}
               progress = {props.progress}
+              e_id={props.e_id}
           />
           </div>
         </div>
