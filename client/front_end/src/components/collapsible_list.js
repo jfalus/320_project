@@ -21,7 +21,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -33,7 +33,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <GeneralTask
+            <GeneralTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
@@ -51,7 +51,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -63,7 +63,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <TrainingTask
+            <TrainingTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
@@ -81,7 +81,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -93,7 +93,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <PRTask
+            <PRTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
@@ -113,7 +113,7 @@ function Section(props) {
       <div className="collapsible">
         <div className="header" {...getToggleProps()}>
           {/* <div className="starred" type="checkbox"></div> */}
-          <div className="category">{props.category}</div>
+          <div className="category">#{props.id} {props.category}</div>
           <div className="title">{props.title}</div>
           <div className="dueDate">Due Date: {props.dueDate}</div>
           <div className="icon">
@@ -125,7 +125,7 @@ function Section(props) {
         <div {...getCollapseProps()}>
           <div className="content">
             {props.children}
-            <PTOTask
+            <PTOTask updateTask={props.updateTask} getAllTasksSmooth={props.getAllTasksSmooth}
               dueDate={props.dueDate}
               id={props.id}
               createdDate={props.createdDate}
