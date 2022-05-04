@@ -8,16 +8,24 @@ import { Dropdown } from "react-bootstrap";
 import { get } from "superagent";
 
 function Sidebar(props) {
-  let className = 'notification';
 
   const {updateCategory, updateFilter, counts} = props;
+  const [checkedFilter, setCheckedFilter] = useState(-1);
 
   async function categoryClick(category) {
     updateCategory(category);
   }
 
-  async function filtersClick(filter) {
+  async function filtersClick(e, filter) {
+    const target = e.currentTarget;
     updateFilter(filter);
+    if(target.checked && checkedFilter == target.value) {
+      target.checked = false;
+      setCheckedFilter(-1);
+    }
+    else {
+      setCheckedFilter(target.value);
+    }
   }
 
   return (
@@ -69,6 +77,16 @@ function Sidebar(props) {
         </body2>
       </li>
 
+      
+
+      <li>
+        <div>
+          <input type="radio" value={0} onClick={(e) => filtersClick(e, "Not-started")}/> Not Started
+          <input type="radio" value={1} onClick={(e) => filtersClick(e, "To-do")}/> To-Do
+          <input type="radio" value={2} onClick={(e) => filtersClick(e, "Completed")}/> Completed
+        </div>
+      </li>
+
       <li>
         <h2>
           <b>Filters</b>
@@ -93,7 +111,6 @@ function Sidebar(props) {
           </a>
         </body2>
       </li>
-
       
     </div>
   );
