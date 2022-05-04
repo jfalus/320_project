@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Sidebar.css";
 import CustomTask from "./Task/CustomTask.js";
 import PTORequest from "./Task/PTORequest.js";
@@ -9,7 +9,10 @@ import { get } from "superagent";
 
 //Sidebar with asynchronous clicking functionality
 function Sidebar(props) {
+
   const {updateCategory, updateFilter, counts} = props;
+  const [filtersClass, setFiltersClass] = useState(["notification", "notification", "notification"]);
+  const [currentFilter, setCurrentFilter] = useState("None");
 
   async function categoryClick(category) {
     updateCategory(category);
@@ -17,6 +20,22 @@ function Sidebar(props) {
 
   async function filtersClick(filter) {
     updateFilter(filter);
+    if(filter == currentFilter) {
+      setFiltersClass(["notification", "notification", "notification"]);
+      setCurrentFilter("None");
+    }
+    else {
+      if(filter == "Not-started") {
+        setFiltersClass(["notificationClicked", "notification", "notification"]);
+      }
+      else if(filter == "To-do") {
+        setFiltersClass(["notification", "notificationClicked", "notification"]);
+      }
+      else if(filter == "Completed") {
+        setFiltersClass(["notification", "notification", "notificationClicked"]);
+      }
+      setCurrentFilter(filter);
+    }
   }
 
   return (
@@ -69,25 +88,26 @@ function Sidebar(props) {
       </li>
 
       <li>
-        <div className="dropdown">
-          <button className="dropbtn">
-            Filters <i className="fa fa-caret-down" aria-hidden="true"></i>
-          </button>
+        <h2>
+          <b>Filters</b>
+        </h2>
+        <body2>
+          <a className={filtersClass[0]} onClick={() => filtersClick("Not-started")}>
+            <span>Not Started</span>
+          </a>
+          <br></br>
 
-          <div className="dropdown-content">
-            <a class="dropdown-item" onClick={() => filtersClick("Not-started")}>
-              NOT STARTED
-            </a>
-            <a class="dropdown-item" onClick={() => filtersClick("To-do")}>
-              TODO
-            </a>
-            <a class="dropdown-item" onClick={() => filtersClick("Completed")}>
-              COMPLETED
-            </a>
-          </div>
-        </div>
+          <a className={filtersClass[1]} onClick={() => filtersClick("To-do")}>
+            <span>To Do</span>
+          </a>
+          <br></br>
+
+          <a className={filtersClass[2]} onClick={() => filtersClick("Completed")}>
+            <span>Completed</span>
+          </a>
+          <br></br>
+        </body2>
       </li>
-
       
     </div>
   );

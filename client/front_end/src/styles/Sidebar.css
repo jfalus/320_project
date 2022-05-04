@@ -163,6 +163,21 @@ h2 {
   color: white;
 }
 
+.notificationClicked {
+  background-color: #d8d7d7;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  padding: 16px 8px 16px 8px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+  width: 100%
+}
+
+.notificationClicked:hover {
+  background: pink;
+}
+
 .create-item {
   color: rgb(0, 0, 0);
   display: flex;
