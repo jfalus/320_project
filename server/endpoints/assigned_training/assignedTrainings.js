@@ -2,8 +2,11 @@ const checkLoggedIn = require('../authentication/checkLoggedIn');
 const isManagerOf = require('../employee/isManagerOf');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
-// GET /api/empTasks/assignedTrainings
-// Passes a json file with the current user's assigned trainings
+/**
+ * Passes a json file with the current user's assigned trainings
+ * @param {Express} app  
+ * 
+ */
 function assignedTrainings(app){
   app.get('/api/empTasks/assignedTrainings',
   checkLoggedIn,

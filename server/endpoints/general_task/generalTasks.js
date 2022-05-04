@@ -1,8 +1,11 @@
 const checkLoggedIn = require('../authentication/checkLoggedIn');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
-// GET /api/empTasks/generalTasks
-// Passes a json file with the current user's general tasks
+/**
+ * Passes a json file with the current user's general tasks
+ * @param {Express} app  
+ * 
+ */
 function generalTasks(app){
   app.get('/api/empTasks/generalTasks',
   checkLoggedIn,

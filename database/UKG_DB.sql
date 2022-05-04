@@ -39055,4 +39055,12 @@ select p.* from sample_at l
   cross join lateral json_populate_recordset(null::assigned_training, doc) as p;
   
 ALTER TABLE pto_request ALTER COLUMN date_created SET DEFAULT CURRENT_DATE;
+ALTER TABLE employees ADD COLUMN "isAdmin" BOOLEAN DEFAULT False;
+
+INSERT INTO employees ("firstName", "lastName", "employeeId", "email", "companyId", "companyName", "managerId", "positionTitle", "startDate", "isManager", "password", "isAdmin")
+VALUES ('Adam', 'Min', 701, 'adminMin@atlastechnology.com', 2, 'Atlas Technology', 5, 'Admin', '2022-05-02', False, '1234567', True);
+
+INSERT INTO employees ("firstName", "lastName", "employeeId", "email", "companyId", "companyName", "managerId", "positionTitle", "startDate", "isManager", "password", "isAdmin")
+VALUES ('Adam', 'Max', 3000, 'adminMax@sonicbionics.com', 3, 'Sonic Bionics', 5, 'Admin', '2022-05-02', False, '1234567', True);
+SELECT * FROM employees;
 

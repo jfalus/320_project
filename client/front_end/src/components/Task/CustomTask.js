@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "../../styles/CreateTask.css";
+import MultipleValueTextInput from "react-multivalue-text-input";
 
+/*
+ * Functionality to create custom task
+ * Creates GET request and gets content of form
+ * Sends success message upon HTTP OK status response
+ */
 function CustomTask(props) {
+  const [assignee, setAssignee] = useState([]);
   const [title, setTitle] = useState("");
-  const [assignee, setAssignee] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
@@ -14,23 +20,25 @@ function CustomTask(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const url = "/api/empTasks/newGeneralTask";
+
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("/api/empTasks/newGeneralTask", {
+      setAssignee([]);
+      let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          e_id: 85,
           title: title,
           assigned_to: assignee,
           date_due: dueDate,
-          desc: description,
+          description: description,
         }),
       });
-      let resJson = await res.json();
+      console.log(res);
       if (res.status === 200) {
         setTitle("");
-        setAssignee("");
+        setAssignee([]);
         setDueDate("");
         setDescription("");
         setMessage("User created successfully");
@@ -42,6 +50,14 @@ function CustomTask(props) {
     }
 
     handleClose();
+  };
+
+  const onItemAdd = (item) => {
+    setAssignee((assignee) => [...assignee, item]);
+  };
+
+  const onItemDelete = (item) => {
+    setAssignee((assignee) => assignee.filter((key) => key !== item));
   };
 
   return (
@@ -67,15 +83,14 @@ function CustomTask(props) {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formAssignee">
-              <Form.Label className="label">Assignee</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter task assignee email"
-                value={assignee}
-                onChange={(e) => setAssignee(e.target.value)}
-              />
-            </Form.Group>
+            <MultipleValueTextInput
+              className="assignee"
+              onItemAdded={onItemAdd}
+              onItemDeleted={onItemDelete}
+              label="Assignee"
+              name="assignee"
+              placeholder="Enter assignee email(s); separate them with COMMA or ENTER."
+            />
             <Form.Group className="mb-3" controlId="formStartDate">
               <Form.Label className="label">Due Date</Form.Label>
               <Form.Control
@@ -85,6 +100,7 @@ function CustomTask(props) {
                 onChange={(e) => setDueDate(e.target.value)}
               />
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="description">
               <Form.Label className="label">Task description</Form.Label>
               <Form.Control
