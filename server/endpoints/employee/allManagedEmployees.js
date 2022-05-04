@@ -22,6 +22,7 @@ async function getAllManagedEmployees(db, user, currentManagers){
   }
 }
 
+// Passes JSON list of all employees directly and/or indirectly managed by current user.
 function allManagedEmployees(app){
   app.get('/api/allManagedEmployees', 
     checkLoggedIn,

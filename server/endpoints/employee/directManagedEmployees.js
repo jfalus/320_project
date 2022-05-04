@@ -19,6 +19,7 @@ async function getDirectManagedEmployees(db, user){
   }
 }
 
+//Passes JSON list of all employees directly managed by current user.
 function directManagedEmployees(app){
   app.get('/api/directManagedEmployees', 
     checkLoggedIn,
