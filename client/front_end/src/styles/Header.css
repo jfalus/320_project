@@ -55,7 +55,7 @@ nav img {
 
 ::placeholder {
   color: #f4f4f4;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 .search {
