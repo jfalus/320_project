@@ -5,16 +5,20 @@ import "../index.css";
 import React, { Component } from 'react'
 
 class Home extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       tasks: [],
+      // each of these fields below relate to what tasks are displayed.
+      // search and sort are self-explanatory. category and progress are filters by that field.
       search: "",
       category: "",
       progress: "",
       sort: "",
     }
-  this.handleSearchChange = this.handleSearchChange.bind(this)
+    // these are needed to bind the functions to this class when used in other components
+  this.getAllTasksSmooth = this.getAllTasksSmooth.bind(this);
+  this.handleSearchChange = this.handleSearchChange.bind(this);
   this.updateCategory = this.updateCategory.bind(this);
   this.updateFilter = this.updateFilter.bind(this);
   this.updateSort = this.updateSort.bind(this);
@@ -22,27 +26,13 @@ class Home extends Component {
 
   async componentDidMount() {
     this.getAllTasksSmooth(true, undefined, undefined);
-    // if (false) {
-    //   this.pushtask({
-    //     "category":"Paid Time Off Request",
-    //     "title":"[Sick Time Off] Covid-19 Quarantine",
-    //     "date_due":"04-10-2022",
-    //     "pto_id":"-1",
-    //     "date_created":"04-09-2022",
-    //     "start_date":"04-11-2022",
-    //     "end_date":"04-18-2022",
-    //     "description":"I got covid. A close contact is someone who was less than 6 feet away from an infected person (laboratory-confirmed or a clinical diagnosis) for a cumulative total of 15 minutes or more over a 24-hour period. For example, three individual 5-minute exposures for a total of 15 minutes. People who are exposed to someone with COVID-19 after they completed at least 5 days of isolation are not considered close contacts.",
-    //     "approval":"True",
-    //     "progress":"completed"
-    //   });
-    // }
   }
 
   // Accesses a GET endpoint for the current user, returns array of JSON objects
   // ex: getKind("assignedTrainings")
   async getKind(url_kind, request_options={method: 'GET'}, debug=false)
   {
-    var ret;
+    let ret;
     await fetch("/api/empTasks/" + url_kind, request_options)
         .then(res => {
           if (res.redirected) {
@@ -79,16 +69,15 @@ class Home extends Component {
     return ret;
   }
 
-  pushtask(ret) {
-    this.setState({
-      tasks: this.state.tasks.concat(ret)
-    }/*, () => console.log(this.state.tasks)*/)
+  pushtask(element) {
+    this.setState({tasks: this.state.tasks.concat(element)})
   }
 
   // Accesses all task GET endpoints for current user, returns singular array of JSON objects
   // ex: getAllTasksSmooth()
   async getAllTasksSmooth(category_strings=false, request_options={method: 'GET'}, debug=false)
   {
+    this.setState({tasks: []})
     const tasks = await this.getAllTasks(request_options, debug=true);
     tasks.assigned_trainings.forEach(e => {if(category_strings){e.category = "Assigned Training";} this.pushtask(e)});
     tasks.performance_reviews.forEach(e => {if(category_strings){e.category = "Performance Review";} this.pushtask(e);});
@@ -177,9 +166,10 @@ class Home extends Component {
           ret = result === "true";
         })
         .catch(error => console.log('error', error));
+    this.getAllTasksSmooth(true, undefined, false);
     return ret;
   }
-
+  // sets the state to whatever is in the search bar. instantenous update.
   handleSearchChange(event) {
     this.setState({search: event.target.value});
   }
@@ -211,6 +201,7 @@ class Home extends Component {
     }
   }
 
+  // applies all three functions above to our tasks json array
   applyFilters() {
     let filteredTasks = this.state.tasks;
     if (this.state.category.length > 0) {
@@ -238,47 +229,34 @@ class Home extends Component {
 
   updateCategory(category) {
     if (this.state.category === category) {
-      this.setState((state) => {
-        return {category: ""};
-      });
+      this.setState({category: ""});
     }
     else {
-      this.setState((state) => {
-        return {category: category};
-      });
+      this.setState({category: category});
     }
   }
 
   updateFilter(filter) {
     if (this.state.progress === filter) {
-      this.setState((state) => {
-        return {progress: ""};
-      });
+      this.setState({progress: ""});
     }
     else {
-      this.setState((state) => {
-        return {progress: filter};
-      });
+      this.setState({progress: filter});
     }
   }
 
   updateSort(sort) {
     if (this.state.sort === sort) {
-      console.log("setting sort to none")
-      this.setState((state) => {
-        return {sort: ""};
-      });
+      this.setState({sort: ""});
     }
     else {
-      console.log("setting sort to " + sort);
-      this.setState((state) => {
-        return {sort: sort};
-      });
+      this.setState({sort: sort});
     }
   }
 
   render()
   {
+    // make a new array that is filtered from the tasks in the state, rather than modifying the state directly
     let filteredTasks = this.applyFilters();
     return (
         <>
@@ -297,7 +275,7 @@ class Home extends Component {
             <div className="Main-section">
               {filteredTasks.map(e => {
                 if (e.category === "General Task") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
@@ -308,7 +286,7 @@ class Home extends Component {
                   />);
                 }
                 else if (e.category === "Assigned Training") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
@@ -320,7 +298,7 @@ class Home extends Component {
                   />);
                 }
                 else if (e.category === "Performance Review") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}
@@ -334,7 +312,7 @@ class Home extends Component {
                   />);
                 }
                 else if (e.category === "Paid Time Off Request") {
-                  return (<Section
+                  return (<Section updateTask={this.updateTask} getAllTasksSmooth={this.getAllTasksSmooth}
                       category={e.category}
                       title={e.title}
                       dueDate={e.date_due}

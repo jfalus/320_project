@@ -3,7 +3,8 @@ const isManagerOf = require('../employee/isManagerOf');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
 /**
- * Passes a json file with the current user's assigned trainings
+ * Passes a json file with the current user's assigned trainings, with the following attributes of each:
+ *  at_id, title, description, link (link to external training), date_created, date_due, progress (Not-started, To-do, Complete)
  * @param {Express} app  
  * 
  */

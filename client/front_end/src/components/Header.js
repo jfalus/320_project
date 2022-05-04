@@ -41,7 +41,7 @@ const Header = (props) => {
           <div className="dropdown-content">
             {fields.map(e => {
               return (
-                  <a href="#" onClick={() => props.sorter(e)}>{e}</a>
+                  <a onClick={() => props.sorter(e)}>{e}</a>
               )
             })}
           </div>

@@ -73,7 +73,7 @@ const strategy = new LocalStrategy(
       }
       return done(null, {e_id:user.e_id, employeeId:user.employeeId, companyId:user.companyId, firstName:user.firstName, 
         lastName:user.lastName, email:user.email, companyName:user.companyName, managerId:user.managerId, 
-        positionTitle:user.positionTitle, isManager:user.isManager});
+        positionTitle:user.positionTitle, isManager:user.isManager, isAdmin:user.isAdmin});
     });
   },
 );

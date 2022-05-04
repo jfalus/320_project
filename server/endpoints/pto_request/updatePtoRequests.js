@@ -23,7 +23,8 @@ async function updatePTORequest(db, eid, ptoid, prog, appr){
 }
 
 // Updates a PTO Request assigned to the current user
-// Request must have body params pto_id (task's pto_id), progress (String: Not-started, To-do, OR Complete), approved (Boolean), creator (employeeId of creator), start_date (Date), and end_date (date)
+// Request must have body params pto_id (task's pto_id), progress (String: Not-started, To-do, OR Complete), approved (Boolean), creator (e_id of creator of PTO Request), start_date (Date), and end_date (date)
+// If successfully updated and finished, sends a notification to the original creator in the form of a General Task.
 // Passes true if updated successfully, false otherwise
 function updatePtoRequest(app){
   app.put('/api/empTasks/updatePtoRequest',
