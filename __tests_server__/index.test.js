@@ -198,29 +198,31 @@ const COMPLETE = 'Complete'
 jest.setTimeout(10000);
 
 
-// describe('Test new assigned training', () => {
-//   test('sample', (done) => {
-//     let agent = request.agent(app)
-//     agent.post('/api/login').send({
-//       username: 'Hans_Barton@atlastechnology.com',
-//       password: 'bartonha',
-//     }).end(function(err, res) {
-//       agent.post('/api/empTasks/newAssignedTraining')
-//       .send({
-//         title: 'this', 
-//         description: 'is',
-//         link: 'test',
-//         date_due: '2022-05-16',
-//         //assigned_to: ['Eldridge_Chavez@atlastechnology.com']
-//         assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
-//       })
-//       .then((response) => {
-//         expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
-//         done()
-//       })
-//     })
-//   }) 
-// })
+describe('Test new assigned training', () => {
+  test('sample', (done) => {
+    let agent = request.agent(app)
+    agent.post('/api/login').send({
+      // username: 'Hans_Barton@atlastechnology.com',
+      // password: 'bartonha',
+      username: 'adminMin@atlastechnology.com',
+      password:'1234567',
+    }).end(function(err, res) {
+      agent.post('/api/empTasks/newAssignedTraining')
+      .send({
+        title: 'this', 
+        description: 'is',
+        link: 'test',
+        date_due: '2022-05-16',
+        //assigned_to: ['Eldridge_Chavez@atlastechnology.com']
+        assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
+      })
+      .then((response) => {
+        expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
+        done()
+      })
+    })
+  }) 
+})
 
 // describe('Test new general task', () => {
 //   test('sample', (done) => {
@@ -268,30 +270,30 @@ jest.setTimeout(10000);
 // })
 
 
-describe('Test new PTO Request', () => {
-  test('sample', (done) => {
-    let agent = request.agent(app)
-    agent.post('/api/login').send({
-      username: 'Charlene_Gilbert@atlastechnology.com',
-      password: 'gilbertch',
-    }).end(function(err, res) {
-      agent.post('/api/empTasks/newPtoRequest')
-      .send({
-        title: 'test', 
-        description: '3',
-        start_date: '2022-04-22',
-        end_date: '2022-06-21',
-        date_due: '2022-05-16',
-        assigned_to: ['Hans_Barton@atlastechnology.com', 'Eldridge_Chavez@atlastechnology.com']
-        //assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
-      })
-      .then((response) => {
-        expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
-        done()
-      })
-    })
-  }) 
-})
+// describe('Test new PTO Request', () => {
+//   test('sample', (done) => {
+//     let agent = request.agent(app)
+//     agent.post('/api/login').send({
+//       username: 'Charlene_Gilbert@atlastechnology.com',
+//       password: 'gilbertch',
+//     }).end(function(err, res) {
+//       agent.post('/api/empTasks/newPtoRequest')
+//       .send({
+//         title: 'test', 
+//         description: '3',
+//         start_date: '2022-04-22',
+//         end_date: '2022-06-21',
+//         date_due: '2022-05-16',
+//         assigned_to: ['Hans_Barton@atlastechnology.com', 'Eldridge_Chavez@atlastechnology.com']
+//         //assigned_to: ['Mose_Gibson@atlastechnology.com', 'Rowena_Washington@atlastechnology.com', 'Aisha_Willis@atlastechnology.com']
+//       })
+//       .then((response) => {
+//         expect(response.text).toBe("{\"date_created\":\"2022-04-09\",\"task_id\":\"31\",\"e_id\":\"5\",\"title\":\"hi\",\"description\":\"hi\",\"date_due\":\"2022-05-16\",\"progress\":\"Not-started\",\"assigned_to\":\"1\"}")
+//         done()
+//       })
+//     })
+//   }) 
+// })
 
 // describe("Get Endpoint Testing", done => {
 //   test("Gets assigned trainings of user with employee id 17", done => {
