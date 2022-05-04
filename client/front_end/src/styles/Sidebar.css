@@ -83,6 +83,9 @@ button {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   font-family: "Open Sans", sans-serif;
+  -ms-transform: translateY(-50%);
+  transform: translateX(3%);
+  border-radius: 5px;
 }
 
 /* links inside dropdown */
@@ -96,6 +99,7 @@ button {
 
 .dropdown-content a:hover {
   background-color: #d8d7d7;
+  border-radius: 5px;
 }
 
 /* show dropdown menu on hover */
