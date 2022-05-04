@@ -2,6 +2,13 @@ import useCollapse from "react-collapsed";
 import {GeneralTask, PTOTask, PRTask, TrainingTask} from "./Task.js";
 import "./../styles/MainContent.css";
 
+/*
+ * Creates collapsible list of fields for each category of task
+ * Fields for a general task are id, created date, due date, link, description, progress
+ * Fields for a training are id, created date, due date, link, description, progress
+ * Fields for a PR are id, created date, due date, overall comments, growth feedback, kindness feedback, delivery feedback, progress
+ * Fields for a PTO request are id, created date, start date, end date, approved, progress
+ */
 function Section(props) {
   const config = {
     defaultExpanded: props.defaultExpanded || false,

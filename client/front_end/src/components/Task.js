@@ -7,12 +7,11 @@ class Task extends Component {
   UPDATE_PERFORMANCE_REVIEW = "PerformanceReview";
   UPDATE_PTO_REQUEST = "PtoRequest";
 
-  // Accesses an UPDATE endpoint, returns boolean
-  // ##################################################################################################################
-  // IMPORTANT: See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields for <taskType>
-  // ##################################################################################################################
-  // task_kind should be one of the above Strings.
-  // bodyFields should be an array. Each element is another array of length 2, where element 0 is the name of the body field (String) and element 1 is the value of that body field.
+  /* Accesses an UPDATE endpoint, returns boolean
+  * IMPORTANT: See 320_PROJECT/server/endpoints/<taskType>/update<taskType>.js for required body fields for <taskType></taskType>
+  * task_kind should be one of the above Strings.
+  * bodyFields should be an array. Each element is another array of length 2, where element 0 is the name of the body field (String) and element 1 is the value of that body field.
+  */
   async updateTask(task_kind, bodyFields, debug=false)
   {
       const myHeaders = new Headers();

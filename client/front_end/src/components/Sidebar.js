@@ -7,6 +7,7 @@ import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
 import { get } from "superagent";
 
+//Sidebar with asynchronous clicking functionality
 function Sidebar(props) {
   const {updateCategory, updateFilter, counts} = props;
 
