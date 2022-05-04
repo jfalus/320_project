@@ -30,7 +30,7 @@ function isValidAT(e_id, title, desc, link, date_due, assigned_to) {
  */
 function newAssignedTraining(app) {
   app.post('/api/empTasks/newAssignedTraining', checkLoggedIn, async(req,res) => { //post call
-    console.log(req.body)
+    console.log(req.user)
     const e_id = parseInt(req.user.e_id)  //parses the e_id into an integer
     if (isValidAT(e_id, req.body.title, req.body.description, req.body.link, req.body.date_due, req.body.assigned_to)) {  //checks the validity of the entry
       const arr = []  //the array that the entries will be logged into before creation
@@ -42,7 +42,7 @@ function newAssignedTraining(app) {
           })
           const assigned_id = parseInt(emp.e_id)  //parses the assigned_to email into an e_id
           const bool = await isManagerOf(req.user, assigned_id) //we find if the user is a manager of the requested person
-          if (!bool) {  //throws error if the employee hierarchy is violated
+          if (!bool && !req.user.isAdmin) {  //throws error if the employee hierarchy is violated
             res.status(400)
             console.log('Error: Violates Employee Hierarchy')
             res.send({Error: 'Violates Employee Hierarchy'});
