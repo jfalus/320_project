@@ -22,7 +22,7 @@ function PTORequest(props) {
     e.preventDefault();
     try {
       setAssignee([]);
-      setErrorMessage("");
+      // setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -34,6 +34,13 @@ function PTORequest(props) {
           end_date: end_date,
         }),
       });
+      // setErrorMessage((await res.json()).Error);
+      let resJson = await res.json();
+      // setErrorMessage((resJson) => {
+      //   this.error_message = res.json().Error;
+      // });
+      console.log(resJson.Error);
+      await setErrorMessage(resJson.Error);
       if (res.status === 200) {
         setTitle("");
         setAssignee([]);
@@ -43,13 +50,11 @@ function PTORequest(props) {
         setEndDate("");
         setErrorMessage("User created successfully");
       } else {
-        error_message = await res.json();
-        console.log(error_message);
+        console.log("i", this.error_message);
       }
     } catch (err) {
       console.log(err);
     }
-
     handleClose();
   };
 
@@ -133,6 +138,9 @@ function PTORequest(props) {
             <Button variant="primary" type="submit">
               Submit
             </Button>
+            {/* {error_message==="" ? <></>:<Form.Group className="error-message">
+              error_message
+            </Form.Group>} */}
           </Modal.Footer>
         </Form>
       </Modal>
