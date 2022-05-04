@@ -52,7 +52,7 @@ function updatePerformanceReview(app){
     var hit = 0;
     var flunked = false;
     const pars = [SAME, SAME, SAME, SAME, SAME];
-    if('pr_id' in progress)
+    if('pr_id' in req.body)
     {
       pr_in = true;
     }

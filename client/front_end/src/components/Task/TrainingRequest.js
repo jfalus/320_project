@@ -3,6 +3,11 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
+/*
+ * Functionality to create Assigned Training
+ * Creates GET request and gets content of form
+ * Sends success message upon HTTP OK status response
+ */
 function TrainingRequest(props) {
   const [assignee, setAssignee] = useState([]);
   const [title, setTitle] = useState("");

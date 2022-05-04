@@ -27,16 +27,19 @@
 .notstarted{
   background-color: #DB4437;
   color: #DB4437;
+  cursor: pointer;
 }
 
 .todo {
   background-color: #F4B400;
   color: #F4B400;
+  cursor: pointer;
 }
 
 .completed{
   background-color: #0F9D58;
   color: #0F9D58;
+  cursor: pointer;
 }
 
 .reject{
@@ -66,7 +69,7 @@
   display: inline-block;
   width: 75px;
   text-align: center;
-  font-size: smaller;
+  font-size: small;
 }
 
 .approval-button:hover {

@@ -7,6 +7,7 @@ import PerformanceReview from "./Task/PerformanceReview.js";
 import { Dropdown } from "react-bootstrap";
 import { get } from "superagent";
 
+//Sidebar with asynchronous clicking functionality
 function Sidebar(props) {
 
   const {updateCategory, updateFilter, counts} = props;
@@ -60,25 +61,25 @@ function Sidebar(props) {
           <b>Categories</b>
         </h2>
         <body2>
-          <a href="#" className="notification" onClick={() => categoryClick("Paid Time Off Request")}>
+          <a className="notification" onClick={() => categoryClick("Paid Time Off Request")}>
             <span>PTO Requests</span>
             <span className="badge" >{counts[0]}</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => categoryClick("Performance Review")}>
+          <a className="notification" onClick={() => categoryClick("Performance Review")}>
             <span>Performance Reviews</span>
             <span className="badge" >{counts[1]}</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => categoryClick("Assigned Training")}>
+          <a className="notification" onClick={() => categoryClick("Assigned Training")}>
             <span>Trainings</span>
             <span className="badge" >{counts[2]}</span>
           </a>
           <br></br>
 
-          <a href="#" className="notification" onClick={() => categoryClick("General Task")}>
+          <a className="notification" onClick={() => categoryClick("General Task")}>
             <span>General Tasks</span>
             <span className="badge" >{counts[3]}</span>
           </a>
@@ -91,17 +92,17 @@ function Sidebar(props) {
           <b>Filters</b>
         </h2>
         <body2>
-          <a href="#" className={filtersClass[0]} onClick={() => filtersClick("Not-started")}>
+          <a className={filtersClass[0]} onClick={() => filtersClick("Not-started")}>
             <span>Not Started</span>
           </a>
           <br></br>
 
-          <a href="#" className={filtersClass[1]} onClick={() => filtersClick("To-do")}>
+          <a className={filtersClass[1]} onClick={() => filtersClick("To-do")}>
             <span>To Do</span>
           </a>
           <br></br>
 
-          <a href="#" className={filtersClass[2]} onClick={() => filtersClick("Completed")}>
+          <a className={filtersClass[2]} onClick={() => filtersClick("Completed")}>
             <span>Completed</span>
           </a>
           <br></br>

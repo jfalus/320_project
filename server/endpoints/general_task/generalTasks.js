@@ -2,7 +2,8 @@ const checkLoggedIn = require('../authentication/checkLoggedIn');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
 /**
- * Passes a json file with the current user's general tasks
+ * Passes a json file with the current user's general tasks, with the following attributes of each:
+ *  task_id, title, description, date_created, date_due, progress (Not-started, To-do, Complete)
  * @param {Express} app  
  * 
  */
