@@ -1,6 +1,5 @@
 import "../styles/Task.css";
 import React, { Component } from "react";
-import { Form } from "react-bootstrap";
 
 class Task extends Component {
   UPDATE_ASSIGNED_TRAINING = "AssignedTraining";
@@ -258,45 +257,22 @@ class PRTask extends Task {
         </div>
         <br></br>
         <div className="task-body">
-          Overall Comments:
-          <Form.Control as="textarea" rows={5} />
+          <div>
+            <b>Overall Comments:</b> {this.props.overallcomments}
+          </div>
           <br></br>
         </div>
         <div className="task-footer">
           <nav>
             <nav className="task-feedback">
               <div>
-                <hr />
-                Growth
-                <Form.Control as="select" custom ref={this.myRef}>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </Form.Control>
+                <b>Growth:</b> {this.props.growth_feedback}
               </div>
               <div>
-                <hr />
-                Kindness
-                <Form.Control as="select" custom ref={this.myRef}>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </Form.Control>
+                <b>Kindness:</b> {this.props.kindness_feedback}
               </div>
               <div>
-                <hr />
-                Delivery
-                <Form.Control as="select" custom ref={this.myRef}>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </Form.Control>
+                <b>Delivery:</b> {this.props.delivery_feedback}
               </div>
             </nav>
             <div id="task-progress">
