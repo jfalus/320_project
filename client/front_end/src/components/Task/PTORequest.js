@@ -21,7 +21,6 @@ function PTORequest(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setAssignee([]);
       setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
@@ -127,7 +126,9 @@ function PTORequest(props) {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
-            <div className="error-message">{error_message}</div>
+            <div className="error-message">
+              <p>{error_message}</p>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">

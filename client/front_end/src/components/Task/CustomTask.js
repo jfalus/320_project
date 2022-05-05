@@ -20,7 +20,6 @@ function CustomTask(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setAssignee([]);
       setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
