@@ -1,5 +1,6 @@
 import "../styles/Task.css";
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { Form } from "react-bootstrap";
 
 class Task extends Component {
   UPDATE_ASSIGNED_TRAINING = "AssignedTraining";
@@ -89,6 +90,10 @@ class TrainingTask extends Task {
 
 class PRTask extends Task {
   render() {
+    let text = (this.props.overallcomments != null) ? this.props.overallcomments: "";
+    let growth = (this.props.growth_feedback != null) ? this.props.growth_feedback: 1;
+    let kindness = (this.props.kindness_feedback != null) ? this.props.kindness_feedback: 1;
+    let delivery= (this.props.delivery_feedback != null) ? this.props.delivery_feedback: 1;
     return (
       <div className="task">
         <div className="task-header">
@@ -99,37 +104,75 @@ class PRTask extends Task {
         </div>
         <br></br>
         <div className="task-body">
-          <div><b>Overall Comments:</b> {this.props.overallcomments}</div>
-          <br></br>
+          <b>Overall Comments:</b>
+          {(this.props.progress !== "Complete")?
+          (<Form.Control as="textarea" rows={4} onChange={(e)=>{text=e.target.value;}}/>):
+          (this.props.overallcomments)}
         </div>
+        <br></br>
         <div className="task-footer">
           <nav>
-            <nav className="task-feedback">
+          {(this.props.progress !== "Complete")?
+            (<nav className="task-feedback">
+              <div>
+                <b>Growth:</b>
+                <Form.Control as="select" custom ref={this.myRef} onChange={(e)=>{growth=e.target.value;}}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </Form.Control>
+              </div>
+              <div>
+                <b>Kindness:</b>
+                <Form.Control as="select" custom ref={this.myRef} onChange={(e)=>{kindness=e.target.value;}}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </Form.Control>
+              </div>
+              <div>
+                <b>Delivery</b>
+                <Form.Control as="select" custom ref={this.myRef} onChange={(e)=>{delivery=e.target.value;}}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </Form.Control>
+              </div>
+            </nav>):
+            (<nav className="task-feedback">
               <div><b>Growth:</b> {this.props.growth_feedback}</div>
               <div><b>Kindness:</b> {this.props.kindness_feedback}</div>
               <div><b>Delivery:</b> {this.props.delivery_feedback}</div>
-            </nav>
+            </nav>)}
             <div id="task-progress">
               <div><b>Progress:</b> {this.props.progress}</div>
             </div>
           </nav>
         </div>
-        <div className="task-toes">
+        {(this.props.progress !== "Complete")?
+        (<div className="task-toes">
           <nav>
             <div></div>
             <div className="progress-buttons">
-              <a className="notstarted" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'Not-started'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)}}>
+              {/* <a href="#" className="notstarted" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['creator', this.props.e_id], ['progress', 'Not-started'], ['growth', growth], ['kindness', kindness], ['delivery', delivery], ['comments', text]], true)}}>
                 <span class="task-button">0%</span>
               </a>
-              <a className="todo" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'To-do'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)}}>
+              <a href="#" className="todo" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['creator', this.props.e_id],['progress', 'To-do'], ['growth', growth], ['kindness', kindness], ['delivery', delivery], ['comments', text]], true)}}>
                 <span class="task-button">50%</span>
-              </a>
-              <a className="completed" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['progress', 'Complete'], ['growth', this.props.growth_feedback], ['kindness', this.props.kindness_feedback], ['delivery', this.props.delivery_feedback], ['comments', this.props.overallcomments]], true)}}>
-                <span class="task-button">100%</span>
+              </a> */}
+              <a href="#" className="submit" onClick={(e) => {e.preventDefault(); this.props.updateTask(this.UPDATE_PERFORMANCE_REVIEW, [['pr_id', this.props.id],['creator', this.props.e_id],['progress', 'Complete'], ['growth', growth], ['kindness', kindness], ['delivery', delivery], ['comments', text]], true)}}>
+                <span class="task-button">Submit</span>
               </a>
             </div>
           </nav>
-        </div>
+        </div>):
+        (<div></div>)}
       </div>
     );
   }

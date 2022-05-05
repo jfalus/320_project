@@ -12,7 +12,7 @@ function performanceReview(app){
   checkLoggedIn,
   async (req, res) => {
     const performance_reviews = await models.performance_review.findAll({
-      attributes: ['pr_id', 'title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date_created', 'date_due', 'progress'],
+      attributes: ['pr_id', 'title', 'overall_comments', 'growth_feedback', 'kindness_feedback', 'delivery_feedback', 'date_created', 'date_due', 'progress', 'e_id'],
       where: {
         assigned_to: req.user.e_id
       }
