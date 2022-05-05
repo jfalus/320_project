@@ -59,7 +59,7 @@ function updatePerformanceReview(app){
     if('kindness' in req.body) { hit += 1; }
     if('delivery' in req.body) { hit += 1; }
     if('comments' in req.body) { hit += 1; }
-    else if(!models.employees.findOne({attributes: ['e_id'], where: {e_id: parseInt(req.body.creator), companyId: parseInt(req.user.companyId)}}))
+    if(!models.employees.findOne({attributes: ['e_id'], where: {e_id: parseInt(req.body.creator), companyId: parseInt(req.user.companyId)}}))
     {
       res.status(500).send({
         message: "Error: Creator and recipient of Performance Review request not in same company."
