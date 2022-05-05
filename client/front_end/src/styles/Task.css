@@ -46,6 +46,12 @@
   cursor: pointer;
 }
 
+.submit{
+  background: #d8d7d7;
+  color: black;
+  font-size: small;
+}
+
 .reject{
   background-color: #DB4437;
   border-top-left-radius: 5px;

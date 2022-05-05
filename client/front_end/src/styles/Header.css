@@ -90,7 +90,7 @@ nav img {
   border-color: rgb(118, 187, 183);
 }
 
-::placeholder {
+.search::placeholder {
   color: #f4f4f4;
   opacity: 0.75;
 }
