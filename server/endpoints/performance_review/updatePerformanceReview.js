@@ -1,8 +1,6 @@
 const checkLoggedIn = require('../authentication/checkLoggedIn');
 const {models} = require('../../sequelize/sequelizeConstructor');
 
-const SAME = "#SAME";
-
 /**
  * Updates performance review with prid of user with eid 
  * Returns number of fields updated 
@@ -17,14 +15,14 @@ const SAME = "#SAME";
  */
 async function updateReview(db, eid, prid, prog, growth, kindness, delivery, comments){
   try{
-    up = {};
-    if(prog !== SAME) {up.progress = prog;}
-    if(growth !== SAME) {up.growth_feedback = growth;}
-    if(kindness !== SAME) {up.kindness_feedback = kindness;}
-    if(delivery !== SAME) {up.delivery_feedback = delivery;}
-    if(comments !== SAME) {up.overall_comments = comments;}
     return await db.update(
-      up,
+      {
+        progress: prog,
+        growth_feedback: growth,
+        kindness_feedback: kindness,
+        delivery_feedback: delivery,
+        overall_comments: comments
+      },
       {where: {
         assigned_to: eid,
         pr_id: prid,
@@ -42,51 +40,34 @@ const PROGRESSES = ["Not-started", "To-do", "Complete"];
 
 /**
  * Updates a performance review assigned to the current user
- * request must have body param pr_id (task's pr_id)
- * request must have at least one of body params progress (String: Not-started, To-do, OR Complete), growth (int), kindness (int), delivery (int), and/or comments (String)
+ * request must have body param pr_id (task's pr_id), creator (e_id of creator of PTO Request), progress (String: Not-started, To-do, OR Complete), growth (int), kindness (int), delivery (int), and comments (String)
+ * If successfully updated and finished, sends a notification to the original creator in the form of a General Task.
  * Passes true if updated successfully, false otherwise
  */
 function updatePerformanceReview(app){
   app.put('/api/empTasks/updatePerformanceReview', checkLoggedIn, async (req, res) => {
-    var pr_in = false;
     var hit = 0;
     var flunked = false;
-    const pars = [SAME, SAME, SAME, SAME, SAME];
-    if('pr_id' in progress)
+    if('pr_id' in req.body) { hit += 1; }
+    if('creator' in req.body) { hit += 1; }
+    if('progress' in req.body)
     {
-      pr_in = true;
-    }
-    if('progress' in req.body) {
       if(!PROGRESSES.includes(req.body.progress)) {flunked = true;}
       hit += 1;
-      pars[0] = req.body.progress;
     }
-    if('growth' in req.body) {
-      hit += 1;
-      pars[1] = parseInt(req.body.growth);
-    }
-    if('kindness' in req.body) {
-      hit += 1;
-      pars[2] = parseInt(req.body.kindness);
-    }
-    if('delivery' in req.body) {
-      hit += 1;
-      pars[3] = parseInt(req.body.delivery);
-    }
-    if('comments' in req.body) {
-      hit += 1;
-      pars[4] = req.body.comments;
-    }
-
-    if(!pr_in)
+    if('growth' in req.body) { hit += 1; }
+    if('kindness' in req.body) { hit += 1; }
+    if('delivery' in req.body) { hit += 1; }
+    if('comments' in req.body) { hit += 1; }
+    if(!models.employees.findOne({attributes: ['e_id'], where: {e_id: parseInt(req.body.creator), companyId: parseInt(req.user.companyId)}}))
     {
       res.status(500).send({
-        message: "Error: No pr_id"
+        message: "Error: Creator and recipient of Performance Review request not in same company."
       });
     }
-    else if(hit === 0) {
+    else if(hit < 7) {
       res.status(500).send({
-        message: "Error: No parameters to update task with."
+        message: "Error: Not enough body parameters."
       });
     }
     else if(flunked)
@@ -95,7 +76,27 @@ function updatePerformanceReview(app){
         message: "Error: Invalid progress String."
       });
     }
-    else {res.send((await updateReview(models.performance_review, req.user.e_id, parseInt(req.body.pr_id), pars[0], pars[1], pars[2], pars[3], pars[4]))[0] === hit);}
+    else
+    {
+      const succ = await updateReview(models.performance_review, req.user.e_id, parseInt(req.body.pr_id), req.body.progress, parseInt(req.body.growth), parseInt(req.body.kindness), parseInt(req.body.delivery), req.body.comments)[0] === 5;
+      if(succ)
+      {
+        data = "";
+        data += "Growth Feedback: " + req.body.growth + " / 5\n";
+        data += "Kindness Feedback: " + req.body.kindness + " / 5\n";
+        data += "Delivery Feedback: " + req.body.delivery + " / 5\n";
+        data += "Overall Comments:\n" + req.body.comments;
+        models.general_task.create({
+          e_id: parseInt(req.user.e_id),
+          title: 'Performance Review Completed', 
+          description: 'Your performance review that you requested from ' + req.user.firstName + ' ' + req.user.lastName + ' has been completed:\n' + data,
+          date_due: today,
+          progress: "Not-Started",
+          assigned_to: parseInt(req.body.creator)
+        })
+      }
+      res.send(succ);
+    }
   });
 }
 

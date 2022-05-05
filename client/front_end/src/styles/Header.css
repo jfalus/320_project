@@ -55,13 +55,14 @@ nav img {
 
 ::placeholder {
   color: #f4f4f4;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 .search {
-  height: 53px;
+  height: 52px;
   width: 600px;
   background-color: rgb(32, 80, 80);
+  border: none;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 0px;
@@ -73,8 +74,7 @@ nav img {
 }
 
 #logout-button {
-
-  height: 50px;
+  height: 52px;
   width: 120px;
   background-color: rgb(226, 69, 44);
   border-radius: 5px;
@@ -90,7 +90,7 @@ nav img {
   border-color: rgb(118, 187, 183);
 }
 
-::placeholder {
+.search::placeholder {
   color: #f4f4f4;
   opacity: 0.75;
 }
@@ -101,7 +101,7 @@ nav img {
 }
 
 .sortby {
-  height: 50px;
+  height: 52px;
   width: 66px;
   background-color: rgb(32, 80, 80);
   border-radius: 10px;
@@ -109,11 +109,13 @@ nav img {
   margin-left: -235px;
   font-size: 20px;
   margin-top: 6px;
+  -ms-transform: translateY(-50%);
+  transform: translateY(11%);
 }
 
 .search-button {
   width: 52px;
-  height: 51px;
+  height: 52px;
   color: rgb(32, 80, 80);
   background-color: rgb(118, 187, 183);
   margin-top: 6px;

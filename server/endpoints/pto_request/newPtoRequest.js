@@ -2,6 +2,17 @@ const { models } = require("../../sequelize/sequelizeConstructor");
 const checkLoggedIn = require("../authentication/checkLoggedIn");
 const isManagedBy = require("../employee/isManagedBy");
 
+/**
+ * Checks if assigned training is valid by checking if the necessary fields are sent as needed
+ * @param {int} e_id employee ID
+ * @param {string} title title of training
+ * @param {string} desc description
+ * @param {string} start_date date indicating the start of the PTO
+ * @param {string} end_date date indicating the end of the PTO
+ * @param {string} date_due due date of PTO request
+ * @param {Array.<string>} assigned_to employee email(s) of who the PTO Request is assigned to
+ *
+ */
 function isValidPto(
   e_id,
   title,
@@ -21,12 +32,13 @@ function isValidPto(
     date_due !== null &&
     assigned_to.length > 0
   ) {
-    const regex = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}?$/;
+    //first checks that no empty values were given
+    const regex = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}?$/; //checks if the date was formatted correctly when given
     const valid_start_date = regex.test(start_date);
     const valid_end_date = regex.test(end_date);
     const valid_date = regex.test(date_due);
     const check = (assigned_to) =>
-      assigned_to.every((i) => typeof i === "string");
+      assigned_to.every((i) => typeof i === "string"); //checks if the assigned_to array is an array of strings
     valid =
       Number.isInteger(e_id) &&
       typeof title === "string" &&
@@ -36,13 +48,17 @@ function isValidPto(
       valid_date &&
       check(assigned_to);
   }
-  return valid;
+  return valid; //returns true if valid entry and false if not a valid entry
 }
 
+/**
+ * Creates new pto request
+ * @param {Express} app
+ */
 function newPtoRequest(app) {
   app.post("/api/empTasks/newPtoRequest", checkLoggedIn, async (req, res) => {
     console.log(req.body);
-    const e_id = parseInt(req.user.e_id);
+    const e_id = parseInt(req.user.e_id); //parses user e_id into an integer
     if (
       isValidPto(
         e_id,
@@ -54,19 +70,22 @@ function newPtoRequest(app) {
         req.body.assigned_to
       )
     ) {
+      //check the validity of the data given
       const arr = [];
       for (let i = 0; i < req.body.assigned_to.length; i++) {
+        //loop through the emails given in assigned_to
         console.log(req.body.assigned_to[i]);
         try {
+          //try to find if the employee with the email can be found
           const emp = await models.employees.findOne({
             where: { email: req.body.assigned_to[i] },
           });
-          const assigned_id = parseInt(emp.e_id);
-          const bool = await isManagedBy(req.user, assigned_id);
+          const assigned_id = parseInt(emp.e_id); //if found, parse the e_id of the employee
+          const bool = await isManagedBy(req.user, assigned_id); //check if the user is managed by the assignee
           console.log(bool);
           if (!bool) {
+            //if bool is false, sends an error to the user as they violated the employee hierarchy
             res.status(400);
-            console.log("was here");
             console.log("Error: Violates Employee Hierarchy");
             res.send({ Error: "Violates Employee Hierarchy" });
             break;
@@ -82,8 +101,9 @@ function newPtoRequest(app) {
             approved: null,
             assigned_to: assigned_id,
           };
-          arr[i] = data;
+          arr[i] = data; //otherwise, the data is logged
         } catch (error) {
+          //send an error to the user if an assignee could not be found in the database
           res.status(400);
           console.log(
             "Error: " + req.body.assigned_to[i] + " is not a valid email"
@@ -93,9 +113,10 @@ function newPtoRequest(app) {
           });
         }
       }
-      const x = await models.pto_request.bulkCreate(arr);
+      const x = await models.pto_request.bulkCreate(arr); //create the request if valid, found, and managedby
       res.send(arr);
     } else {
+      //if data is not valid, sends error to the user
       res.status(400);
       console.log("Error: Invalid PTO Request, a required field is missing");
       res.send({ Error: "Invalid PTO Request, a required field is missing" });

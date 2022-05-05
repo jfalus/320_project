@@ -27,25 +27,42 @@
 .notstarted{
   background-color: #DB4437;
   color: #DB4437;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  cursor: pointer;
 }
 
 .todo {
   background-color: #F4B400;
   color: #F4B400;
+  cursor: pointer;
 }
 
 .completed{
   background-color: #0F9D58;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   color: #0F9D58;
+  cursor: pointer;
+}
+
+.submit{
+  background: #d8d7d7;
+  color: black;
+  font-size: small;
 }
 
 .reject{
   background-color: #DB4437;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   color: white;
 }
 
 .accept{
   background-color: #0F9D58;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   color: white;
 }
 
@@ -66,7 +83,7 @@
   display: inline-block;
   width: 75px;
   text-align: center;
-  font-size: smaller;
+  font-size: small;
 }
 
 .approval-button:hover {

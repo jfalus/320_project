@@ -25,7 +25,7 @@ body {
   color: #fff;
   top: 0;
   left: 0;
-  height: 100vh;
+  /*height: 100vh;*/
   width: 284px;
   padding: 1rem;
 }
@@ -57,11 +57,12 @@ button {
 }
 
 .dropbtn {
-  background-color: #ffffff;
+  background-color: rgb(118, 187, 183);
   border-radius: 10px;
   border: 0px double #cccccc;
+  margin-top:6px;
   color: rgb(0, 0, 0);
-  height: 55px;
+  height: 50px;
   width: 170px;
   font-size: 25px;
   border: none;
@@ -83,6 +84,9 @@ button {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   font-family: "Open Sans", sans-serif;
+  -ms-transform: translateY(-50%);
+  transform: translateX(3%);
+  border-radius: 5px;
 }
 
 /* links inside dropdown */
@@ -96,6 +100,12 @@ button {
 
 .dropdown-content a:hover {
   background-color: #d8d7d7;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dropdown-item a {
+  color: black;
 }
 
 /* show dropdown menu on hover */
@@ -140,16 +150,32 @@ h2 {
 .notification:hover {
   background: #d8d7d7;
   color: rgb(0, 0, 0);
+  cursor: pointer;
 }
 
 .notification .badge {
   position: absolute;
-  top: 11px;
-  right: -8px;
-  padding: 3px 8px;
+  top: 15px;
+  right: -10px;
+  padding: 4px 7px;
   border-radius: 50%;
   background: red;
   color: white;
+}
+
+.notificationClicked {
+  background-color: #d8d7d7;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  padding: 16px 8px 16px 8px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+  width: 100%
+}
+
+.notificationClicked:hover {
+  background: pink;
 }
 
 .create-item {

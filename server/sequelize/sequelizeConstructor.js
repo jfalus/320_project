@@ -1,5 +1,4 @@
 require('dotenv').config();
-// console.log(process.env.DATABASE_URI);
 const { Sequelize } = require('sequelize');
 
 
@@ -18,6 +17,7 @@ DATABASE_OPTIONS = {
 }
 const sequelize = new Sequelize(DATABASE_URL, DATABASE_OPTIONS);
 
+// Defines the models as per their respective table schemas.
 const modelDefiners = [
     require('./Models/Employees'),
     require('./Models/Pto_request'),

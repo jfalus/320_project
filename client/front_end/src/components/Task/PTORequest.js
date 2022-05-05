@@ -3,6 +3,11 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
+/*
+ * Functionality to create Paid Time Off request
+ * Creates GET request and gets content of form
+ * Sends success message upon HTTP OK status response
+ */
 function PTORequest(props) {
   const [title, setTitle] = useState("");
   const [assignee, setAssignee] = useState([]);

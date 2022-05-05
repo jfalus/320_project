@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../styles/GeneralTask.css";
 
+//modal to create new task
 export default class NewItem extends Component {
   handleClick = () => {
     this.props.toggle();

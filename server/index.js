@@ -73,7 +73,7 @@ const strategy = new LocalStrategy(
       }
       return done(null, {e_id:user.e_id, employeeId:user.employeeId, companyId:user.companyId, firstName:user.firstName, 
         lastName:user.lastName, email:user.email, companyName:user.companyName, managerId:user.managerId, 
-        positionTitle:user.positionTitle, isManager:user.isManager});
+        positionTitle:user.positionTitle, isManager:user.isManager, isAdmin:user.isAdmin});
     });
   },
 );
@@ -97,7 +97,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //This is a terrible way of doing this. Replace with require-all later.
-const {manager} = require('./endpoints/employee/manager')
+const {manager, allManagers} = require('./endpoints/employee/manager')
 
 const endpoints = [
   require('./endpoints/assigned_training/assignedTrainings'),
@@ -107,6 +107,7 @@ const endpoints = [
   require('./endpoints/employee/allManagedEmployees'),
   require('./endpoints/employee/directManagedEmployees'),
   manager,
+  allManagers,
   require('./endpoints/employee/findEmployee'),
   require('./endpoints/general_task/generalTasks'),
   require('./endpoints/general_task/newGeneralTask'),
