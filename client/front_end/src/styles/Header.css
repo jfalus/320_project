@@ -116,11 +116,13 @@ nav img {
 .search-button {
   width: 52px;
   height: 52px;
-  color: rgb(32, 80, 80);
-  background-color: rgb(118, 187, 183);
+  color: rgb(255, 255, 255);
+  background-color: rgb(32, 80, 80);
   margin-top: 6px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .search-button:hover {
