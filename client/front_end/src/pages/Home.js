@@ -26,7 +26,7 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    await this.getAllTasksSmooth(true, undefined, undefined);
+    await this.getAllTasksSmooth(true, undefined, false);
     this.setState({ totalCount: ["Paid Time Off Request", "Performance Review", "Assigned Training", "General Task"].map(e => (this.filterTasks(this.state.tasks, "category", e).length)) })
   }
 
@@ -304,6 +304,7 @@ class Home extends Component {
                   kindness_feedback={e.kindness_feedback}
                   delivery_feedback={e.delivery_feedback}
                   progress={e.progress}
+                  e_id={e.e_id}
                 />);
               }
               else if (e.category === "Paid Time Off Request") {

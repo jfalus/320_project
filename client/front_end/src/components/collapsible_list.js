@@ -102,6 +102,7 @@ function Section(props) {
               kindness_feedback={props.kindness_feedback}
               delivery_feedback={props.delivery_feedback}
               progress = {props.progress}
+              e_id={props.e_id}
             />
           </div>
         </div>
