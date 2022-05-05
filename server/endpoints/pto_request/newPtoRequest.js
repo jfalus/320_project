@@ -47,8 +47,8 @@ function newPtoRequest(app){
           console.log(bool)
           if (!bool) {  //if bool is false, sends an error to the user as they violated the employee hierarchy
             res.status(400)
-            console.log('Error: Violates Employee Hierarchy')
-            res.send({Error: 'Violates Employee Hierarchy'});
+            console.log('Error: ' + req.body.assigned_to[i] + ' violates Employee Hierarchy')
+            res.send({Error: req.body.assigned_to[i] + ' violates Employee Hierarchy'});
             break;
           }
           const data = {e_id: e_id, title: req.body.title, description: req.body.description, start_date: req.body.start_date, end_date: req.body.end_date, date_due: req.body.date_due, progress: "Not-started", approved: null, assigned_to: assigned_id}

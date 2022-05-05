@@ -3,11 +3,6 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "../../styles/CreateTask.css";
 import MultipleValueTextInput from "react-multivalue-text-input";
 
-/*
- * Functionality to create Paid Time Off request
- * Creates GET request and gets content of form
- * Sends success message upon HTTP OK status response
- */
 function PTORequest(props) {
   const [title, setTitle] = useState("");
   const [assignee, setAssignee] = useState([]);
@@ -15,7 +10,7 @@ function PTORequest(props) {
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [description, setDescription] = useState("");
-  const [message, setMessage] = useState("");
+  const [error_message, setErrorMessage] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -27,6 +22,7 @@ function PTORequest(props) {
     e.preventDefault();
     try {
       setAssignee([]);
+      setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -38,7 +34,7 @@ function PTORequest(props) {
           end_date: end_date,
         }),
       });
-      console.log(res);
+      let resJson = await res.json();
       if (res.status === 200) {
         setTitle("");
         setAssignee([]);
@@ -46,15 +42,14 @@ function PTORequest(props) {
         setDescription("");
         setStartDate("");
         setEndDate("");
-        setMessage("User created successfully");
+        setErrorMessage("");
+        handleClose();
       } else {
-        setMessage("Some error occured");
+        setErrorMessage(resJson.Error);
       }
     } catch (err) {
       console.log(err);
     }
-
-    handleClose();
   };
 
   const onItemAdd = (item) => {
@@ -132,6 +127,7 @@ function PTORequest(props) {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
+            <div className="error-message">{error_message}</div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">
