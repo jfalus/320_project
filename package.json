@@ -31,6 +31,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build --prefix client/front_end/",
     "re-dev": "npm run build && npm run dev",
-    "test-server": "jest __tests_server__/index.test.js --detectOpenHandles"
+    "test-server": "jest __tests_server__/index.test.js --detectOpenHandles",
+    "install-all": "npm install && cd client/front_end && npm install && cd ../../server && npm install",
+    "first-time": "npm run install-all && npm run re-dev"
   }
 }
