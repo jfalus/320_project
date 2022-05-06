@@ -36,7 +36,7 @@ const Header = (props) => {
           </form>
         </div>
         <div className="dropdown">
-            <button className="dropbtn">Sort</button>
+            <button className="dropbtn">Sort  <i class="fa fa-sort" aria-hidden="true"></i></button>
 
           <div className="dropdown-content">
             {fields.map(e => {
@@ -51,7 +51,7 @@ const Header = (props) => {
             id="logout-button"
             onClick={clickLogout}
           >
-            Log Out
+            Log Out <i class="fa fa-sign-out" aria-hidden="true"></i>
           </button>
         </div>
       </nav>
