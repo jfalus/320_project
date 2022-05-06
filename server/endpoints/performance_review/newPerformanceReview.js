@@ -42,8 +42,8 @@ function newPerformanceReview(app){
           arr[i] = x.toJSON()
         } catch (error) { //if the assignee is the in the database, send an error to the user
           res.status(400)
-          console.log('Error: ' + req.body.assigned_to[i] + ' is not a valid email')
-          res.send({Error: req.body.assigned_to[i] + ' is not a valid email'})
+          console.log('Error: Created performance reviews up to ' + req.body.assigned_to[i] + ', this input is not a valid email')
+          res.send({Error: 'Created performance reviews up to ' + req.body.assigned_to[i] + ', this input is not a valid email'})
         }
       }
       res.send(arr)
