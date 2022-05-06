@@ -216,7 +216,7 @@ class PRTask extends Task {
         </div>
         <br></br>
         <div className="task-body">
-          <b>Overall Comments:</b>
+          <b>Overall Comments: </b>
           {this.props.progress !== "Complete" ? (
             <Form.Control
               as="textarea"
