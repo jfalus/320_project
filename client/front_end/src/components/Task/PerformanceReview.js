@@ -12,8 +12,7 @@ function PerformanceReview(props) {
   const [assignee, setAssignee] = useState([]);
   const [title, setTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [overall_comments, setComment] = useState("");
-  const [message, setMessage] = useState("");
+  const [error_message, setErrorMessage] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -25,7 +24,7 @@ function PerformanceReview(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setAssignee([]);
+      setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -39,15 +38,14 @@ function PerformanceReview(props) {
         setTitle("");
         setAssignee([]);
         setDueDate("");
-        setMessage("User created successfully");
+        setErrorMessage("");
+        handleClose();
       } else {
-        setMessage("Some error occured");
+        setErrorMessage(resJson.Error);
       }
     } catch (err) {
       console.log(err);
     }
-
-    handleClose();
   };
 
   const onItemAdd = (item) => {
@@ -89,6 +87,7 @@ function PerformanceReview(props) {
               name="assignee"
               placeholder="Enter assignee email(s); separate them with COMMA or ENTER."
             />
+
             <Form.Group className="mb-3" controlId="formDueDate">
               <Form.Label className="label">Due Date</Form.Label>
               <Form.Control
@@ -98,6 +97,9 @@ function PerformanceReview(props) {
                 onChange={(e) => setDueDate(e.target.value)}
               />
             </Form.Group>
+            <div className="error-message">
+              <p>{error_message}</p>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">

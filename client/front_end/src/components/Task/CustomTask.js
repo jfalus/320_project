@@ -13,7 +13,7 @@ function CustomTask(props) {
   const [title, setTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [description, setDescription] = useState("");
-  const [message, setMessage] = useState("");
+  const [error_message, setErrorMessage] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -25,7 +25,7 @@ function CustomTask(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setAssignee([]);
+      setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -35,21 +35,20 @@ function CustomTask(props) {
           description: description,
         }),
       });
-      console.log(res);
+      let resJson = await res.json();
       if (res.status === 200) {
         setTitle("");
         setAssignee([]);
         setDueDate("");
         setDescription("");
-        setMessage("User created successfully");
+        setErrorMessage("");
+        handleClose();
       } else {
-        setMessage("Some error occured");
+        setErrorMessage(resJson.Error);
       }
     } catch (err) {
       console.log(err);
     }
-
-    handleClose();
   };
 
   const onItemAdd = (item) => {
@@ -110,6 +109,7 @@ function CustomTask(props) {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
+            <div className="error-message">{error_message}</div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">

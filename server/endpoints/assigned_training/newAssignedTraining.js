@@ -44,16 +44,16 @@ function newAssignedTraining(app) {
           const bool = await isManagerOf(req.user, assigned_id) //we find if the user is a manager of the requested person
           if (!bool && !req.user.isAdmin) {  //throws error if the employee hierarchy is violated
             res.status(400)
-            console.log('Error: Violates Employee Hierarchy')
-            res.send({Error: 'Violates Employee Hierarchy'});
+            console.log("Error: Created training up to " + req.body.assigned_to[i] +  ", this input violates Employee Hierarchy")
+            res.send({Error: 'Created training up to ' + req.body.assigned_to[i] +  ", this input violates Employee Hierarchy"});
             break;
           }
           const data = {e_id: e_id, title: req.body.title, description: req.body.description, link: req.body.link, date_due: req.body.date_due, progress: 'Not-started', assigned_to: assigned_id}
           arr[i] = data //logs the data entry
         } catch (error) { //case if an employee is not found, sends an error to the user that the given assigned email is not in the database
           res.status(400)
-          console.log('Error: ' + req.body.assigned_to[i] + ' is not a valid email')
-          res.send({Error: req.body.assigned_to[i] + ' is not a valid email'})
+          console.log('Error: Created training up to ' + req.body.assigned_to[i] + ', this input is not a valid email')
+          res.send({Error: 'Created training up to ' + req.body.assigned_to[i] + ', this input is not a valid email'})
         }
         
       }

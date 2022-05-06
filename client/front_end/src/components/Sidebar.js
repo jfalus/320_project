@@ -10,11 +10,34 @@ import { Dropdown } from "react-bootstrap";
 function Sidebar(props) {
 
   const {updateCategory, updateFilter, counts} = props;
+  const [categoryClass, setCategoryClass] = useState(["notification", "notification", "notification", "notification"]);
+  const [currentCategory, setCurrentCategory] = useState("None");
   const [filtersClass, setFiltersClass] = useState(["notification", "notification", "notification"]);
   const [currentFilter, setCurrentFilter] = useState("None");
 
   async function categoryClick(category) {
     updateCategory(category);
+    if(category == currentCategory) {
+      setCategoryClass(["notification", "notification", "notification", "notification"]);
+      setCurrentCategory("None");
+      console.log("REACHED HERE!")
+    }
+    else {
+      console.log("REACHED!")
+      if(category == "Paid Time Off Request") {
+        setCategoryClass(["notificationClicked", "notification", "notification", "notification"]);
+      }
+      else if(category == "Performance Review") {
+        setCategoryClass(["notification", "notificationClicked", "notification", "notification"]);
+      }
+      else if(category == "Assigned Training") {
+        setCategoryClass(["notification", "notification", "notificationClicked", "notification"]);
+      }
+      else if(category == "General Task") {
+        setCategoryClass(["notification", "notification", "notification", "notificationClicked"]);
+      }
+      setCurrentCategory(category);
+    }
   }
 
   async function filtersClick(filter) {
@@ -60,25 +83,25 @@ function Sidebar(props) {
           <b>Categories</b>
         </h2>
         <body2>
-          <a className="notification" onClick={() => categoryClick("Paid Time Off Request")}>
+          <a className={categoryClass[0]} onClick={() => categoryClick("Paid Time Off Request")}>
             <span>PTO Requests</span>
             <span className="badge" >{counts[0]}</span>
           </a>
           <br></br>
 
-          <a className="notification" onClick={() => categoryClick("Performance Review")}>
+          <a className={categoryClass[1]} onClick={() => categoryClick("Performance Review")}>
             <span>Performance Reviews</span>
             <span className="badge" >{counts[1]}</span>
           </a>
           <br></br>
 
-          <a className="notification" onClick={() => categoryClick("Assigned Training")}>
+          <a className={categoryClass[2]} onClick={() => categoryClick("Assigned Training")}>
             <span>Trainings</span>
             <span className="badge" >{counts[2]}</span>
           </a>
           <br></br>
 
-          <a className="notification" onClick={() => categoryClick("General Task")}>
+          <a className={categoryClass[3]} onClick={() => categoryClick("General Task")}>
             <span>General Tasks</span>
             <span className="badge" >{counts[3]}</span>
           </a>

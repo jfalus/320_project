@@ -14,7 +14,7 @@ function TrainingRequest(props) {
   const [dueDate, setDueDate] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
-  const [message, setMessage] = useState("");
+  const [error_message, setErrorMessage] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -26,7 +26,7 @@ function TrainingRequest(props) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setAssignee([]);
+      setErrorMessage("");
       let res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -44,15 +44,14 @@ function TrainingRequest(props) {
         setDueDate("");
         setDescription("");
         setLink("");
-        setMessage("User created successfully");
+        setErrorMessage("");
+        handleClose();
       } else {
-        setMessage("Some error occured");
+        setErrorMessage(resJson.Error);
       }
     } catch (err) {
       console.log(err);
     }
-
-    handleClose();
   };
 
   const onItemAdd = (item) => {
@@ -120,6 +119,9 @@ function TrainingRequest(props) {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
+            <div className="error-message">
+              <p>{error_message}</p>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">

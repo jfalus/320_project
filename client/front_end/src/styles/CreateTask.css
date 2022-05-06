@@ -29,6 +29,12 @@
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.error-message {
+  display: block !important;
+  color: red;
+  align-items: left;
+}
+
 label {
   text-align: left !important;
 }
