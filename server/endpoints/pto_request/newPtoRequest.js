@@ -50,16 +50,16 @@ function newPtoRequest(app) {
           console.log(bool);
           if (!bool) {  //if bool is false, sends an error to the user as they violated the employee hierarchy
             res.status(400);
-            console.log("Error: " + req.body.assigned_to[i] +  " violates Employee Hierarchy");
-            res.send({ Error: req.body.assigned_to[i] +  " violates Employee Hierarchy" });
+            console.log("Error: Created pto requests up to " + req.body.assigned_to[i] +  ", this input violates Employee Hierarchy");
+            res.send({ Error: 'Created pto requests up to ' + req.body.assigned_to[i] +  ", this input violates Employee Hierarchy" });
             break;
           }
           const data = {e_id: e_id, title: req.body.title, description: req.body.description, start_date: req.body.start_date, end_date: req.body.end_date, date_due: req.body.date_due, progress: "Not-started", approved: null, assigned_to: assigned_id};
           arr[i] = data; //otherwise, the data is logged
         } catch (error) { //send an error to the user if an assignee could not be found in the database
           res.status(400);
-          console.log("Error: " + req.body.assigned_to[i] + " is not a valid email");
-          res.send({Error: req.body.assigned_to[i] + " is not a valid email"});
+          console.log("Error: Created pto requests up to " + req.body.assigned_to[i] + ", this input is not a valid email");
+          res.send({Error: 'Created pto requests up to ' + req.body.assigned_to[i] + ", this input is not a valid email"});
         }
       }
       const x = await models.pto_request.bulkCreate(arr); //create the request if valid, found, and managedby
