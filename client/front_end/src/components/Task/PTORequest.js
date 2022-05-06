@@ -73,7 +73,7 @@ function PTORequest(props) {
       <Modal show={show} dialogClassName="test" onHide={handleClose}>
         <Modal.Header>
           <Modal.Title id="example-custom-modal-styling-title">
-            New Paid time off Request
+            New Paid Time Off Request
           </Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>

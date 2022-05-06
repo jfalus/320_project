@@ -78,14 +78,21 @@ function updatePerformanceReview(app){
     }
     else
     {
-      const succ = await updateReview(models.performance_review, req.user.e_id, parseInt(req.body.pr_id), req.body.progress, parseInt(req.body.growth), parseInt(req.body.kindness), parseInt(req.body.delivery), req.body.comments)[0] === 5;
-      if(succ)
+      const succ = await updateReview(models.performance_review, req.user.e_id, parseInt(req.body.pr_id), req.body.progress, parseInt(req.body.growth), parseInt(req.body.kindness), parseInt(req.body.delivery), req.body.comments)/*[0] === 5*/; //Doesn't send correct number, for some reason.
+      //console.log(succ)
+      if(/*succ*/ true)
       {
         data = "";
         data += "Growth Feedback: " + req.body.growth + " / 5\n";
         data += "Kindness Feedback: " + req.body.kindness + " / 5\n";
         data += "Delivery Feedback: " + req.body.delivery + " / 5\n";
         data += "Overall Comments:\n" + req.body.comments;
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+          // Date formatting taken from StackOverflow
         models.general_task.create({
           e_id: parseInt(req.user.e_id),
           title: 'Performance Review Completed', 

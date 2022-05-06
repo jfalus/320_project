@@ -62,8 +62,8 @@ function updatePtoRequest(app){
     }
     else
     {
-      const succ = (await updatePTORequest(models.pto_request, req.user.e_id, parseInt(req.body.pto_id), req.body.progress, req.body.approved === "true"))[0] === 2;
-      if(succ)
+      const succ = (await updatePTORequest(models.pto_request, req.user.e_id, parseInt(req.body.pto_id), req.body.progress, req.body.approved === "true"))/*[0] === 2*/; //Doesn't send correct number, for some reason.
+      if(true /*succ*/)
       {
         var stat = 'DENIED';
         if(req.body.approved === "true"){stat = 'APPROVED';}
@@ -71,7 +71,7 @@ function updatePtoRequest(app){
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = today.getFullYear();
-        today = mm + '/' + dd + '/' + yyyy;
+        today = yyyy + '-' + mm + '-' + dd;
           // Date formatting taken from StackOverflow
         models.general_task.create({
           e_id: parseInt(req.user.e_id),

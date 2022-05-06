@@ -216,7 +216,7 @@ class PRTask extends Task {
         </div>
         <br></br>
         <div className="task-body">
-          <b>Overall Comments:</b>
+          <b>Overall Comments: </b>
           {this.props.progress !== "Complete" ? (
             <Form.Control
               as="textarea"
@@ -394,8 +394,8 @@ class PTOTask extends Task {
                         ["progress", "Complete"],
                         ["approved", false],
                         ["creator", this.props.e_id],
-                        ["start_date", this.start_date],
-                        ["end_date", this.end_date],
+                        ["start_date", this.props.start_date],
+                        ["end_date", this.props.end_date],
                       ],
                       true
                     );
@@ -414,8 +414,8 @@ class PTOTask extends Task {
                         ["progress", "Complete"],
                         ["approved", true],
                         ["creator", this.props.e_id],
-                        ["start_date", this.start_date],
-                        ["end_date", this.end_date],
+                        ["start_date", this.props.start_date],
+                        ["end_date", this.props.end_date],
                       ],
                       true
                     );
